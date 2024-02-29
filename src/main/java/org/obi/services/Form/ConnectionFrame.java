@@ -14,11 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -31,11 +28,10 @@ import org.obi.services.core.moka7.S7CpInfo;
 import org.obi.services.core.moka7.S7CpuInfo;
 import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
-import org.obi.services.app.ConnexionForm;
+
 import org.obi.services.app.MachineConnection;
 import org.obi.services.entities.Machines;
 import org.obi.services.listener.ConnectionListener;
-import org.obi.services.listener.DatabaseFrameListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.moka.OrderCode;
 import org.obi.services.util.Ico;
@@ -156,7 +152,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
             listConnexions.setModel(lst);
 
         } catch (SQLException ex) {
-            Util.out(ConnexionForm.class.getName() + " >> btnRefreshConnexionActionPerformed for url(" + url + ") : " + ex.getLocalizedMessage());
+            Util.out(ConnectionFrame.class.getName() + " >> btnRefreshConnexionActionPerformed for url(" + url + ") : " + ex.getLocalizedMessage());
 
         } finally {
 
