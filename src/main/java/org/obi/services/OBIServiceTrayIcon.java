@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import org.obi.services.Form.MainWindow;
-import org.obi.services.Form.SettingFrame;
+import org.obi.services.Form.SettingsApplicationFrame;
 import org.obi.services.app.ConnexionForm;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.listener.DatabaseInfoActionListener;
@@ -200,7 +200,7 @@ public class OBIServiceTrayIcon {
         MenuItem configDBMenuItem = new MenuItem("Configurations");
         configDBMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SettingFrame cf = new SettingFrame();
+                SettingsApplicationFrame cf = new SettingsApplicationFrame();
                 cf.setVisible(true);
             }
         });
