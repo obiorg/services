@@ -1,0 +1,9 @@
+2024-02-29T19:57:50.636877300Z >> Try to check look and feel...
+2024-02-29T19:57:50.911872800Z >> Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-02-29T19:57:50.913049Z >> Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-02-29T19:57:50.913872500Z >> Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-02-29T19:57:50.915905400Z >> Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-02-29T19:57:50.916876200Z >> Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-02-29T19:57:51.697095800Z >> OBI - Start...
+2024-02-29T19:57:51.701095700Z >> ImokaServiceTrayIcon >> Main  : Initialisation du fichier de configuration...
+2024-02-29T19:57:51.725094300Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini vient d'être créé !

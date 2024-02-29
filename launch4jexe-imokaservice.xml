@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>D:\APPLICATIONS\Java\imoka\project\imoka-service\target\imoka-service-2312.16-jar-with-dependencies.jar</jar>
+  <outfile>D:\APPLICATIONS\Java\imoka\project\imoka-service\imoka-service-release\imoka-service.exe</outfile>
+  <errTitle>Vous devez télécharger la dernière version de java</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>D:\APPLICATIONS\Java\imoka\project\imoka-service\src\main\resources\img\obi\ico\obi-signet-dark.ico</icon>
+  <singleInstance>
+    <mutexName>imoka-service</mutexName>
+    <windowTitle>OBI - IMOKA SERVICE</windowTitle>
+  </singleInstance>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion></minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+  <splash>
+    <file>D:\APPLICATIONS\Java\imoka\project\imoka-service\src\main\resources\img\obi\splash\obi-splash-dark.bmp</file>
+    <waitForWindow>true</waitForWindow>
+    <timeout>3</timeout>
+    <timeoutErr>false</timeoutErr>
+  </splash>
+</launch4jConfig>
