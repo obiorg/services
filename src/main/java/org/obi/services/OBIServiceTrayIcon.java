@@ -12,9 +12,9 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import org.obi.services.Form.ConnectionFrame;
 import org.obi.services.Form.MainWindow;
 import org.obi.services.Form.SettingsApplicationFrame;
-import org.obi.services.app.ConnexionForm;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.listener.DatabaseInfoActionListener;
 import org.obi.services.util.Settings;
@@ -215,7 +215,7 @@ public class OBIServiceTrayIcon {
         MenuItem connexionPLCMenuItem = new MenuItem("Connexions PLC");
         connexionPLCMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ConnexionForm cf = new ConnexionForm(trayIcon);
+                ConnectionFrame cf = new ConnectionFrame(trayIcon);
                 cf.setVisible(true);
             }
         });
