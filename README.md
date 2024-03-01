@@ -24,7 +24,11 @@ services is the main instance running background process for obi
 Project library obi-core is ready to use
 
 
-## Dépendances
+> If you can not download dependencies from maven, please build pom project than try to build project.
+> Note : only dependencies sqlserver4.2 need to be recover from other sources libs from the project or download from
+
+## Dependencies
+sqlserver 4.2 (sqljdbc42)
 
 ## Divers
 
