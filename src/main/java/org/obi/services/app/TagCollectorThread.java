@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.obi.services.app;
 
 import org.obi.services.listener.TagsCollectorThreadListener;
 import java.awt.TrayIcon;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,17 +11,14 @@ import java.util.logging.Logger;
 import org.obi.services.entities.Machines;
 import org.obi.services.entities.Tags;
 import org.obi.services.entities.TagsTypes;
-import org.obi.services.listener.ConnectionListener;
-import org.obi.services.model.DatabaseModel;
 import org.obi.services.sessions.MachinesFacade;
 import org.obi.services.sessions.TagsFacade;
 import org.obi.services.sessions.TagsTypesFacade;
 import org.obi.services.util.Ico;
-import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
- *
+ * Tags collector 
  * @author r.hendrick
  */
 public class TagCollectorThread extends Thread implements TagsCollectorThreadListener {
