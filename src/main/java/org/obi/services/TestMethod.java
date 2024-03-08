@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.util.Settings;
@@ -82,15 +84,31 @@ public class TestMethod {
 
             // Manage storage logs duration backup
             if ((new File(logFileStoragePath).exists())) {
-//                // Parcour tous les fichiers de mon répertoire 
-//                boucleSurChaqueFichierDuReperoire
-//                {
-//                    // Durée d'existance
+                // Récupérer l'ensemble des fichier du répertoire
+                File logsDir = new File(logFileStoragePath);
+                String files[] = logsDir.list();
+                
+                // Go through all files
+                for(int i = 0; i < files.length; i++){
+                    File ft = new File(files[i]);
+                    
+                    // Recover date time of backup log
+                    String dtOfFTtname = ft.getName().replace(
+                            Util.ISLogFilenamePath.replace(".txt", "") + "_", 
+                            "").replace(".txt", "");
+                    
+                    // Get current datetime
+                    
+                    // Get Day between current date and backup time
+                    
+                    
+                    // Durée d'existance
 //                    if ((AcutalTime - logFileBackupTime) > logFileDurationJ && logFileDurationJ > 0) {
 //                        // Je supprime tous les fichier supérieure à logFileDurationJ
 //                    }
-//                }
-//
+                }
+                
+
             }
         }
     }
@@ -112,13 +130,15 @@ public class TestMethod {
                 + (dt.getSecond() < 10 ? "0" + dt.getSecond() : dt.getSecond());
     }
 
+    
+    /**
+     * 
+     * @param dt
+     * @return 
+     */
+    public static LocalDateTime stringFormatedToDateTime(String dt){
+        String dt2[] = dt.split("_");
+        int year = Integer.valueOf(dt2[0].substring(1, 4));
+        return LocalDateTime.of(year, Month.MARCH, year, year, year, year);
+    }
 }
-
-//        if (logMaxSizeMB == 0) {
-//            Util.out("Pas d'enregistrement permis logMaxSizeMB = 0 ");
-//        } else {
-//            File f = new File(Util.ISLogFilenamePath);
-//            if (f.length() >= logMaxSizeMB * 1000000) {
-//                Util.out("Taille du fichier dépasse la limite de " + logMaxSizeMB * 1000000 + " octet");
-//            }
-//        }
