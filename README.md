@@ -51,6 +51,7 @@ Go back to Netbeans IDE, use menu Team > git > clone
 1. Right clic dependencies directory of clone project > Select "Dowload Declared Dependencies",
   > Note : only dependencies [sqlserver4.2](https://www.microsoft.com/en-us/download/details.aspx?id=54671]) need to be manual install by right clic on package dependencies > select "Manual Install". This dependencie is available either from resources directory of project "LIBS" or you can download from link above online.
 2. Construct the project by apply build (right clic on project than build),
+  > Note : it may also be necessary to build the main pom totaly.
 
 > If you can not download dependencies from maven, please build pom project than try to build project.
 
