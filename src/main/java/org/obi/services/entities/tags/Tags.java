@@ -15,8 +15,14 @@ import org.obi.services.entities.analyses.AnalyseAllowed;
 import org.obi.services.entities.alarms.Alarms;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -676,4 +682,213 @@ public class Tags implements Serializable {
         return "org.obi.services.entities.Tags[ id=" + id + " ]";
     }
 
+    
+    
+    /**
+     * Allow to affect result object
+     *
+     * @param rs
+     * @throws SQLException
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        int count = rsMetaData.getColumnCount();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("name")) {
+                this.name = rs.getString(c);
+            } else if (c.matches("table")) {
+                this.table = new TagsTables(rs.getInt(c));
+            } else if (c.matches("machine")) {
+                this.machine = new Machines(rs.getInt(c));
+            } else if (c.matches("type")) {
+                this.type = new TagsTypes(rs.getInt(c));
+            } else if (c.matches("memory")) {
+                this.memory = new TagsMemories(rs.getInt(c));
+            } else if (c.matches("db")) {
+                this.db = rs.getInt(c);
+            } else if (c.matches("byte")) {
+                this.byte1 = rs.getInt(c);
+            } else if (c.matches("bit")) {
+                this.bit = rs.getInt(c);
+            } else if (c.matches("cycle")) {
+                this.cycle = rs.getInt(c);
+            } else if (c.matches("active")) {
+                this.active = rs.getBoolean(c);
+            } else if (c.matches("vFloat")) {
+                this.vFloat = rs.getDouble(c);
+            } else if (c.matches("vInt")) {
+                this.vInt = rs.getInt(c);
+            } else if (c.matches("vBool")) {
+                this.vBool = rs.getBoolean(c);
+            } else if (c.matches("value_date")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.vDateTime = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.vDateTime = null;
+                }
+            } else if (c.matches("comment")) {
+                this.comment = rs.getString(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.created = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.created = null;
+                }
+            } else if (c.matches("changed")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.changed = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.changed = null;
+                }
+            } else {
+                Util.out(Tags.class + " >> update >> unknown column name " + c);
+                System.out.println(Tags.class + " >> update >> unknown column name " + c);
+            }
+
+        }
+    }
+
+    /**
+     * Preapare Statement allowing to update a colum defined by c
+     *
+     * @param c colum concern to prepared by the statement
+     * @return the prepare statement like UPDATE dbo.tags set [column] = ? where
+     * id = ?
+     */
+    public String prepareStatementUpdateOn(String c) {
+        if (c.matches("t_name")) {
+            return "UPDATE dbo.tags set [t_name] = ? WHERE t_id = ?";
+        } else if (c.matches("t_table")) {
+            return "UPDATE dbo.tags set [t_table] = ? WHERE t_id = ?";
+        } else if (c.matches("t_machine")) {
+            return "UPDATE dbo.tags set [t_machine] = ? WHERE t_id = ?";
+        } else if (c.matches("t_type")) {
+            return "UPDATE dbo.tags set [t_type] = ? WHERE t_id = ?";
+        } else if (c.matches("t_memory")) {
+            return "UPDATE dbo.tags set [t_memory] = ? WHERE t_id = ?";
+        } else if (c.matches("t_db")) {
+            return "UPDATE dbo.tags set [t_db] = ? WHERE t_id = ?";
+        } else if (c.matches("t_byte")) {
+            return "UPDATE dbo.tags set [t_byte] = ? WHERE t_id = ?";
+        } else if (c.matches("t_bit")) {
+            return "UPDATE dbo.tags set [t_bit] = ? WHERE t_id = ?";
+        } else if (c.matches("t_cycle")) {
+            return "UPDATE dbo.tags set [t_cycle] = ? WHERE t_id = ?";
+        } else if (c.matches("t_active")) {
+            return "UPDATE dbo.tags set [t_active] = ? WHERE t_id = ?";
+        } else if (c.matches("t_value_float")) {
+            return "UPDATE dbo.tags set [t_value_float] = ? WHERE t_id = ?";
+        } else if (c.matches("t_value_int")) {
+            return "UPDATE dbo.tags set [t_value_int] = ? WHERE t_id = ?";
+        } else if (c.matches("t_value_bool")) {
+            return "UPDATE dbo.tags set [t_value_bool] = ? WHERE t_id = ?";
+        } else if (c.matches("t_value_date")) {
+            return "UPDATE dbo.tags set [t_value_date] = ? WHERE t_id = ?";
+        } else if (c.matches("t_comment")) {
+            return "UPDATE dbo.tags set [t_comment] = ? WHERE t_id = ?";
+        } else if (c.matches("t_deleted")) {
+            return "UPDATE dbo.tags set [t_deleted] = ? WHERE t_id = ?";
+        } else if (c.matches("t_created")) {
+            return "UPDATE dbo.tags set [t_created] = ? WHERE t_id = ?";
+        } else if (c.matches("t_changed")) {
+            return "UPDATE dbo.tags set [t_changed] = ? WHERE t_id = ?";
+        } else {
+            Util.out(Tags.class + " >> prepareStatementUpdateOn >> unknown column name " + c);
+            System.out.println(Tags.class + " >> prepareStatementUpdateOn >> unknown column name " + c);
+        }
+        return null;
+    }
+
+    public static String queryUpdateOn(String column, Object value, Integer id) {
+        if (column.matches("name")) {
+            return "UPDATE dbo.tags set [name] = '" + value + "' WHERE id = " + id;
+        } else if (column.matches("table")) {
+            return "UPDATE dbo.tags set [table] = " + value + " WHERE id = " + id;
+        } else if (column.matches("machine")) {
+            return "UPDATE dbo.tags set [machine] = " + value + " WHERE id = " + id;
+        } else if (column.matches("type")) {
+            return "UPDATE dbo.tags set [type] = " + value + " WHERE id = " + id;
+        } else if (column.matches("memory")) {
+            return "UPDATE dbo.tags set [memory] = " + value + " WHERE id = " + id;
+        } else if (column.matches("db")) {
+            return "UPDATE dbo.tags set [db] = " + value + " WHERE id = " + id;
+        } else if (column.matches("byte")) {
+            return "UPDATE dbo.tags set [byte] = " + value + " WHERE id = " + id;
+        } else if (column.matches("bit")) {
+            return "UPDATE dbo.tags set [bit] = " + value + " WHERE id = " + id;
+        } else if (column.matches("cycle")) {
+            return "UPDATE dbo.tags set [cycle] = " + value + " WHERE id = " + id;
+        } else if (column.matches("active")) {
+            return "UPDATE dbo.tags set [active] = " + value + " WHERE id = " + id;
+        } else if (column.matches("vFloat")) {
+            // Ajuste le nombre de détail en milliseconde
+            String timestampstr = Instant.now().toString();
+            if (timestampstr.contains(".")) {
+                timestampstr = timestampstr.substring(0, 19);
+            }
+            return "UPDATE dbo.tags set [vFloat] = " + value
+                    + ", vDateTime = '" + timestampstr + "' WHERE id = " + id;
+        } else if (column.matches("vInt")) {
+            Date date = new Date();
+            java.sql.Date timestamp = new java.sql.Date(date.getTime());
+            return "UPDATE dbo.tags set [vInt] = " + value
+                    + ", vDateTime = " + timestamp + " WHERE id = " + id;
+        } else if (column.matches("vBool")) {
+            Date date = new Date();
+            java.sql.Date timestamp = new java.sql.Date(date.getTime());
+            return "UPDATE dbo.tags set [vBool] = " + value
+                    + ", vDateTime = " + timestamp + " WHERE id = " + id;
+        } else if (column.matches("vDateTime")) {
+            return "UPDATE dbo.tags set [vDateTime] = " + value + " WHERE id = " + id;
+        } else if (column.matches("comment")) {
+            return "UPDATE dbo.tags set [comment] = " + value + " WHERE id = " + id;
+        } else if (column.matches("deleted")) {
+            return "UPDATE dbo.tags set [deleted] = " + value + " WHERE id = " + id;
+        } else if (column.matches("created")) {
+            return "UPDATE dbo.tags set [created] = " + value + " WHERE id = " + id;
+        } else if (column.matches("changed")) {
+            return "UPDATE dbo.tags set [changed] = " + value + " WHERE id = " + id;
+        } else {
+            Util.out(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
+            System.out.println(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
+        }
+        return null;
+    }
+
+    public String prepareStatementUpdateOn() {
+        String stmts = ""
+                + "UPDATE [dbo].[tags] "
+                + "SET "
+                + "[name] = " + name
+                + " ,[table] = " + table.getId()
+                + " ,[machine] = " + machine.getId()
+                + " ,[type] = " + type.getId()
+                + " ,[memory] = " + memory.getId()
+                + " ,[db] = " + db
+                + " ,[byte] = " + byte1
+                + " ,[bit] = " + bit
+                + " ,[cycle] = " + cycle
+                + " ,[active] = " + (active ? 1 : 0)
+                + " ,[value_float] = " + vFloat
+                + " ,[value_int] = " + vInt
+                + " ,[value_bool] = " + vBool
+                + " ,[value_date] = " + vDateTime
+                + " ,[comment] = " + comment
+                + " ,[deleted] = " + (deleted ? 1 : 0)
+                + "  WHERE id = " + id;
+
+        return stmts;
+    }
+
+    
+    
 }

@@ -6,9 +6,14 @@ package org.obi.services.entities.machines;
 
 import org.obi.services.entities.business.Companies;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.entities.MachinesTypes;
 import org.obi.services.entities.tags.Tags;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -275,6 +280,67 @@ public class Machines implements Serializable {
     @Override
     public String toString() {
         return "org.obi.services.entities.Machines[ id=" + id + " ]";
+    }
+
+    
+    
+    
+    
+    public void update(ResultSet rs, String c) throws SQLException {
+
+        if (c.matches("id")) {
+            this.id = rs.getInt(c);
+        } else if (c.matches("address")) {
+            this.address = rs.getString(c);
+        } else if (c.matches("rack")) {
+            this.rack = rs.getInt(c);
+        } else if (c.matches("slot")) {
+            this.slot = rs.getInt(c);
+        } else if (c.matches("type")) {
+            this.driver = new MachDrivers();
+            this.driver.setDriver(rs.getString(c));
+        } else if (c.matches("deleted")) {
+            this.deleted = rs.getBoolean(c);
+        } else if (c.matches("created")) {
+            this.created = rs.getDate(c);
+        } else if (c.matches("changed")) {
+            this.changed = rs.getDate(c);
+        } else {
+            Util.out(Machines.class + " >> update >> unknown column name " + c);
+            System.out.println(Machines.class + " >> update >> unknown column name " + c);
+        }
+
+    }
+
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        int count = rsMetaData.getColumnCount();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("address")) {
+                this.address = rs.getString(c);
+            } else if (c.matches("rack")) {
+                this.rack = rs.getInt(c);
+            } else if (c.matches("slot")) {
+                this.slot = rs.getInt(c);
+            } else if (c.matches("type")) {
+                this.driver = new MachDrivers();
+                this.driver.setDriver(rs.getString(c));
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else {
+                Util.out(Machines.class + " >> update >> unknown column name " + c);
+                System.out.println(Machines.class + " >> update >> unknown column name " + c);
+            }
+
+        }
     }
 
 }

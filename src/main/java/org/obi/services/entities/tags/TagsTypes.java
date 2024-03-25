@@ -5,8 +5,12 @@
 package org.obi.services.entities.tags;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -167,4 +171,42 @@ public class TagsTypes implements Serializable {
         return "org.obi.services.entities.TagsTypes[ id=" + id + " ]";
     }
 
+    
+    
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        int count = rsMetaData.getColumnCount();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("tt_id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("tt_type")) {
+                this.type = rs.getString(c);
+            } else if (c.matches("tt_designation")) {
+                this.designation = rs.getString(c);
+            } else if (c.matches("tt_bit")) {
+                this.bit = rs.getInt(c);
+            } else if (c.matches("tt_byte")) {
+                this.byte1 = rs.getInt(c);
+            } else if (c.matches("tt_word")) {
+                this.word = rs.getInt(c);
+            } else if (c.matches("tt_deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("tt_created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("tt_changed")) {
+                this.changed = rs.getDate(c);
+            } else {
+                Util.out(TagsTypes.class + " >> update >> unknown column name " + c);
+                System.out.println(TagsTypes.class + " >> update >> unknown column name " + c);
+            }
+
+        }
+    }
+    
+    
+    
+    
+    
 }
