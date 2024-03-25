@@ -12,10 +12,10 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
-import org.obi.services.entities.Machines;
-import org.obi.services.entities.TagsMemories;
-import org.obi.services.entities.TagsTables;
-import org.obi.services.entities.TagsTypes;
+import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.tags.TagsMemories;
+import org.obi.services.entities.tags.TagsTables;
+import org.obi.services.entities.tags.TagsTypes;
 import org.obi.services.entities.business.Companies;
 import org.obi.services.util.Util;
 

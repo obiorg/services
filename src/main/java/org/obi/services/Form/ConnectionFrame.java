@@ -30,7 +30,7 @@ import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
 
 import org.obi.services.app.MachineConnection;
-import org.obi.services.entities.Machines;
+import org.obi.services.entities.machines.Machines;
 import org.obi.services.listener.ConnectionListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.moka.OrderCode;

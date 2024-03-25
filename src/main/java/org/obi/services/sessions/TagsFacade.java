@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.entities.Tags;
+import org.obi.services.entities.tags.Tags;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.util.Util;
 
@@ -87,24 +87,24 @@ public final class TagsFacade {
 
     public int updateOnValueFloat(Tags tag) {
         String Q_Update = Tags.queryUpdateOn("t_value_float",
-                tag.getTValueFloat(),
-                tag.getTId()
+                tag.getVFloat(),
+                tag.getId()
         );
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueInt(Tags tag) {
         String Q_Update = Tags.queryUpdateOn("t_value_int",
-                tag.getTValueInt(),
-                tag.getTId()
+                tag.getVInt(),
+                tag.getId()
         );
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueBool(Tags tag) {
         String Q_Update = Tags.queryUpdateOn("t_value_bool",
-                tag.getTValueBool(),
-                tag.getTId()
+                tag.getVBool(),
+                tag.getId()
         );
         return updateOnValue(Q_Update);
     }
@@ -137,13 +137,13 @@ public final class TagsFacade {
      * affected
      */
     public int updateOnValue(Tags tag) {
-        if (tag.getTType().getTtType().matches("Bool")) {
+        if (tag.getType().getType().matches("Bool")) {
             return updateOnValueBool(tag);
         } // INT
-        else if (tag.getTType().getTtType().matches("Int")) {
+        else if (tag.getType().getType().matches("Int")) {
             return updateOnValueInt(tag);
         } // REAL
-        else if (tag.getTType().getTtType().matches("Real")) {
+        else if (tag.getType().getType().matches("Real")) {
             return updateOnValueFloat(tag);
         }
         return 0;

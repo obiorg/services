@@ -11,7 +11,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
-import org.obi.services.entities.MachinesTypes;
+import org.obi.services.entities.machines.MachDrivers;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.util.Util;
 
