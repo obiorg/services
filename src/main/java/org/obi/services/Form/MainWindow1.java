@@ -11,7 +11,6 @@ import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme;
-import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.TrayIcon;
 import java.beans.PropertyVetoException;
@@ -30,7 +29,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-import org.obi.services.Docking.MainWindowDocking;
 import org.obi.services.Form.output.CapturePane;
 import org.obi.services.Form.output.StreamCapturer;
 import org.obi.services.OBIServiceTrayIcon;
@@ -40,11 +38,13 @@ import org.obi.services.listener.TagsCollectorThreadListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.util.Util;
 
+
+
 /**
  *
  * @author r.hendrick
  */
-public class MainWindow extends javax.swing.JFrame implements
+public class MainWindow1 extends javax.swing.JFrame implements
         InternalFrameListener, TagsCollectorThreadListener {
 
     private SettingsApplicationFrame settingsApplicationFrame = null;
@@ -67,22 +67,22 @@ public class MainWindow extends javax.swing.JFrame implements
     ManagerControllerThread managerCtrlThread;
 
     /**
-     * MainWindowDocking allow to manage inside main panel as docking
-     */
-    MainWindowDocking dockingPane;
-
-    /**
      * Main Window Constructor
      *
      *
      * @param trayIcon take specify trayIcon in use.
      * @param managerCtrlThread the thread manager
      */
-    public MainWindow(TrayIcon trayIcon, ManagerControllerThread managerCtrlThread) {
+    public MainWindow1(TrayIcon trayIcon, ManagerControllerThread managerCtrlThread) {
         initComponents();
         this.trayIcon = trayIcon;
         this.managerCtrlThread = managerCtrlThread;
         this.managerCtrlThread.addClientListener(this);
+
+        CapturePane capturePane = new CapturePane();
+        outputDesktopPane.add(capturePane);
+        PrintStream ps = System.out;
+        System.setOut(new PrintStream(new StreamCapturer("obi", capturePane, ps)));
 
         Util.out("MainWindow : Constructor >> Started ...");
 
@@ -97,12 +97,13 @@ public class MainWindow extends javax.swing.JFrame implements
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         mainToolBar = new javax.swing.JToolBar();
         tbBtnExit = new javax.swing.JButton();
-        desktopPane = new javax.swing.JDesktopPane();
+        vSplitPane = new javax.swing.JSplitPane();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        mainDesktopPane = new javax.swing.JDesktopPane();
+        outputInternalFrame = new javax.swing.JInternalFrame();
+        outputDesktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -129,17 +130,10 @@ public class MainWindow extends javax.swing.JFrame implements
         flatGitHubDarkMenuItem = new javax.swing.JMenuItem();
         flatSolorizedLightMenuItem = new javax.swing.JMenuItem();
         flatSolorizedDarkMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        themeSeparator1 = new javax.swing.JPopupMenu.Separator();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundles/Fr_fr"); // NOI18N
@@ -164,16 +158,54 @@ public class MainWindow extends javax.swing.JFrame implements
         });
         mainToolBar.add(tbBtnExit);
 
-        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
-        desktopPane.setLayout(desktopPaneLayout);
-        desktopPaneLayout.setHorizontalGroup(
-            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        vSplitPane.setDividerLocation(350);
+        vSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        vSplitPane.setToolTipText("");
+        vSplitPane.setLastDividerLocation(350);
+        vSplitPane.setName(""); // NOI18N
+
+        jDesktopPane1.setLayout(new java.awt.BorderLayout());
+
+        mainDesktopPane.setMinimumSize(new java.awt.Dimension(50, 350));
+
+        javax.swing.GroupLayout mainDesktopPaneLayout = new javax.swing.GroupLayout(mainDesktopPane);
+        mainDesktopPane.setLayout(mainDesktopPaneLayout);
+        mainDesktopPaneLayout.setHorizontalGroup(
+            mainDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 863, Short.MAX_VALUE)
         );
-        desktopPaneLayout.setVerticalGroup(
-            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 585, Short.MAX_VALUE)
+        mainDesktopPaneLayout.setVerticalGroup(
+            mainDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 350, Short.MAX_VALUE)
         );
+
+        jDesktopPane1.add(mainDesktopPane, java.awt.BorderLayout.CENTER);
+
+        outputInternalFrame.setTitle("Evènement de sortie");
+        outputInternalFrame.setToolTipText("");
+        outputInternalFrame.setFrameIcon(Ico.i16("/img/std/View.png", this)
+        );
+        outputInternalFrame.setVisible(true);
+
+        outputDesktopPane.setLayout(new javax.swing.BoxLayout(outputDesktopPane, javax.swing.BoxLayout.LINE_AXIS));
+
+        javax.swing.GroupLayout outputInternalFrameLayout = new javax.swing.GroupLayout(outputInternalFrame.getContentPane());
+        outputInternalFrame.getContentPane().setLayout(outputInternalFrameLayout);
+        outputInternalFrameLayout.setHorizontalGroup(
+            outputInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(outputDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        outputInternalFrameLayout.setVerticalGroup(
+            outputInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(outputDesktopPane)
+        );
+
+        jDesktopPane1.add(outputInternalFrame, java.awt.BorderLayout.PAGE_START);
+        try {
+            outputInternalFrame.setMaximum(true);
+        } catch (java.beans.PropertyVetoException e1) {
+            e1.printStackTrace();
+        }
 
         fileMenu.setMnemonic('f');
         fileMenu.setText(bundle.getString("MenuFile")); // NOI18N
@@ -372,12 +404,7 @@ public class MainWindow extends javax.swing.JFrame implements
             }
         });
         themeMenu.add(flatSolorizedDarkMenuItem);
-
-        jMenuItem1.setText("jMenuItem1");
-        themeMenu.add(jMenuItem1);
-
-        jMenu3.setText("jMenu3");
-        themeMenu.add(jMenu3);
+        themeMenu.add(themeSeparator1);
 
         menuBar.add(themeMenu);
 
@@ -402,14 +429,21 @@ public class MainWindow extends javax.swing.JFrame implements
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(desktopPane)
+            .addComponent(jDesktopPane1)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(vSplitPane))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(desktopPane))
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(209, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 268, Short.MAX_VALUE)
+                    .addComponent(vSplitPane, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -436,7 +470,7 @@ public class MainWindow extends javax.swing.JFrame implements
     private void configMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configMenuItemActionPerformed
         if (SettingsApplicationFrame.openFrameCount == 0) {
             settingsApplicationFrame = new SettingsApplicationFrame();
-            //mainDesktopPane.add(settingsApplicationFrame);
+            mainDesktopPane.add(settingsApplicationFrame);
         } else {
             revalidate();
             repaint();
@@ -446,7 +480,7 @@ public class MainWindow extends javax.swing.JFrame implements
             settingsApplicationFrame.setMaximum(true);
             settingsApplicationFrame.setSelected(true);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainWindow1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_configMenuItemActionPerformed
@@ -588,7 +622,7 @@ public class MainWindow extends javax.swing.JFrame implements
 
                 DatabaseInformations dbiForm = new DatabaseInformations(this, true);
                 dbiForm.doUpdateWithDatabaseMetaData(dm);
-                //dbiForm.setLocationRelativeTo(this.mainDesktopPane);
+                dbiForm.setLocationRelativeTo(this.mainDesktopPane);
                 dbiForm.setVisible(true);
 
             } else {
@@ -610,7 +644,7 @@ public class MainWindow extends javax.swing.JFrame implements
     private void connectionsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionsMenuItemActionPerformed
         if (ConnectionFrame.openFrameCount == 0) {
             connectionsFrame = new ConnectionFrame();
-            //mainDesktopPane.add(connectionsFrame);
+            mainDesktopPane.add(connectionsFrame);
         } else {
             revalidate();
             repaint();
@@ -620,7 +654,7 @@ public class MainWindow extends javax.swing.JFrame implements
             connectionsFrame.setMaximum(true);
             connectionsFrame.setSelected(true);
         } catch (PropertyVetoException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainWindow1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_connectionsMenuItemActionPerformed
 
@@ -676,7 +710,6 @@ public class MainWindow extends javax.swing.JFrame implements
     private javax.swing.JMenuItem connectionsMenuItem;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem databaseInfoMenu;
-    private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu displayMenu;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitAppMenuItem1;
@@ -689,22 +722,23 @@ public class MainWindow extends javax.swing.JFrame implements
     private javax.swing.JMenuItem flatSolorizedDarkMenuItem;
     private javax.swing.JMenuItem flatSolorizedLightMenuItem;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JDesktopPane mainDesktopPane;
     private javax.swing.JToolBar mainToolBar;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem metalMenuItem;
     private javax.swing.JMenuItem nimbusMenuItem;
+    private javax.swing.JDesktopPane outputDesktopPane;
+    private javax.swing.JInternalFrame outputInternalFrame;
     private javax.swing.JMenuItem startTagCollectorMenuItem;
     private javax.swing.JMenuItem stopTagCollectorMenuItem;
     private javax.swing.JButton tbBtnExit;
     private javax.swing.JMenu themeMenu;
     private javax.swing.JPopupMenu.Separator themeSeparator;
+    private javax.swing.JPopupMenu.Separator themeSeparator1;
     private javax.swing.JMenu toolsMenu;
+    private javax.swing.JSplitPane vSplitPane;
     private javax.swing.JMenuItem windowClassicMenuItem;
     private javax.swing.JMenuItem windowMenuItem;
     // End of variables declaration//GEN-END:variables

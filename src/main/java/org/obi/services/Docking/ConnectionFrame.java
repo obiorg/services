@@ -1,9 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package org.obi.services.Form;
+package org.obi.services.Docking;
 
 import java.awt.Color;
 import java.awt.TrayIcon;
@@ -16,20 +15,16 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.WindowConstants;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
+import org.obi.services.Form.DatabaseFrame;
+import org.obi.services.app.MachineConnection;
 import org.obi.services.core.moka7.IntByRef;
 import org.obi.services.core.moka7.S7;
 import org.obi.services.core.moka7.S7CpInfo;
 import org.obi.services.core.moka7.S7CpuInfo;
 import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
-
-import org.obi.services.app.MachineConnection;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.listener.ConnectionListener;
 import org.obi.services.model.DatabaseModel;
@@ -42,8 +37,7 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class ConnectionFrame extends javax.swing.JInternalFrame
-        implements InternalFrameListener, ConnectionListener {
+public class ConnectionFrame extends javax.swing.JPanel implements ConnectionListener {
 
     /**
      * Counter frame allow to count the frame
@@ -64,35 +58,10 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
     }
 
     /**
-     * Creates new form ConfigFrame
+     * Creates new form ConnectionFrame
      */
     public ConnectionFrame() {
-        trayIcon = new TrayIcon(Ico.i16("/img/obi/obi-signet-dark.png", this).getImage());
         initComponents();
-        updateConnexionList();
-
-        // 
-        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        openFrameCount++; // increment configFrame counter
-
-        this.setClosable(true);
-        addInternalFrameListener(this);
-    }
-
-    /**
-     * Creates new form ConfigFrame
-     */
-    public ConnectionFrame(TrayIcon trayIcon) {
-        this.trayIcon = trayIcon;
-        initComponents();
-        updateConnexionList();
-
-        // 
-        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        openFrameCount++; // increment configFrame counter
-
-        this.setClosable(true);
-        addInternalFrameListener(this);
     }
 
     private void updateConnexionList() {
@@ -152,7 +121,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
             listConnexions.setModel(lst);
 
         } catch (SQLException ex) {
-            Util.out(ConnectionFrame.class.getName() + " >> btnRefreshConnexionActionPerformed for url(" + url + ") : " + ex.getLocalizedMessage());
+            Util.out(org.obi.services.Form.ConnectionFrame.class.getName() + " >> btnRefreshConnexionActionPerformed for url(" + url + ") : " + ex.getLocalizedMessage());
 
         } finally {
 
@@ -196,7 +165,6 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tableLinkPopupMenu = new javax.swing.JPopupMenu();
         mainSplitPanel = new javax.swing.JSplitPane();
         menuPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -255,20 +223,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
         jSeparator2 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
 
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundles/Fr_fr"); // NOI18N
-        setTitle(bundle.getString("ConfigFrameTitle")); // NOI18N
-        setToolTipText("Fenêtre des configurations");
-        setFrameIcon(Ico.i16("/img/obi/obi-signet-light.png", this));
         setPreferredSize(new java.awt.Dimension(889, 522));
-        try {
-            setSelected(true);
-        } catch (java.beans.PropertyVetoException e1) {
-            e1.printStackTrace();
-        }
-        setVisible(true);
 
         mainSplitPanel.setDividerLocation(240);
         mainSplitPanel.setMinimumSize(new java.awt.Dimension(240, 1));
@@ -291,7 +246,6 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
         jScrollPane1.setViewportView(listConnexions);
 
         btnRefreshConnexion.setIcon(Ico.i16("/img/std/Refresh.png", this));
-        btnRefreshConnexion.setText("");
         btnRefreshConnexion.setToolTipText("Update machine list");
         btnRefreshConnexion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -320,7 +274,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
                     .addComponent(jLabel1)
                     .addComponent(btnRefreshConnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -383,7 +337,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(paramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(slot)
-                    .addComponent(address, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                    .addComponent(address, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                     .addComponent(rack, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(paramPanelLayout.createSequentialGroup()
                         .addComponent(btnTest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -540,7 +494,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
                             .addComponent(_labForFirmwareVersion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(connectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(plcSetConnectionDateHeure, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                            .addComponent(plcSetConnectionDateHeure)
                             .addComponent(plcOrderCode, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(plcFirmwareVersion)
                             .addComponent(plcStatus)
@@ -829,7 +783,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(contentSplitPanel)
+                .addComponent(contentSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                 .addContainerGap())
         );
         contentPanelLayout.setVerticalGroup(
@@ -842,18 +796,20 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
 
         mainSplitPanel.setRightComponent(contentPanel);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(mainSplitPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(mainSplitPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void listConnexionsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listConnexionsValueChanged
@@ -1035,57 +991,7 @@ public class ConnectionFrame extends javax.swing.JInternalFrame
     private javax.swing.JPanel plcStatusPanel;
     private javax.swing.JSpinner rack;
     private javax.swing.JSpinner slot;
-    private javax.swing.JPopupMenu tableLinkPopupMenu;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void internalFrameOpened(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameOpened() >> ";
-        System.out.println(methodName + "internalFrameOpened !");
-    }
-
-    @Override
-    public void internalFrameClosing(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameClosing() >> ";
-        System.out.println(methodName + "internalFrameClosing !");
-    }
-
-    @Override
-    public void internalFrameClosed(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameClosed() >> ";
-        System.out.println(methodName + "internalFrameClosed !");
-    }
-
-    @Override
-    public void internalFrameIconified(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameIconified() >> ";
-        System.out.println(methodName + "internalFrameIconified !");
-    }
-
-    @Override
-    public void internalFrameDeiconified(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameDeiconified() >> ";
-        System.out.println(methodName + "internalFrameDeiconified !");
-    }
-
-    @Override
-    public void internalFrameActivated(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameActivated() >> ";
-        System.out.println(methodName + "internalFrameActivated !");
-    }
-
-    @Override
-    public void internalFrameDeactivated(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameDeactivated() >> ";
-        System.out.println(methodName + "internalFrameDeactivated !");
-    }
 
     @Override
     public void onNewError(int errorCode, String err) {

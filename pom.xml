@@ -32,8 +32,16 @@
             <version>4.2</version>
         </dependency>
 
+    
+            <dependency>
+                <groupId>org.dockingframes</groupId>
+                <artifactId>docking-frames-common</artifactId>
+                <version>1.1.2-SNAPSHOT</version>
+            </dependency>
+ 
+
         <!-- https://mvnrepository.com/artifact/org.glassfish.main.extras/appserv-rt -->
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>org.glassfish.main.extras</groupId>
             <artifactId>appserv-rt</artifactId>
             <version>4.1.2</version>
@@ -45,7 +53,13 @@
             <version>0.0.0</version>
         </dependency>
         
-<!--        <dependency>
+        
+        <dependency>
+            <groupId>net</groupId>
+            <artifactId>infonode</artifactId>
+            <version>0.0.0</version>
+        </dependency>
+        <!--        <dependency>
             <groupId>com.github.cogman</groupId>
             <artifactId>javadocking</artifactId>
             <version>1.7.1</version>
@@ -83,13 +97,30 @@
             <artifactId>flatlaf-intellij-themes</artifactId>
             <version>3.2.5</version>
         </dependency>
-        
-
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE180</version>
+        </dependency>
     </dependencies>
    
     
     
-    
+    <repositories>
+
+        <repository>
+            <id>sonatype-oss-snapshots</id>
+            <name>Sonatype OSS Maven Repository for Staging Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
     
     
     

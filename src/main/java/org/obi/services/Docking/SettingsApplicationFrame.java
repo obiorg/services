@@ -1,9 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package org.obi.services.Form;
+package org.obi.services.Docking;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import org.ini4j.Wini;
+import org.obi.services.Form.DatabaseFrame;
+import static org.obi.services.Form.SettingsApplicationFrame.openFrameCount;
 import org.obi.services.listener.DatabaseFrameListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.util.Ico;
@@ -29,7 +29,7 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class SettingsApplicationFrame extends javax.swing.JInternalFrame implements InternalFrameListener, DatabaseFrameListener {
+public class SettingsApplicationFrame extends javax.swing.JPanel implements DatabaseFrameListener {
 
     /**
      * Counter frame allow to count the frame
@@ -43,7 +43,7 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
     DatabaseFrame dbf = null;
 
     /**
-     * Creates new form ConfigFrame
+     * Creates new form SettingsApplicationFrame
      */
     public SettingsApplicationFrame() {
         initComponents();
@@ -83,11 +83,11 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
         }
 
         // 
-        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        openFrameCount++; // increment configFrame counter
-
-        this.setClosable(true);
-        addInternalFrameListener(this);
+//        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+//        openFrameCount++; // increment configFrame counter
+//
+//        this.setClosable(true);
+//        addInternalFrameListener(this);
     }
 
     /**
@@ -99,7 +99,8 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tableLinkPopupMenu = new javax.swing.JPopupMenu();
+        btnSaveConfig = new javax.swing.JButton();
+        btnCancelConfig = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         tabCompanyPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -130,23 +131,25 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
         schemaZen = new javax.swing.JTextField();
         btnDBConnectZen = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        btnCancelConfig = new javax.swing.JButton();
-        btnSaveConfig = new javax.swing.JButton();
 
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
+        btnSaveConfig.setIcon(Ico.i32("/img/oz/save.png", this));
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundles/Fr_fr"); // NOI18N
-        setTitle(bundle.getString("ConfigFrameTitle")); // NOI18N
-        setToolTipText("Fenêtre des configurations");
-        setFrameIcon(Ico.i16("/img/oz/config.png", this));
-        setPreferredSize(new java.awt.Dimension(800, 480));
-        try {
-            setSelected(true);
-        } catch (java.beans.PropertyVetoException e1) {
-            e1.printStackTrace();
-        }
-        setVisible(true);
+        btnSaveConfig.setText(bundle.getString("BtnField_Save")); // NOI18N
+        btnSaveConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveConfigActionPerformed(evt);
+            }
+        });
+
+        btnCancelConfig.setIcon(Ico.i32("/img/oz/cancel.png", this));
+        btnCancelConfig.setText(bundle.getString("BtnField_Cancel")); // NOI18N
+        btnCancelConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelConfigActionPerformed(evt);
+            }
+        });
+
+        tabCompanyPanel.setAutoscrolls(true);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText(bundle.getString("ConfigFrameField_companyCode")); // NOI18N
@@ -250,7 +253,7 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
                 .addComponent(jSpinner22, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addContainerGap(331, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +276,7 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
                     .addGroup(tabCompanyPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfCompany, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE))
+                        .addComponent(tfCompany, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE))
                     .addGroup(tabCompanyPanelLayout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -344,7 +347,7 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(tabDatabasePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(tabDatabasePanelLayout.createSequentialGroup()
-                                .addComponent(schemaOBI, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                                .addComponent(schemaOBI, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDBConnectOBI))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabDatabasePanelLayout.createSequentialGroup()
@@ -368,86 +371,37 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
                     .addComponent(schemaZen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Base de données", tabDatabasePanel);
 
-        btnCancelConfig.setIcon(Ico.i32("/img/oz/cancel.png", this));
-        btnCancelConfig.setText(bundle.getString("BtnField_Cancel")); // NOI18N
-        btnCancelConfig.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelConfigActionPerformed(evt);
-            }
-        });
-
-        btnSaveConfig.setIcon(Ico.i32("/img/oz/save.png", this));
-        btnSaveConfig.setText(bundle.getString("BtnField_Save")); // NOI18N
-        btnSaveConfig.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveConfigActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnSaveConfig)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelConfig)))
+                        .addComponent(btnCancelConfig))
+                    .addComponent(jTabbedPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelConfig)
-                    .addComponent(btnSaveConfig))
-                .addContainerGap())
+                    .addComponent(btnSaveConfig)))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnDBConnectOBIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDBConnectOBIActionPerformed
-        if (dbf == null) {
-            dbf = new DatabaseFrame(null, false);
-            dbf.addListener(this);
-        }
-        dbf.setLocationRelativeTo(this);
-        dbf.setModel(
-                DatabaseModel
-                        .parse(this.getTitle())
-                        .parse(schemaOBI.getText()));
-        dbf.setSchemaReceiver(schemaOBI);
-        dbf.setVisible(true);
-    }//GEN-LAST:event_btnDBConnectOBIActionPerformed
-
-    private void btnDBConnectZenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDBConnectZenActionPerformed
-        if (dbf == null) {
-            dbf = new DatabaseFrame(null, false);
-            dbf.addListener(this);
-        }
-        dbf.setLocationRelativeTo(this);
-        dbf.setModel(DatabaseModel.parse(schemaZen.getText()));
-        dbf.setSchemaReceiver(schemaZen);
-        dbf.setVisible(true);
-    }//GEN-LAST:event_btnDBConnectZenActionPerformed
-
-    private void btnCancelConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelConfigActionPerformed
-        // TODO add your handling code here:
-        setVisible(false);
-    }//GEN-LAST:event_btnCancelConfigActionPerformed
 
     private void btnSaveConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveConfigActionPerformed
         // TODO add your handling code here:
@@ -465,6 +419,36 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
             Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSaveConfigActionPerformed
+
+    private void btnCancelConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelConfigActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+    }//GEN-LAST:event_btnCancelConfigActionPerformed
+
+    private void btnDBConnectOBIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDBConnectOBIActionPerformed
+        if (dbf == null) {
+            dbf = new DatabaseFrame(null, false);
+            dbf.addListener(this);
+        }
+        dbf.setLocationRelativeTo(this);
+        dbf.setModel(
+            DatabaseModel
+            .parse("Configurations")
+            .parse(schemaOBI.getText()));
+        dbf.setSchemaReceiver(schemaOBI);
+        dbf.setVisible(true);
+    }//GEN-LAST:event_btnDBConnectOBIActionPerformed
+
+    private void btnDBConnectZenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDBConnectZenActionPerformed
+        if (dbf == null) {
+            dbf = new DatabaseFrame(null, false);
+            dbf.addListener(this);
+        }
+        dbf.setLocationRelativeTo(this);
+        dbf.setModel(DatabaseModel.parse(schemaZen.getText()));
+        dbf.setSchemaReceiver(schemaZen);
+        dbf.setVisible(true);
+    }//GEN-LAST:event_btnDBConnectZenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -499,59 +483,11 @@ public class SettingsApplicationFrame extends javax.swing.JInternalFrame impleme
     private javax.swing.JTextField schemaZen;
     private javax.swing.JPanel tabCompanyPanel;
     private javax.swing.JPanel tabDatabasePanel;
-    private javax.swing.JPopupMenu tableLinkPopupMenu;
     private javax.swing.JTextField tfCompany;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void internalFrameOpened(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameOpened() >> ";
-        System.out.println(methodName + "internalFrameOpened !");
-    }
-
-    @Override
-    public void internalFrameClosing(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameClosing() >> ";
-        System.out.println(methodName + "internalFrameClosing !");
-    }
-
-    @Override
-    public void internalFrameClosed(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameClosed() >> ";
-        System.out.println(methodName + "internalFrameClosed !");
-    }
-
-    @Override
-    public void internalFrameIconified(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameIconified() >> ";
-        System.out.println(methodName + "internalFrameIconified !");
-    }
-
-    @Override
-    public void internalFrameDeiconified(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameDeiconified() >> ";
-        System.out.println(methodName + "internalFrameDeiconified !");
-    }
-
-    @Override
-    public void internalFrameActivated(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameActivated() >> ";
-        System.out.println(methodName + "internalFrameActivated !");
-    }
-
-    @Override
-    public void internalFrameDeactivated(InternalFrameEvent e) {
-        String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
-                .getName()).getResourceBundleName() + " : internalFrameDeactivated() >> ";
-        System.out.println(methodName + "internalFrameDeactivated !");
-    }
-
+    
+    
     @Override
     public void databaseFrameEventValidate(DatabaseModel model) {
         String methodName = getClass().getSimpleName() + Logger.getLogger(Util.class
