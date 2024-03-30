@@ -23,7 +23,8 @@
 hs_err_pid*
 replay_pid*
 
-
+# File project
 /target/
 OBILog.txt
 obi_service.ini
+launch4j*

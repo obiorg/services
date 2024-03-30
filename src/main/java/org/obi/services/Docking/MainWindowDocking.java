@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.Form.DatabaseInformations;
+import org.obi.services.Form.DatabaseInformationsFrame;
 import org.obi.services.Form.output.CapturePane;
 import org.obi.services.Form.output.StreamCapturer;
 import org.obi.services.OBIServiceTrayIcon;
@@ -108,8 +108,13 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     /**
      * An array of the static views
      *
-     * [0] : Output frame [1] : Application configuration [2] : Database driver
-     * information [3] : S7 driver state
+     * [0] : Output event
+     *
+     * [1] : Configurations
+     *
+     * [2] : Connections
+     *
+     * [3] : Database driver
      *
      */
     private View[] views = new View[4];
@@ -144,6 +149,10 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      */
     private ConnectionFrame connectionsFrame = null;
 
+    /**
+     * The application database informations frame
+     */
+    private DatabaseInformationsFrame databaseInformationsFrame = null;
     /**
      * Tray Icon System to be use in this class
      */
@@ -269,7 +278,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Creates the root window and the views.
      */
     private void createRootWindow() {
-        // Evènement de sortie
+        // [0] : Evènement de sortie
         CapturePane capturePane = new CapturePane();
         PrintStream ps = System.out;
         System.setOut(new PrintStream(new StreamCapturer("obi", capturePane, ps)));
@@ -277,7 +286,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         views[0] = new View("Sorties", Ico.i16("/img/javadocking/icons/terminal.png", this), capturePane);
         viewMap.addView(0, views[0]);
 
-        // Configuration
+        // [1] : Configuration
         settingsApplicationFrame = new SettingsApplicationFrame();
         views[1] = new View("Configurations", Ico.i16("/img/oz/config.png", this), settingsApplicationFrame);
         viewMap.addView(1, views[1]);
@@ -285,7 +294,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         views[1].setEnabled(true);
         views[1].close();
 
-        // Connection 
+        // [2] : Connection 
         connectionsFrame = new ConnectionFrame();
         views[2] = new View("S7 Connexions", Ico.i16("/img/std/Refresh.png", this), connectionsFrame);
         viewMap.addView(2, views[2]);
@@ -293,6 +302,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         views[2].setEnabled(false);
         views[2].close();
 
+        // [3] : Database driver
         // The mixed view map makes it easy to mix static and dynamic views inside the same root window
         MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
             public void writeView(View view, ObjectOutputStream out) throws IOException {
@@ -488,16 +498,13 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                 System.out.println("Product name: " + dm.getDatabaseProductName());
                 System.out.println("Product version: " + dm.getDatabaseProductVersion());
 
-                DatabaseInformations dbiForm = new DatabaseInformations(frame, true);
+                DatabaseInformationsFrame dbiForm = new DatabaseInformationsFrame(frame, true);
                 dbiForm.doUpdateWithDatabaseMetaData(dm);
                 //dbiForm.setLocationRelativeTo(this.mainDesktopPane);
+                dbiForm.setLocationRelativeTo(frame);
                 dbiForm.setVisible(true);
-
-                views[1] = new View("Information base de donnée", VIEW_ICON, dbiForm);
-                viewMap.addView(1, views[1]);
-
             } else {
-                System.out.println("Imoka Service >> Unable to connect !");
+                System.out.println("OBI Service >> Unable to connect !");
             }
         } catch (SQLException ex) {
             Logger.getLogger(OBIServiceTrayIcon.class.getName()).log(Level.SEVERE, null, ex);
