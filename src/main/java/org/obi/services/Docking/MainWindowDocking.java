@@ -269,23 +269,17 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Creates the root window and the views.
      */
     private void createRootWindow() {
-        // Create the views
-//        for (int i = 0; i < views.length-1; i++) {
-//            views[i] = new View("View " + i, VIEW_ICON, createViewComponent("View " + i));
-//            viewMap.addView(i, views[i]);
-//        }
-
         // Evènement de sortie
         CapturePane capturePane = new CapturePane();
         PrintStream ps = System.out;
         System.setOut(new PrintStream(new StreamCapturer("obi", capturePane, ps)));
         Util.out("MainWindow : Constructor >> Started ...");
-        views[0] = new View("Ouput", VIEW_ICON, capturePane);
+        views[0] = new View("Sorties", Ico.i16("/img/javadocking/icons/terminal.png", this), capturePane);
         viewMap.addView(0, views[0]);
 
         // Configuration
         settingsApplicationFrame = new SettingsApplicationFrame();
-        views[1] = new View("Configurations", VIEW_ICON, settingsApplicationFrame);
+        views[1] = new View("Configurations", Ico.i16("/img/oz/config.png", this), settingsApplicationFrame);
         viewMap.addView(1, views[1]);
         mainTabWindow.add(views[1]);
         views[1].setEnabled(true);
@@ -299,20 +293,6 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         views[2].setEnabled(false);
         views[2].close();
 
-        // Create a custom view button and add it to view 2
-//        JButton button = new JButton(BUTTON_ICON);
-//        button.setOpaque(false);
-//        button.setBorder(null);
-//        button.setFocusable(false);
-//        button.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(frame,
-//                        "You clicked the custom view button.",
-//                        "Custom View Button",
-//                        JOptionPane.INFORMATION_MESSAGE);
-//            }
-//        });
-//        views[2].getCustomTabComponents().add(button);
         // The mixed view map makes it easy to mix static and dynamic views inside the same root window
         MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
             public void writeView(View view, ObjectOutputStream out) throws IOException {
@@ -348,8 +328,8 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             }
 
             public void windowClosing(DockingWindow window) throws OperationAbortedException {
-                if (JOptionPane.showConfirmDialog(frame, "Really close window '" + window + "'?") != JOptionPane.YES_OPTION) {
-                    throw new OperationAbortedException("Window close was aborted!");
+                if (JOptionPane.showConfirmDialog(frame, "Confirmer fermeture fenêtre '" + window + "'?") != JOptionPane.YES_OPTION) {
+                    throw new OperationAbortedException("La fermeture de la fenêtre a été annulée!");
                 }
             }
 
@@ -377,6 +357,21 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                 for (int i = 0; i < views.length; i++) {
                     if (views[i] == window && viewItems[i] != null) {
                         viewItems[i].setEnabled(!added);
+
+                        switch (i) {
+                            case 0:
+                                outputMenuItem.setEnabled(!added);
+                                break;
+                            case 1:
+                                configMenuItem.setEnabled(!added);
+                                break;
+                            case 2:
+                                connectionsMenuItem.setEnabled(!added);
+                                break;
+                            default:
+                                break;
+                        }
+
                     }
                 }
             }
@@ -478,7 +473,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * First check if connection is already defined. Otherwise try to make it.
      * If result are present a new window will be create to show information.
      *
-     * @param evt
+     * @param evt action event
      */
     private void databaseInfoMenuActionPerformed(ActionEvent evt) {
         Connection conn = null;
@@ -518,32 +513,6 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     }
 
     /**
-     * Display tool menu for connection
-     *
-     * @param evt related to connection menu item
-     */
-    private void connectionsMenuItemActionPerformed(ActionEvent evt) {
-        // Check if a connection frame is already exist
-        if (ConnectionFrame.openFrameCount == 0) {
-            connectionsFrame = new ConnectionFrame();
-            views[1] = new View("Configurations",
-                    VIEW_ICON,
-                    connectionsFrame);
-            viewMap.addView(1, views[1]);
-        } else {
-//            revalidate();
-//            repaint();
-        }
-//        connectionsFrame.setVisible(true);
-//        try {
-//            connectionsFrame.setMaximum(true);
-//            connectionsFrame.setSelected(true);
-//        } catch (PropertyVetoException ex) {
-//            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }
-
-    /**
      * Start Tag Collector
      *
      * Allow to start the main thread for data collection
@@ -556,12 +525,14 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             if (!managerCtrlThread.isAlive()) {
                 managerCtrlThread.start();
             } else {
-//                managerCtrlThread.notify();
+                managerCtrlThread.notify();
             }
             // Done in TagsCollectorThreadListener
 //            trayIcon.displayMessage("OBI",
-//                    "Tags collector a démarré !",
+//                    bundle.getString("TagsCollector_Msg_Start"),
 //                    TrayIcon.MessageType.INFO);
+            startTagCollectorMenuItem.setEnabled(false);
+            stopTagCollectorMenuItem.setEnabled(true);
         } else {
             trayIcon.displayMessage("OBI",
                     "Processus is already running. Please stop before start !",
@@ -584,44 +555,15 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 //            trayIcon.displayMessage("OBI",
 //                    "Tags collector est arrêté !",
 //                    TrayIcon.MessageType.INFO);
+
+            startTagCollectorMenuItem.setEnabled(true);
+            stopTagCollectorMenuItem.setEnabled(false);
         } else {
             trayIcon.displayMessage("OBI",
                     "Processus is already stopped. Please start before any stop !",
                     TrayIcon.MessageType.WARNING);
             Util.out("Processus is already stopped. Please start before any stop !");
         }
-    }
-
-    /**
-     * Configuration Menu
-     *
-     * Allow to specify some setting
-     *
-     * @param evt event
-     */
-    private void configMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-
-        if (views[1].getRootWindow() != null) {
-            views[1].restoreFocus();
-        } else {
-            DockingUtil.addWindow(views[1], rootWindow);
-        }
-
-        // Dedicated view [1] : Application configuration
-//        mainTabWindow.add(views[2]);
-//        if (SettingsApplicationFrame.openFrameCount == 0) {
-//
-//        } else {
-////            revalidate();
-////            repaint();
-//        }
-        //settingsApplicationFrame.setVisible(true);
-//        try {
-//            settingsApplicationFrame.setMaximum(true);
-//            settingsApplicationFrame.setSelected(true);
-//        } catch (PropertyVetoException ex) {
-//            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     /**
@@ -821,6 +763,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     private JMenuItem aboutMenuItem;
     private JMenuItem configMenuItem;
     private JMenuItem connectionsMenuItem;
+    private JMenuItem outputMenuItem;
     private JMenuItem contentMenuItem;
     private JMenuItem databaseInfoMenu;
     private JDesktopPane desktopPane;
@@ -902,6 +845,21 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             }
         });
 
+        //> DISPLAY MENU - output window
+        outputMenuItem = new JMenuItem();
+        outputMenuItem.setIcon(Ico.i16("/img/javadocking/icons/terminal.png", this));
+        outputMenuItem.setMnemonic('t');
+        outputMenuItem.setText(bundle.getString("MenuItemOutput")); // NOI18N
+        outputMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (views[0].getRootWindow() != null) {
+                    views[0].restoreFocus();
+                } else {
+                    DockingUtil.addWindow(views[0], rootWindow);
+                }
+            }
+        });
+
         /// DISPLAY MENU - SETUP
         displayMenu = new JMenu();
         displayMenu.setMnemonic('h');
@@ -915,6 +873,8 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         displayMenu.add(new JPopupMenu.Separator());
         displayMenu.add(createWindowBarsMenu());
         displayMenu.add(createViewMenu());
+        displayMenu.add(new JPopupMenu.Separator());
+        displayMenu.add(outputMenuItem);
 
         //> TOOLS MENU - connectionsMenuItem
         connectionsMenuItem = new JMenuItem();
@@ -923,7 +883,11 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         connectionsMenuItem.setText(bundle.getString("toolsS7Connections")); // NOI18N
         connectionsMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                connectionsMenuItemActionPerformed(evt);
+                if (views[2].getRootWindow() != null) {
+                    views[2].restoreFocus();
+                } else {
+                    DockingUtil.addWindow(views[2], rootWindow);
+                }
             }
         });
 
@@ -940,6 +904,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 
         //> TOOLS MENU - stopTagCollectorMenuItem
         stopTagCollectorMenuItem = new JMenuItem();
+        stopTagCollectorMenuItem.setIcon(Ico.i16("/img/std/onOff/stop.png", this));
         stopTagCollectorMenuItem.setMnemonic('c');
         stopTagCollectorMenuItem.setText(bundle.getString("toolsStopTagsCollector")); // NOI18N
         stopTagCollectorMenuItem.addActionListener(new ActionListener() {
@@ -947,6 +912,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                 stopTagCollectorMenuItemActionPerformed(evt);
             }
         });
+        stopTagCollectorMenuItem.setEnabled(false);
 
         /// TOOLS MENU - SETUP
         toolsMenu = new JMenu();
@@ -968,7 +934,11 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         configMenuItem.setEnabled(views[1].getRootWindow() == null);
         configMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                configMenuItemActionPerformed(evt);
+                if (views[1].getRootWindow() != null) {
+                    views[1].restoreFocus();
+                } else {
+                    DockingUtil.addWindow(views[1], rootWindow);
+                }
             }
         });
 
@@ -1011,6 +981,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         menuBar.add(toolsMenu);
         menuBar.add(editMenu);
         menuBar.add(themeMenu);
+        menuBar.add(helpMenu);
 
         /**
          * Toolbar setup

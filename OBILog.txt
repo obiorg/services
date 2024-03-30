@@ -6837,3 +6837,1240 @@
 2024-03-30T00:06:04.182565100Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
 2024-03-30T00:06:04.191385100Z >> MainWindowDocking >> createViewMenu : views[3] is null !
 2024-03-30T00:06:04.877982600Z >> MainWindow : Constructor >> Started ...
+2024-03-30T00:06:42.446519600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202385 - 1711757201435 = 950
+2024-03-30T00:06:42.451521800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202451 - 1711757201435 = 1016
+2024-03-30T00:06:42.455522600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202455 - 1711757201435 = 1020
+2024-03-30T00:06:42.459521200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202459 - 1711757201435 = 1024
+2024-03-30T00:06:42.463521400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202463 - 1711757201435 = 1028
+2024-03-30T00:06:42.466519800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202466 - 1711757201435 = 1031
+2024-03-30T00:06:42.471046100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202471 - 1711757201435 = 1036
+2024-03-30T00:06:42.474043100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202474 - 1711757201435 = 1039
+2024-03-30T00:06:42.478044100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202478 - 1711757201435 = 1043
+2024-03-30T00:06:42.482043800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202482 - 1711757201435 = 1047
+2024-03-30T00:06:42.486045100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202486 - 1711757201435 = 1051
+2024-03-30T00:06:42.490043700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202490 - 1711757201435 = 1055
+2024-03-30T00:06:42.494043900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202494 - 1711757201435 = 1059
+2024-03-30T00:06:42.498041200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202498 - 1711757201435 = 1063
+2024-03-30T00:06:42.502044900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202502 - 1711757201435 = 1067
+2024-03-30T00:06:42.506042900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202506 - 1711757201435 = 1071
+2024-03-30T00:06:42.510042200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202510 - 1711757201435 = 1075
+2024-03-30T00:06:42.514043700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202514 - 1711757201435 = 1079
+2024-03-30T00:06:42.518042500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202518 - 1711757201435 = 1083
+2024-03-30T00:06:42.522046800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202522 - 1711757201435 = 1087
+2024-03-30T00:06:42.526046400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202526 - 1711757201435 = 1091
+2024-03-30T00:06:42.530046200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202530 - 1711757201435 = 1095
+2024-03-30T00:06:42.534045600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202534 - 1711757201435 = 1099
+2024-03-30T00:06:42.538044900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202538 - 1711757201435 = 1103
+2024-03-30T00:06:42.542050100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202542 - 1711757201435 = 1107
+2024-03-30T00:06:42.545042400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202545 - 1711757201435 = 1110
+2024-03-30T00:06:42.549045Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202549 - 1711757201435 = 1114
+2024-03-30T00:06:42.553045600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202553 - 1711757201435 = 1118
+2024-03-30T00:06:42.557046100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202557 - 1711757201435 = 1122
+2024-03-30T00:06:42.561044600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202561 - 1711757201435 = 1126
+2024-03-30T00:06:42.566047600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202566 - 1711757201435 = 1131
+2024-03-30T00:06:42.570045100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202570 - 1711757201435 = 1135
+2024-03-30T00:06:42.574045600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202574 - 1711757201435 = 1139
+2024-03-30T00:06:42.577045400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202577 - 1711757201435 = 1142
+2024-03-30T00:06:42.582044500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202582 - 1711757201435 = 1147
+2024-03-30T00:06:42.585045Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202585 - 1711757201435 = 1150
+2024-03-30T00:06:42.590048700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202590 - 1711757201435 = 1155
+2024-03-30T00:06:42.593046300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202593 - 1711757201435 = 1158
+2024-03-30T00:06:42.597044700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202597 - 1711757201435 = 1162
+2024-03-30T00:06:42.601043500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202601 - 1711757201435 = 1166
+2024-03-30T00:06:42.607045Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202607 - 1711757201435 = 1172
+2024-03-30T00:06:42.611046300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202611 - 1711757201435 = 1176
+2024-03-30T00:06:42.615045400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202615 - 1711757201435 = 1180
+2024-03-30T00:06:42.618044500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202618 - 1711757201435 = 1183
+2024-03-30T00:06:42.623045500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202623 - 1711757201435 = 1188
+2024-03-30T00:06:42.626045Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202626 - 1711757201435 = 1191
+2024-03-30T00:06:42.630046Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202630 - 1711757201435 = 1195
+2024-03-30T00:06:42.633045Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202633 - 1711757201435 = 1198
+2024-03-30T00:06:42.637051200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202637 - 1711757201435 = 1202
+2024-03-30T00:06:42.642044800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202642 - 1711757201435 = 1207
+2024-03-30T00:06:42.646046700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202646 - 1711757201435 = 1211
+2024-03-30T00:06:42.650044500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202650 - 1711757201435 = 1215
+2024-03-30T00:06:42.654046100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202654 - 1711757201435 = 1219
+2024-03-30T00:06:42.658045300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202658 - 1711757201435 = 1223
+2024-03-30T00:06:42.662047700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202662 - 1711757201435 = 1227
+2024-03-30T00:06:42.666045300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202666 - 1711757201435 = 1231
+2024-03-30T00:06:42.670044Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202670 - 1711757201435 = 1235
+2024-03-30T00:06:42.681049400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202681 - 1711757201435 = 1246
+2024-03-30T00:06:42.685045600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202685 - 1711757201435 = 1250
+2024-03-30T00:06:42.689048200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202689 - 1711757201435 = 1254
+2024-03-30T00:06:42.693049100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202693 - 1711757201435 = 1258
+2024-03-30T00:06:42.697047900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202696 - 1711757201435 = 1261
+2024-03-30T00:06:42.700045300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202700 - 1711757201435 = 1265
+2024-03-30T00:06:42.705047200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202705 - 1711757201435 = 1270
+2024-03-30T00:06:42.708048500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202708 - 1711757201435 = 1273
+2024-03-30T00:06:42.712045500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202712 - 1711757201435 = 1277
+2024-03-30T00:06:42.717045700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202716 - 1711757201435 = 1281
+2024-03-30T00:06:42.723569400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202723 - 1711757201435 = 1288
+2024-03-30T00:06:42.728566800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202728 - 1711757201435 = 1293
+2024-03-30T00:06:42.731565700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202731 - 1711757201435 = 1296
+2024-03-30T00:06:42.735569300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202735 - 1711757201435 = 1300
+2024-03-30T00:06:42.739566600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202739 - 1711757201435 = 1304
+2024-03-30T00:06:42.743569100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202743 - 1711757201435 = 1308
+2024-03-30T00:06:42.748572400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202748 - 1711757201435 = 1313
+2024-03-30T00:06:42.752566700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202752 - 1711757201435 = 1317
+2024-03-30T00:06:42.755568100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202755 - 1711757201435 = 1320
+2024-03-30T00:06:42.759570400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202759 - 1711757201435 = 1324
+2024-03-30T00:06:42.763568700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202763 - 1711757201435 = 1328
+2024-03-30T00:06:42.766569500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202766 - 1711757201435 = 1331
+2024-03-30T00:06:42.771567800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202771 - 1711757201435 = 1336
+2024-03-30T00:06:42.775569400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202775 - 1711757201435 = 1340
+2024-03-30T00:06:42.778566800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202778 - 1711757201435 = 1343
+2024-03-30T00:06:42.782566700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202782 - 1711757201435 = 1347
+2024-03-30T00:06:42.786569500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202786 - 1711757201435 = 1351
+2024-03-30T00:06:42.790568200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202790 - 1711757201435 = 1355
+2024-03-30T00:06:42.794569800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202794 - 1711757201435 = 1359
+2024-03-30T00:06:42.798568800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202798 - 1711757201435 = 1363
+2024-03-30T00:06:42.802569800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202801 - 1711757201435 = 1366
+2024-03-30T00:06:42.805574100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202805 - 1711757201435 = 1370
+2024-03-30T00:06:42.953030100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202953 - 1711757201435 = 1518
+2024-03-30T00:06:42.956031100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202956 - 1711757201435 = 1521
+2024-03-30T00:06:42.961031400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202961 - 1711757201435 = 1526
+2024-03-30T00:06:42.965030Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202965 - 1711757201435 = 1530
+2024-03-30T00:06:42.969030800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202968 - 1711757201435 = 1533
+2024-03-30T00:06:42.973097700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202972 - 1711757201435 = 1537
+2024-03-30T00:06:42.976098600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202976 - 1711757201435 = 1541
+2024-03-30T00:06:42.980097Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202980 - 1711757201435 = 1545
+2024-03-30T00:06:42.984095Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202984 - 1711757201435 = 1549
+2024-03-30T00:06:42.988096800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202988 - 1711757201435 = 1553
+2024-03-30T00:06:42.992097100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202992 - 1711757201435 = 1557
+2024-03-30T00:06:42.996098Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757202996 - 1711757201435 = 1561
+2024-03-30T00:06:43.002097200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203002 - 1711757201435 = 1567
+2024-03-30T00:06:43.005096900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203005 - 1711757201435 = 1570
+2024-03-30T00:06:43.009098Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203009 - 1711757201435 = 1574
+2024-03-30T00:06:43.013096300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203012 - 1711757201435 = 1577
+2024-03-30T00:06:43.016097Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203016 - 1711757201435 = 1581
+2024-03-30T00:06:43.020096600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203020 - 1711757201435 = 1585
+2024-03-30T00:06:43.024097Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203024 - 1711757201435 = 1589
+2024-03-30T00:06:43.028096900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203028 - 1711757201435 = 1593
+2024-03-30T00:06:43.032153600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203032 - 1711757201435 = 1597
+2024-03-30T00:06:43.036155500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203036 - 1711757201435 = 1601
+2024-03-30T00:06:43.040156100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203040 - 1711757201435 = 1605
+2024-03-30T00:06:43.045153600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203044 - 1711757201435 = 1609
+2024-03-30T00:06:43.049154200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203049 - 1711757201435 = 1614
+2024-03-30T00:06:43.053154700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203053 - 1711757201435 = 1618
+2024-03-30T00:06:43.057153700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203057 - 1711757201435 = 1622
+2024-03-30T00:06:43.061152300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203061 - 1711757201435 = 1626
+2024-03-30T00:06:43.071151800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203071 - 1711757201435 = 1636
+2024-03-30T00:06:43.074152700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203074 - 1711757201435 = 1639
+2024-03-30T00:06:43.079153100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203079 - 1711757201435 = 1644
+2024-03-30T00:06:43.083154Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203083 - 1711757201435 = 1648
+2024-03-30T00:06:43.087157600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203087 - 1711757201435 = 1652
+2024-03-30T00:06:43.091152Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203090 - 1711757201435 = 1655
+2024-03-30T00:06:43.095154800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203094 - 1711757201435 = 1659
+2024-03-30T00:06:43.098154200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203098 - 1711757201435 = 1663
+2024-03-30T00:06:43.102155700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203102 - 1711757201435 = 1667
+2024-03-30T00:06:43.106155800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203106 - 1711757201435 = 1671
+2024-03-30T00:06:43.111153300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203110 - 1711757201435 = 1675
+2024-03-30T00:06:43.115154200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203115 - 1711757201435 = 1680
+2024-03-30T00:06:43.118153200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203118 - 1711757201435 = 1683
+2024-03-30T00:06:43.122154300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203122 - 1711757201435 = 1687
+2024-03-30T00:06:43.125154300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203125 - 1711757201435 = 1690
+2024-03-30T00:06:43.129154500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203129 - 1711757201435 = 1694
+2024-03-30T00:06:43.134154300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203134 - 1711757201435 = 1699
+2024-03-30T00:06:43.138152900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203138 - 1711757201435 = 1703
+2024-03-30T00:06:43.142155300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203142 - 1711757201435 = 1707
+2024-03-30T00:06:43.145154700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203145 - 1711757201435 = 1710
+2024-03-30T00:06:43.149159300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203149 - 1711757201435 = 1714
+2024-03-30T00:06:43.154156Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203153 - 1711757201435 = 1718
+2024-03-30T00:06:43.157158300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203157 - 1711757201435 = 1722
+2024-03-30T00:06:43.161153500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203161 - 1711757201435 = 1726
+2024-03-30T00:06:43.164157200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203164 - 1711757201435 = 1729
+2024-03-30T00:06:43.170155400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203170 - 1711757201435 = 1735
+2024-03-30T00:06:43.180156200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203180 - 1711757201435 = 1745
+2024-03-30T00:06:43.185156900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203185 - 1711757201435 = 1750
+2024-03-30T00:06:43.193155900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203193 - 1711757201435 = 1758
+2024-03-30T00:06:43.197161800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203197 - 1711757201435 = 1762
+2024-03-30T00:06:43.203156700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203203 - 1711757201435 = 1768
+2024-03-30T00:06:43.207157Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203207 - 1711757201435 = 1772
+2024-03-30T00:06:43.211153900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203211 - 1711757201435 = 1776
+2024-03-30T00:06:43.215154800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203215 - 1711757201435 = 1780
+2024-03-30T00:06:43.219158700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203219 - 1711757201435 = 1784
+2024-03-30T00:06:43.223155300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203223 - 1711757201435 = 1788
+2024-03-30T00:06:43.227162300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203227 - 1711757201435 = 1792
+2024-03-30T00:06:43.233156400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203233 - 1711757201435 = 1798
+2024-03-30T00:06:43.237155800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203237 - 1711757201435 = 1802
+2024-03-30T00:06:43.241156Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203241 - 1711757201435 = 1806
+2024-03-30T00:06:43.245153400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203245 - 1711757201435 = 1810
+2024-03-30T00:06:43.249155100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203249 - 1711757201435 = 1814
+2024-03-30T00:06:43.253156400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203253 - 1711757201435 = 1818
+2024-03-30T00:06:43.257156200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203257 - 1711757201435 = 1822
+2024-03-30T00:06:43.261153700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203261 - 1711757201435 = 1826
+2024-03-30T00:06:43.265154300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203265 - 1711757201435 = 1830
+2024-03-30T00:06:43.269155400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203268 - 1711757201435 = 1833
+2024-03-30T00:06:43.272156200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203272 - 1711757201435 = 1837
+2024-03-30T00:06:43.277156400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203277 - 1711757201435 = 1842
+2024-03-30T00:06:43.280161200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203280 - 1711757201435 = 1845
+2024-03-30T00:06:43.284157700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203284 - 1711757201435 = 1849
+2024-03-30T00:06:43.288155800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203288 - 1711757201435 = 1853
+2024-03-30T00:06:43.292156400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203292 - 1711757201435 = 1857
+2024-03-30T00:06:43.296156400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203296 - 1711757201435 = 1861
+2024-03-30T00:06:43.300156500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203300 - 1711757201435 = 1865
+2024-03-30T00:06:43.303156900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203303 - 1711757201435 = 1868
+2024-03-30T00:06:43.307156300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203307 - 1711757201435 = 1872
+2024-03-30T00:06:43.311155Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203311 - 1711757201435 = 1876
+2024-03-30T00:06:43.314161Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203314 - 1711757201435 = 1879
+2024-03-30T00:06:43.318157300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203318 - 1711757201435 = 1883
+2024-03-30T00:06:43.321154900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203321 - 1711757201435 = 1886
+2024-03-30T00:06:43.325161100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203325 - 1711757201435 = 1890
+2024-03-30T00:06:43.332157700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203332 - 1711757201435 = 1897
+2024-03-30T00:06:43.336155300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203335 - 1711757201435 = 1900
+2024-03-30T00:06:43.339156900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203339 - 1711757201435 = 1904
+2024-03-30T00:06:43.344156Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203343 - 1711757201435 = 1908
+2024-03-30T00:06:43.347158600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203347 - 1711757201435 = 1912
+2024-03-30T00:06:43.351155200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203351 - 1711757201435 = 1916
+2024-03-30T00:06:43.355159800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203355 - 1711757201435 = 1920
+2024-03-30T00:06:43.359160900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203359 - 1711757201435 = 1924
+2024-03-30T00:06:43.363156900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203363 - 1711757201435 = 1928
+2024-03-30T00:06:43.367159600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203367 - 1711757201435 = 1932
+2024-03-30T00:06:43.371154800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203371 - 1711757201435 = 1936
+2024-03-30T00:06:43.374679200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203374 - 1711757201435 = 1939
+2024-03-30T00:06:43.379681600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203379 - 1711757201435 = 1944
+2024-03-30T00:06:43.382681Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203382 - 1711757201435 = 1947
+2024-03-30T00:06:43.394681100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203394 - 1711757201435 = 1959
+2024-03-30T00:06:43.398683300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203397 - 1711757201435 = 1962
+2024-03-30T00:06:43.401679900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203401 - 1711757201435 = 1966
+2024-03-30T00:06:43.404680500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203404 - 1711757201435 = 1969
+2024-03-30T00:06:43.409680400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203409 - 1711757201435 = 1974
+2024-03-30T00:06:43.413681600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203413 - 1711757201435 = 1978
+2024-03-30T00:06:43.417685400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203417 - 1711757201435 = 1982
+2024-03-30T00:06:43.421682600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203421 - 1711757201435 = 1986
+2024-03-30T00:06:43.426684200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203426 - 1711757201435 = 1991
+2024-03-30T00:06:43.430680400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203430 - 1711757201435 = 1995
+2024-03-30T00:06:43.433681900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203433 - 1711757201435 = 1998
+2024-03-30T00:06:43.437683900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203437 - 1711757201435 = 2002
+2024-03-30T00:06:43.441681900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203441 - 1711757201435 = 2006
+2024-03-30T00:06:43.444683600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203444 - 1711757201435 = 2009
+2024-03-30T00:06:43.450680600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203450 - 1711757201435 = 2015
+2024-03-30T00:06:43.455682100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203455 - 1711757201435 = 2020
+2024-03-30T00:06:43.460690700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203460 - 1711757201435 = 2025
+2024-03-30T00:06:43.463682500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203463 - 1711757201435 = 2028
+2024-03-30T00:06:43.467682400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203467 - 1711757201435 = 2032
+2024-03-30T00:06:43.472687800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203472 - 1711757201435 = 2037
+2024-03-30T00:06:43.476682200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203476 - 1711757201435 = 2041
+2024-03-30T00:06:43.480682500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203480 - 1711757201435 = 2045
+2024-03-30T00:06:43.484681400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203484 - 1711757201435 = 2049
+2024-03-30T00:06:43.489683700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203489 - 1711757201435 = 2054
+2024-03-30T00:06:43.492680900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203492 - 1711757201435 = 2057
+2024-03-30T00:06:43.496680Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203496 - 1711757201435 = 2061
+2024-03-30T00:06:43.499683100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203499 - 1711757201435 = 2064
+2024-03-30T00:06:43.508691900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203508 - 1711757201435 = 2073
+2024-03-30T00:06:43.527680600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203527 - 1711757201435 = 2092
+2024-03-30T00:06:43.532681600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203532 - 1711757201435 = 2097
+2024-03-30T00:06:43.538683100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203538 - 1711757201435 = 2103
+2024-03-30T00:06:43.542683200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203542 - 1711757201435 = 2107
+2024-03-30T00:06:43.546684500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203546 - 1711757201435 = 2111
+2024-03-30T00:06:43.550681900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203550 - 1711757201435 = 2115
+2024-03-30T00:06:43.554685100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203554 - 1711757201435 = 2119
+2024-03-30T00:06:43.559683800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203559 - 1711757201435 = 2124
+2024-03-30T00:06:43.564680600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203564 - 1711757201435 = 2129
+2024-03-30T00:06:43.567682600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203567 - 1711757201435 = 2132
+2024-03-30T00:06:43.571683400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203571 - 1711757201435 = 2136
+2024-03-30T00:06:43.575695600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203575 - 1711757201435 = 2140
+2024-03-30T00:06:43.579681500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203579 - 1711757201435 = 2144
+2024-03-30T00:06:43.582684900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203582 - 1711757201435 = 2147
+2024-03-30T00:06:43.586683100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203586 - 1711757201435 = 2151
+2024-03-30T00:06:43.590682300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203590 - 1711757201435 = 2155
+2024-03-30T00:06:43.593682700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203593 - 1711757201435 = 2158
+2024-03-30T00:06:43.600682400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203600 - 1711757201435 = 2165
+2024-03-30T00:06:43.604208600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203604 - 1711757201435 = 2169
+2024-03-30T00:06:43.608208500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203608 - 1711757201435 = 2173
+2024-03-30T00:06:43.612207400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203612 - 1711757201435 = 2177
+2024-03-30T00:06:43.615736100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203615 - 1711757201435 = 2180
+2024-03-30T00:06:43.619734Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203619 - 1711757201435 = 2184
+2024-03-30T00:06:43.623734300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203623 - 1711757201435 = 2188
+2024-03-30T00:06:43.628734200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203628 - 1711757201435 = 2193
+2024-03-30T00:06:43.632733800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203632 - 1711757201435 = 2197
+2024-03-30T00:06:43.635733900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203635 - 1711757201435 = 2200
+2024-03-30T00:06:43.640732200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203640 - 1711757201435 = 2205
+2024-03-30T00:06:43.644734300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203644 - 1711757201435 = 2209
+2024-03-30T00:06:43.648735100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203648 - 1711757201435 = 2213
+2024-03-30T00:06:43.652735300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203652 - 1711757201435 = 2217
+2024-03-30T00:06:43.656740600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203656 - 1711757201435 = 2221
+2024-03-30T00:06:43.660732Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203660 - 1711757201435 = 2225
+2024-03-30T00:06:43.663733400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203663 - 1711757201435 = 2228
+2024-03-30T00:06:43.667735300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203667 - 1711757201435 = 2232
+2024-03-30T00:06:43.671732300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203671 - 1711757201435 = 2236
+2024-03-30T00:06:43.676736400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203676 - 1711757201435 = 2241
+2024-03-30T00:06:43.679735600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203679 - 1711757201435 = 2244
+2024-03-30T00:06:43.683734900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203683 - 1711757201435 = 2248
+2024-03-30T00:06:43.688734Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203688 - 1711757201435 = 2253
+2024-03-30T00:06:43.693731700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203693 - 1711757201435 = 2258
+2024-03-30T00:06:43.696735600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203696 - 1711757201435 = 2261
+2024-03-30T00:06:43.700735Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203700 - 1711757201435 = 2265
+2024-03-30T00:06:43.704733400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203704 - 1711757201435 = 2269
+2024-03-30T00:06:43.708733500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203708 - 1711757201435 = 2273
+2024-03-30T00:06:43.712736Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203712 - 1711757201435 = 2277
+2024-03-30T00:06:43.715736400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203715 - 1711757201435 = 2280
+2024-03-30T00:06:43.728734400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203728 - 1711757201435 = 2293
+2024-03-30T00:06:43.732734200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203732 - 1711757201435 = 2297
+2024-03-30T00:06:43.742740800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203742 - 1711757201435 = 2307
+2024-03-30T00:06:43.746735500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203746 - 1711757201435 = 2311
+2024-03-30T00:06:43.750736400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203750 - 1711757201435 = 2315
+2024-03-30T00:06:43.755733700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203755 - 1711757201435 = 2320
+2024-03-30T00:06:43.759733700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203759 - 1711757201435 = 2324
+2024-03-30T00:06:43.762735300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203762 - 1711757201435 = 2327
+2024-03-30T00:06:43.766736900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203766 - 1711757201435 = 2331
+2024-03-30T00:06:43.769733100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203769 - 1711757201435 = 2334
+2024-03-30T00:06:43.773736300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203773 - 1711757201435 = 2338
+2024-03-30T00:06:43.777731600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203777 - 1711757201435 = 2342
+2024-03-30T00:06:43.781734200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203781 - 1711757201435 = 2346
+2024-03-30T00:06:43.785734300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203785 - 1711757201435 = 2350
+2024-03-30T00:06:43.788739200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203788 - 1711757201435 = 2353
+2024-03-30T00:06:43.792733400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203792 - 1711757201435 = 2357
+2024-03-30T00:06:43.796734300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757203796 - 1711757201435 = 2361
+2024-03-30T00:06:44.008306800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204008 - 1711757201435 = 2573
+2024-03-30T00:06:44.011306800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204011 - 1711757201435 = 2576
+2024-03-30T00:06:44.015310500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204015 - 1711757201435 = 2580
+2024-03-30T00:06:44.018309Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204018 - 1711757201435 = 2583
+2024-03-30T00:06:44.021307700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204021 - 1711757201435 = 2586
+2024-03-30T00:06:44.024307900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204024 - 1711757201435 = 2589
+2024-03-30T00:06:44.028308700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204028 - 1711757201435 = 2593
+2024-03-30T00:06:44.031307500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204031 - 1711757201435 = 2596
+2024-03-30T00:06:44.034310400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204034 - 1711757201435 = 2599
+2024-03-30T00:06:44.036308300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204036 - 1711757201435 = 2601
+2024-03-30T00:06:44.039304800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204039 - 1711757201435 = 2604
+2024-03-30T00:06:44.042308Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204041 - 1711757201435 = 2606
+2024-03-30T00:06:44.045305Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204045 - 1711757201435 = 2610
+2024-03-30T00:06:44.048307200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204048 - 1711757201435 = 2613
+2024-03-30T00:06:44.052306200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204052 - 1711757201435 = 2617
+2024-03-30T00:06:44.054307100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204054 - 1711757201435 = 2619
+2024-03-30T00:06:44.058319800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204057 - 1711757201435 = 2622
+2024-03-30T00:06:44.062308300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204062 - 1711757201435 = 2627
+2024-03-30T00:06:44.065309700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204065 - 1711757201435 = 2630
+2024-03-30T00:06:44.068308500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204068 - 1711757201435 = 2633
+2024-03-30T00:06:44.071309400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204071 - 1711757201435 = 2636
+2024-03-30T00:06:44.076310100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204076 - 1711757201435 = 2641
+2024-03-30T00:06:44.080307300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204080 - 1711757201435 = 2645
+2024-03-30T00:06:44.084308600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204084 - 1711757201435 = 2649
+2024-03-30T00:06:44.087308400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204087 - 1711757201435 = 2652
+2024-03-30T00:06:44.091307300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204091 - 1711757201435 = 2656
+2024-03-30T00:06:44.095308300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204095 - 1711757201435 = 2660
+2024-03-30T00:06:44.098309200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204098 - 1711757201435 = 2663
+2024-03-30T00:06:44.102311400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204102 - 1711757201435 = 2667
+2024-03-30T00:06:44.105309Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204105 - 1711757201435 = 2670
+2024-03-30T00:06:44.108309200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204108 - 1711757201435 = 2673
+2024-03-30T00:06:44.112309500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204112 - 1711757201435 = 2677
+2024-03-30T00:06:44.115308700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204115 - 1711757201435 = 2680
+2024-03-30T00:06:44.119309100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204119 - 1711757201435 = 2684
+2024-03-30T00:06:44.122307700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204122 - 1711757201435 = 2687
+2024-03-30T00:06:44.126308500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204126 - 1711757201435 = 2691
+2024-03-30T00:06:44.130308800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204130 - 1711757201435 = 2695
+2024-03-30T00:06:44.133306800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204133 - 1711757201435 = 2698
+2024-03-30T00:06:44.137312Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204137 - 1711757201435 = 2702
+2024-03-30T00:06:44.141310100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204141 - 1711757201435 = 2706
+2024-03-30T00:06:44.145309900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204145 - 1711757201435 = 2710
+2024-03-30T00:06:44.149306900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204149 - 1711757201435 = 2714
+2024-03-30T00:06:44.156309600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204156 - 1711757201435 = 2721
+2024-03-30T00:06:44.161311400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204161 - 1711757201435 = 2726
+2024-03-30T00:06:44.164310200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204164 - 1711757201435 = 2729
+2024-03-30T00:06:44.167311900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204167 - 1711757201435 = 2732
+2024-03-30T00:06:44.171309200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204171 - 1711757201435 = 2736
+2024-03-30T00:06:44.175310600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204175 - 1711757201435 = 2740
+2024-03-30T00:06:44.178309100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204178 - 1711757201435 = 2743
+2024-03-30T00:06:44.182364600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204182 - 1711757201435 = 2747
+2024-03-30T00:06:44.185365600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204185 - 1711757201435 = 2750
+2024-03-30T00:06:44.189367Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204189 - 1711757201435 = 2754
+2024-03-30T00:06:44.192367800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204192 - 1711757201435 = 2757
+2024-03-30T00:06:44.196368600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204196 - 1711757201435 = 2761
+2024-03-30T00:06:44.199364200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204199 - 1711757201435 = 2764
+2024-03-30T00:06:44.202367100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204202 - 1711757201435 = 2767
+2024-03-30T00:06:44.205368700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204205 - 1711757201435 = 2770
+2024-03-30T00:06:44.209365800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204208 - 1711757201435 = 2773
+2024-03-30T00:06:44.212367800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204212 - 1711757201435 = 2777
+2024-03-30T00:06:44.215367Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204215 - 1711757201435 = 2780
+2024-03-30T00:06:44.219369800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204219 - 1711757201435 = 2784
+2024-03-30T00:06:44.222366800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204222 - 1711757201435 = 2787
+2024-03-30T00:06:44.226371700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204226 - 1711757201435 = 2791
+2024-03-30T00:06:44.230370400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204230 - 1711757201435 = 2795
+2024-03-30T00:06:44.233369400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204233 - 1711757201435 = 2798
+2024-03-30T00:06:44.236364200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204236 - 1711757201435 = 2801
+2024-03-30T00:06:44.239366100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204239 - 1711757201435 = 2804
+2024-03-30T00:06:44.243365100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204243 - 1711757201435 = 2808
+2024-03-30T00:06:44.246366500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204246 - 1711757201435 = 2811
+2024-03-30T00:06:44.250367200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204250 - 1711757201435 = 2815
+2024-03-30T00:06:44.253366400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204253 - 1711757201435 = 2818
+2024-03-30T00:06:44.256366900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204255 - 1711757201435 = 2820
+2024-03-30T00:06:44.264366900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204264 - 1711757201435 = 2829
+2024-03-30T00:06:45.537611200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757204540 - 1711757204535 = 5
+2024-03-30T00:06:45.538579300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205538 - 1711757204535 = 1003
+2024-03-30T00:06:45.541585800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205541 - 1711757204535 = 1006
+2024-03-30T00:06:45.543581700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205543 - 1711757204535 = 1008
+2024-03-30T00:06:45.546581700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205546 - 1711757204535 = 1011
+2024-03-30T00:06:45.548580600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205548 - 1711757204535 = 1013
+2024-03-30T00:06:45.550586500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205550 - 1711757204535 = 1015
+2024-03-30T00:06:45.552585700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205552 - 1711757204535 = 1017
+2024-03-30T00:06:45.554584800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205554 - 1711757204535 = 1019
+2024-03-30T00:06:45.557036400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205557 - 1711757204535 = 1022
+2024-03-30T00:06:45.560070300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205560 - 1711757204535 = 1025
+2024-03-30T00:06:45.563033200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205563 - 1711757204535 = 1028
+2024-03-30T00:06:45.565034700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205565 - 1711757204535 = 1030
+2024-03-30T00:06:45.568033500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205568 - 1711757204535 = 1033
+2024-03-30T00:06:45.570033300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205570 - 1711757204535 = 1035
+2024-03-30T00:06:45.572035700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205572 - 1711757204535 = 1037
+2024-03-30T00:06:45.575035300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205575 - 1711757204535 = 1040
+2024-03-30T00:06:45.578032800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205578 - 1711757204535 = 1043
+2024-03-30T00:06:45.580035300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205580 - 1711757204535 = 1045
+2024-03-30T00:06:45.583035500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205583 - 1711757204535 = 1048
+2024-03-30T00:06:45.585033200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205585 - 1711757204535 = 1050
+2024-03-30T00:06:45.588035300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205588 - 1711757204535 = 1053
+2024-03-30T00:06:45.590032500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205590 - 1711757204535 = 1055
+2024-03-30T00:06:45.593034600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205593 - 1711757204535 = 1058
+2024-03-30T00:06:45.596034Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205596 - 1711757204535 = 1061
+2024-03-30T00:06:45.599034500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205599 - 1711757204535 = 1064
+2024-03-30T00:06:45.602040700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205602 - 1711757204535 = 1067
+2024-03-30T00:06:45.605035600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205605 - 1711757204535 = 1070
+2024-03-30T00:06:45.608040300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205608 - 1711757204535 = 1073
+2024-03-30T00:06:45.611034600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205611 - 1711757204535 = 1076
+2024-03-30T00:06:45.613037Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205613 - 1711757204535 = 1078
+2024-03-30T00:06:45.616036400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205616 - 1711757204535 = 1081
+2024-03-30T00:06:45.627039400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205627 - 1711757204535 = 1092
+2024-03-30T00:06:45.629040900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205629 - 1711757204535 = 1094
+2024-03-30T00:06:45.632034300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205632 - 1711757204535 = 1097
+2024-03-30T00:06:45.634037200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205634 - 1711757204535 = 1099
+2024-03-30T00:06:45.637032500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205637 - 1711757204535 = 1102
+2024-03-30T00:06:45.639034900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205639 - 1711757204535 = 1104
+2024-03-30T00:06:45.642045100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205642 - 1711757204535 = 1107
+2024-03-30T00:06:45.645033300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205645 - 1711757204535 = 1110
+2024-03-30T00:06:45.647035100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205647 - 1711757204535 = 1112
+2024-03-30T00:06:45.650035300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205650 - 1711757204535 = 1115
+2024-03-30T00:06:45.653048400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205653 - 1711757204535 = 1118
+2024-03-30T00:06:45.655034Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205655 - 1711757204535 = 1120
+2024-03-30T00:06:45.658035700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205658 - 1711757204535 = 1123
+2024-03-30T00:06:45.661034300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205661 - 1711757204535 = 1126
+2024-03-30T00:06:45.664064200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205664 - 1711757204535 = 1129
+2024-03-30T00:06:45.666038700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205666 - 1711757204535 = 1131
+2024-03-30T00:06:45.669035100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205669 - 1711757204535 = 1134
+2024-03-30T00:06:45.672043300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205672 - 1711757204535 = 1137
+2024-03-30T00:06:45.676039400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205676 - 1711757204535 = 1141
+2024-03-30T00:06:45.679035800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205679 - 1711757204535 = 1144
+2024-03-30T00:06:45.683034100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205683 - 1711757204535 = 1148
+2024-03-30T00:06:45.686035400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205686 - 1711757204535 = 1151
+2024-03-30T00:06:45.689037400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205688 - 1711757204535 = 1153
+2024-03-30T00:06:45.692050600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205692 - 1711757204535 = 1157
+2024-03-30T00:06:45.695034800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205695 - 1711757204535 = 1160
+2024-03-30T00:06:45.699035400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205699 - 1711757204535 = 1164
+2024-03-30T00:06:45.702035700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205702 - 1711757204535 = 1167
+2024-03-30T00:06:45.705035500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205704 - 1711757204535 = 1169
+2024-03-30T00:06:45.708039400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205707 - 1711757204535 = 1172
+2024-03-30T00:06:45.710036900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205710 - 1711757204535 = 1175
+2024-03-30T00:06:45.713034900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205713 - 1711757204535 = 1178
+2024-03-30T00:06:45.716034800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205716 - 1711757204535 = 1181
+2024-03-30T00:06:45.719035500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205719 - 1711757204535 = 1184
+2024-03-30T00:06:45.721036700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205721 - 1711757204535 = 1186
+2024-03-30T00:06:45.724037700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757205724 - 1711757204535 = 1189
+2024-03-30T00:06:46.042785100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206042 - 1711757204535 = 1507
+2024-03-30T00:06:46.044783500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206044 - 1711757204535 = 1509
+2024-03-30T00:06:46.047785800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206047 - 1711757204535 = 1512
+2024-03-30T00:06:46.050785200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206050 - 1711757204535 = 1515
+2024-03-30T00:06:46.053784900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206053 - 1711757204535 = 1518
+2024-03-30T00:06:46.057786900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206057 - 1711757204535 = 1522
+2024-03-30T00:06:46.060783400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206060 - 1711757204535 = 1525
+2024-03-30T00:06:46.063783200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206063 - 1711757204535 = 1528
+2024-03-30T00:06:46.066784300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206066 - 1711757204535 = 1531
+2024-03-30T00:06:46.070786500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206070 - 1711757204535 = 1535
+2024-03-30T00:06:46.073786400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206073 - 1711757204535 = 1538
+2024-03-30T00:06:46.076786400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206076 - 1711757204535 = 1541
+2024-03-30T00:06:46.079786Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206079 - 1711757204535 = 1544
+2024-03-30T00:06:46.082785400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206082 - 1711757204535 = 1547
+2024-03-30T00:06:46.084785400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206084 - 1711757204535 = 1549
+2024-03-30T00:06:46.088789500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206088 - 1711757204535 = 1553
+2024-03-30T00:06:46.092784100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206092 - 1711757204535 = 1557
+2024-03-30T00:06:46.094785600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206094 - 1711757204535 = 1559
+2024-03-30T00:06:46.097784200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206097 - 1711757204535 = 1562
+2024-03-30T00:06:46.100784800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206100 - 1711757204535 = 1565
+2024-03-30T00:06:46.103786Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206103 - 1711757204535 = 1568
+2024-03-30T00:06:46.106782300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206106 - 1711757204535 = 1571
+2024-03-30T00:06:46.109787Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206109 - 1711757204535 = 1574
+2024-03-30T00:06:46.113782500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206112 - 1711757204535 = 1577
+2024-03-30T00:06:46.115787200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206115 - 1711757204535 = 1580
+2024-03-30T00:06:46.118785100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206118 - 1711757204535 = 1583
+2024-03-30T00:06:46.121785300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206121 - 1711757204535 = 1586
+2024-03-30T00:06:46.125787600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206125 - 1711757204535 = 1590
+2024-03-30T00:06:46.128943300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206128 - 1711757204535 = 1593
+2024-03-30T00:06:46.132265100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206132 - 1711757204535 = 1597
+2024-03-30T00:06:46.135503300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206135 - 1711757204535 = 1600
+2024-03-30T00:06:46.138622600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206138 - 1711757204535 = 1603
+2024-03-30T00:06:46.140634900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206140 - 1711757204535 = 1605
+2024-03-30T00:06:46.143638300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206143 - 1711757204535 = 1608
+2024-03-30T00:06:46.147736200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206147 - 1711757204535 = 1612
+2024-03-30T00:06:46.150732100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206150 - 1711757204535 = 1615
+2024-03-30T00:06:46.153731900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206153 - 1711757204535 = 1618
+2024-03-30T00:06:46.156730800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206156 - 1711757204535 = 1621
+2024-03-30T00:06:46.158732300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206158 - 1711757204535 = 1623
+2024-03-30T00:06:46.162731900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206162 - 1711757204535 = 1627
+2024-03-30T00:06:46.164733400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206164 - 1711757204535 = 1629
+2024-03-30T00:06:46.167732300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206167 - 1711757204535 = 1632
+2024-03-30T00:06:46.170731700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206170 - 1711757204535 = 1635
+2024-03-30T00:06:46.173738200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206173 - 1711757204535 = 1638
+2024-03-30T00:06:46.176733900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206176 - 1711757204535 = 1641
+2024-03-30T00:06:46.179736600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206179 - 1711757204535 = 1644
+2024-03-30T00:06:46.182732400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206182 - 1711757204535 = 1647
+2024-03-30T00:06:46.185732Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206185 - 1711757204535 = 1650
+2024-03-30T00:06:46.188732300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206188 - 1711757204535 = 1653
+2024-03-30T00:06:46.193092700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206193 - 1711757204535 = 1658
+2024-03-30T00:06:46.196007100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206196 - 1711757204535 = 1661
+2024-03-30T00:06:46.199020700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206199 - 1711757204535 = 1664
+2024-03-30T00:06:46.202023Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206202 - 1711757204535 = 1667
+2024-03-30T00:06:46.205023100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206205 - 1711757204535 = 1670
+2024-03-30T00:06:46.209429Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206209 - 1711757204535 = 1674
+2024-03-30T00:06:46.212707900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206212 - 1711757204535 = 1677
+2024-03-30T00:06:46.215425300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206215 - 1711757204535 = 1680
+2024-03-30T00:06:46.218440400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206218 - 1711757204535 = 1683
+2024-03-30T00:06:46.221438Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206221 - 1711757204535 = 1686
+2024-03-30T00:06:46.225437300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206225 - 1711757204535 = 1690
+2024-03-30T00:06:46.228439Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206228 - 1711757204535 = 1693
+2024-03-30T00:06:46.231438200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206231 - 1711757204535 = 1696
+2024-03-30T00:06:46.234437700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206234 - 1711757204535 = 1699
+2024-03-30T00:06:46.236441500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206236 - 1711757204535 = 1701
+2024-03-30T00:06:46.239668500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206239 - 1711757204535 = 1704
+2024-03-30T00:06:46.243670900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206243 - 1711757204535 = 1708
+2024-03-30T00:06:46.247668300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206247 - 1711757204535 = 1712
+2024-03-30T00:06:46.250671600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206250 - 1711757204535 = 1715
+2024-03-30T00:06:46.253622200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206253 - 1711757204535 = 1718
+2024-03-30T00:06:46.551927400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206551 - 1711757204535 = 2016
+2024-03-30T00:06:46.554923300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206554 - 1711757204535 = 2019
+2024-03-30T00:06:46.557933700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206557 - 1711757204535 = 2022
+2024-03-30T00:06:46.560924100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206560 - 1711757204535 = 2025
+2024-03-30T00:06:46.563923800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206563 - 1711757204535 = 2028
+2024-03-30T00:06:46.566929500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711757206566 - 1711757204535 = 2031
+2024-03-30T00:06:46.569926600Z >> TagCollectorThread >> run >> back to mainLoop
+2024-03-30T11:56:59.717964700Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T11:57:00.246968500Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T11:57:00.248966200Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T11:57:00.253958100Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T11:57:00.255955Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T11:57:00.257954500Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T11:57:00.767835900Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T11:57:00.770835Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T11:57:00.773831600Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T11:57:00.975556Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T11:57:01.006509Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T11:57:01.503826600Z >> MainWindow : Constructor >> Started ...
+2024-03-30T11:57:02.131562100Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T11:57:02.883054300Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T11:57:02.909023200Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T11:57:04.893341100Z >> MainWindow : Constructor >> Started ...
+2024-03-30T11:57:04.908319Z >> MainWindow : Constructor >> Started ...
+2024-03-30T11:57:04.991204400Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T11:57:05.188934300Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T11:57:05.196922700Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T11:57:05.943898600Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:31:27.494024700Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T12:31:27.727026400Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T12:31:27.729029500Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T12:31:27.731028200Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T12:31:27.732028200Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T12:31:27.734031700Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T12:31:28.011027100Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T12:31:28.013029800Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T12:31:28.015029500Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T12:31:28.091027200Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T12:31:28.095027300Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T12:31:28.457554500Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:31:28.934078200Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:31:29.463078300Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:31:29.483076700Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:31:30.952259100Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:31:30.968787800Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:31:31.040785900Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:31:31.206787100Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:31:31.212787400Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:31:31.849790500Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:33:04.190994700Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T12:33:04.566994100Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T12:33:04.568995700Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T12:33:04.569998300Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T12:33:04.572995600Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T12:33:04.575995400Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T12:33:05.081995500Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T12:33:05.085997800Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T12:33:05.089998200Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T12:33:05.266000300Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T12:33:05.282997Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T12:33:05.906057900Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:33:06.786830200Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:33:07.368821300Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:33:07.397033200Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:33:10.081311900Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:33:10.115311400Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:33:10.235311700Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:33:10.607893800Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:33:10.618894100Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:33:11.788705300Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:46:13.956222Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T12:46:14.248218600Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T12:46:14.249217Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T12:46:14.250219600Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T12:46:14.252219100Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T12:46:14.253217300Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T12:46:14.585218600Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T12:46:14.589216600Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T12:46:14.591218600Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T12:46:14.682220600Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T12:46:14.686218200Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T12:46:15.045220200Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:46:15.650218800Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:46:16.260222Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:46:16.292220Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:46:18.073218800Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:46:18.093219800Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:46:18.167218800Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:46:18.363219900Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:46:18.370222800Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:46:18.985865900Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:49:30.845828600Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T12:49:31.189424600Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T12:49:31.191423300Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T12:49:31.193423Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T12:49:31.195253500Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T12:49:31.197250200Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T12:49:31.616174200Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T12:49:31.620175900Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T12:49:31.623181200Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T12:49:31.742202500Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T12:49:31.746201900Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T12:49:32.222834200Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:49:32.851507500Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:49:33.463175900Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:49:33.494185700Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:49:35.054936300Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:49:35.077939800Z >> MainWindow : Constructor >> Started ...
+2024-03-30T12:49:35.162961500Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T12:49:35.376536900Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T12:49:35.384535300Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T12:49:36.155904900Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:05:12.992614300Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T13:05:13.279612200Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T13:05:13.281612100Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T13:05:13.282612600Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T13:05:13.284615400Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T13:05:13.286614400Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T13:05:13.654611500Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T13:05:13.657614200Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T13:05:13.660616900Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T13:05:13.748614400Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T13:05:13.752610200Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T13:05:14.133611400Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:05:14.715671800Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T13:05:15.361253300Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T13:05:15.390250700Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T13:05:17.484844600Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:05:17.498842100Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:05:17.576843500Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T13:05:17.778844900Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T13:05:17.784846200Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T13:05:18.481891600Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:12:33.732362300Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T13:12:34.076883900Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T13:12:34.078883400Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T13:12:34.079885300Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T13:12:34.081886600Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T13:12:34.083886200Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T13:12:34.479403800Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T13:12:34.483403200Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T13:12:34.485408300Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T13:12:34.635401700Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T13:12:34.640404Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T13:12:35.122926100Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:12:35.667632100Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T13:12:36.240184500Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T13:12:36.270182500Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T13:12:37.753463700Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:12:37.764466900Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:12:37.831465300Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T13:12:37.993988300Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T13:12:38.001417800Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T13:12:38.598987400Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:20:23.208084Z >> class org.obi.services.OBIServiceTrayIcon Try to check look and feel...
+2024-03-30T13:20:23.624611700Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
+2024-03-30T13:20:23.626612800Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
+2024-03-30T13:20:23.628613300Z >> class org.obi.services.OBIServiceTrayIcon Look and fell CDE/Motif use class : com.sun.java.swing.plaf.motif.MotifLookAndFeel
+2024-03-30T13:20:23.630612900Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows use class : com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+2024-03-30T13:20:23.632613100Z >> class org.obi.services.OBIServiceTrayIcon Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
+2024-03-30T13:20:24.135229Z >> class org.obi.services.OBIServiceTrayIcon >> main : OBI - Start...
+2024-03-30T13:20:24.138229300Z >> class org.obi.services.OBIServiceTrayIcon >> main : Setup configuration file .ini
+2024-03-30T13:20:24.142226400Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-30T13:20:24.427228600Z >> class org.obi.services.OBIServiceTrayIcon >> main : Tray icon create
+2024-03-30T13:20:24.432225600Z >> class org.obi.services.OBIServiceTrayIcon >> main : program ready.
+2024-03-30T13:20:24.908229200Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:20:26.386275200Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T13:20:27.867228800Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T13:20:27.896229500Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T13:20:30.410670500Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:20:30.426671500Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:20:30.499669500Z >> org.obi.services.util.Settings : read(section, param, value) >>  Attention section urlobi avec le paramètre COUNTER n'existe pas 
+2024-03-30T13:20:30.680670600Z >> MainWindowDocking >> CreateFocusViewMenu : views[3] is null !
+2024-03-30T13:20:30.690671900Z >> MainWindowDocking >> createViewMenu : views[3] is null !
+2024-03-30T13:20:32.475430400Z >> MainWindow : Constructor >> Started ...
+2024-03-30T13:21:38.517609600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898506 - 1711804897151 = 1355
+2024-03-30T13:21:38.523608400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898523 - 1711804897151 = 1372
+2024-03-30T13:21:38.527608900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898527 - 1711804897151 = 1376
+2024-03-30T13:21:38.531609100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898531 - 1711804897151 = 1380
+2024-03-30T13:21:38.535616300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898535 - 1711804897151 = 1384
+2024-03-30T13:21:38.539608300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898539 - 1711804897151 = 1388
+2024-03-30T13:21:38.544138Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898543 - 1711804897151 = 1392
+2024-03-30T13:21:38.547134500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898547 - 1711804897151 = 1396
+2024-03-30T13:21:38.551133700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898551 - 1711804897151 = 1400
+2024-03-30T13:21:38.555133Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898555 - 1711804897151 = 1404
+2024-03-30T13:21:38.559130600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898559 - 1711804897151 = 1408
+2024-03-30T13:21:38.562135700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898562 - 1711804897151 = 1411
+2024-03-30T13:21:38.567134600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898566 - 1711804897151 = 1415
+2024-03-30T13:21:38.570133500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898570 - 1711804897151 = 1419
+2024-03-30T13:21:38.575132200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898575 - 1711804897151 = 1424
+2024-03-30T13:21:38.580132800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898580 - 1711804897151 = 1429
+2024-03-30T13:21:38.585132500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898585 - 1711804897151 = 1434
+2024-03-30T13:21:38.589133600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898588 - 1711804897151 = 1437
+2024-03-30T13:21:38.593132700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898593 - 1711804897151 = 1442
+2024-03-30T13:21:38.597133900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898597 - 1711804897151 = 1446
+2024-03-30T13:21:38.601135Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898601 - 1711804897151 = 1450
+2024-03-30T13:21:38.605138100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898605 - 1711804897151 = 1454
+2024-03-30T13:21:38.609134100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898609 - 1711804897151 = 1458
+2024-03-30T13:21:38.618878700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898618 - 1711804897151 = 1467
+2024-03-30T13:21:38.623289900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898622 - 1711804897151 = 1471
+2024-03-30T13:21:38.628290800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898628 - 1711804897151 = 1477
+2024-03-30T13:21:38.634287900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898634 - 1711804897151 = 1483
+2024-03-30T13:21:38.638897200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898638 - 1711804897151 = 1487
+2024-03-30T13:21:38.641893900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898641 - 1711804897151 = 1490
+2024-03-30T13:21:38.646893700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898646 - 1711804897151 = 1495
+2024-03-30T13:21:38.650894800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898650 - 1711804897151 = 1499
+2024-03-30T13:21:38.654897400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898654 - 1711804897151 = 1503
+2024-03-30T13:21:38.658893900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898658 - 1711804897151 = 1507
+2024-03-30T13:21:38.662894500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898661 - 1711804897151 = 1510
+2024-03-30T13:21:38.666894200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898666 - 1711804897151 = 1515
+2024-03-30T13:21:38.669894500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898669 - 1711804897151 = 1518
+2024-03-30T13:21:38.672894300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898672 - 1711804897151 = 1521
+2024-03-30T13:21:38.676893700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898676 - 1711804897151 = 1525
+2024-03-30T13:21:38.680894400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898680 - 1711804897151 = 1529
+2024-03-30T13:21:38.684895200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898684 - 1711804897151 = 1533
+2024-03-30T13:21:38.688898400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898688 - 1711804897151 = 1537
+2024-03-30T13:21:38.692893500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898692 - 1711804897151 = 1541
+2024-03-30T13:21:38.695893600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898695 - 1711804897151 = 1544
+2024-03-30T13:21:38.699893800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898698 - 1711804897151 = 1547
+2024-03-30T13:21:38.702894100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898702 - 1711804897151 = 1551
+2024-03-30T13:21:38.705893600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898705 - 1711804897151 = 1554
+2024-03-30T13:21:38.709894900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898709 - 1711804897151 = 1558
+2024-03-30T13:21:38.713894500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898713 - 1711804897151 = 1562
+2024-03-30T13:21:38.725893700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898725 - 1711804897151 = 1574
+2024-03-30T13:21:38.734894500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898734 - 1711804897151 = 1583
+2024-03-30T13:21:38.737948700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898737 - 1711804897151 = 1586
+2024-03-30T13:21:38.741950700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898741 - 1711804897151 = 1590
+2024-03-30T13:21:38.745948Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898745 - 1711804897151 = 1594
+2024-03-30T13:21:38.748950900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898748 - 1711804897151 = 1597
+2024-03-30T13:21:38.752950400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898752 - 1711804897151 = 1601
+2024-03-30T13:21:38.755949300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898755 - 1711804897151 = 1604
+2024-03-30T13:21:38.759950200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898759 - 1711804897151 = 1608
+2024-03-30T13:21:38.763948700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898763 - 1711804897151 = 1612
+2024-03-30T13:21:38.767950600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898767 - 1711804897151 = 1616
+2024-03-30T13:21:38.770951100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898770 - 1711804897151 = 1619
+2024-03-30T13:21:38.774950900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898774 - 1711804897151 = 1623
+2024-03-30T13:21:38.778955900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898778 - 1711804897151 = 1627
+2024-03-30T13:21:38.782952Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898781 - 1711804897151 = 1630
+2024-03-30T13:21:38.786951200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898786 - 1711804897151 = 1635
+2024-03-30T13:21:38.794951100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898794 - 1711804897151 = 1643
+2024-03-30T13:21:38.798951300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898798 - 1711804897151 = 1647
+2024-03-30T13:21:38.802956200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898802 - 1711804897151 = 1651
+2024-03-30T13:21:38.806954700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898806 - 1711804897151 = 1655
+2024-03-30T13:21:38.811953400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898811 - 1711804897151 = 1660
+2024-03-30T13:21:38.816947900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898815 - 1711804897151 = 1664
+2024-03-30T13:21:38.819949Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898819 - 1711804897151 = 1668
+2024-03-30T13:21:38.824948Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898824 - 1711804897151 = 1673
+2024-03-30T13:21:38.828948500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898828 - 1711804897151 = 1677
+2024-03-30T13:21:38.832947700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898832 - 1711804897151 = 1681
+2024-03-30T13:21:38.840951700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898840 - 1711804897151 = 1689
+2024-03-30T13:21:38.843949900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804898843 - 1711804897151 = 1692
+2024-03-30T13:21:39.155713700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899154 - 1711804897151 = 2003
+2024-03-30T13:21:39.159710500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899158 - 1711804897151 = 2007
+2024-03-30T13:21:39.163709900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899163 - 1711804897151 = 2012
+2024-03-30T13:21:39.167710800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899167 - 1711804897151 = 2016
+2024-03-30T13:21:39.170712300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899170 - 1711804897151 = 2019
+2024-03-30T13:21:39.174710400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899174 - 1711804897151 = 2023
+2024-03-30T13:21:39.179713200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899178 - 1711804897151 = 2027
+2024-03-30T13:21:39.183709500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899183 - 1711804897151 = 2032
+2024-03-30T13:21:39.186710400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899186 - 1711804897151 = 2035
+2024-03-30T13:21:39.190713400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899189 - 1711804897151 = 2038
+2024-03-30T13:21:39.195159400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899195 - 1711804897151 = 2044
+2024-03-30T13:21:39.198163300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899198 - 1711804897151 = 2047
+2024-03-30T13:21:39.203162200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899202 - 1711804897151 = 2051
+2024-03-30T13:21:39.206164100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899206 - 1711804897151 = 2055
+2024-03-30T13:21:39.210159400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899210 - 1711804897151 = 2059
+2024-03-30T13:21:39.214160800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899214 - 1711804897151 = 2063
+2024-03-30T13:21:39.218158900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899218 - 1711804897151 = 2067
+2024-03-30T13:21:39.222257400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899222 - 1711804897151 = 2071
+2024-03-30T13:21:39.225258Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899225 - 1711804897151 = 2074
+2024-03-30T13:21:39.229262900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899229 - 1711804897151 = 2078
+2024-03-30T13:21:39.233259400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899233 - 1711804897151 = 2082
+2024-03-30T13:21:39.237258500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899237 - 1711804897151 = 2086
+2024-03-30T13:21:39.241311100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899241 - 1711804897151 = 2090
+2024-03-30T13:21:39.245392600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899245 - 1711804897151 = 2094
+2024-03-30T13:21:39.249366900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899249 - 1711804897151 = 2098
+2024-03-30T13:21:39.252370Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899252 - 1711804897151 = 2101
+2024-03-30T13:21:39.256370600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899256 - 1711804897151 = 2105
+2024-03-30T13:21:39.260368Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899260 - 1711804897151 = 2109
+2024-03-30T13:21:39.264374600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899264 - 1711804897151 = 2113
+2024-03-30T13:21:39.267367600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899267 - 1711804897151 = 2116
+2024-03-30T13:21:39.271368300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899271 - 1711804897151 = 2120
+2024-03-30T13:21:39.275376300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899275 - 1711804897151 = 2124
+2024-03-30T13:21:39.279369100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899279 - 1711804897151 = 2128
+2024-03-30T13:21:39.282369900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899282 - 1711804897151 = 2131
+2024-03-30T13:21:39.286369Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899286 - 1711804897151 = 2135
+2024-03-30T13:21:39.290366900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899290 - 1711804897151 = 2139
+2024-03-30T13:21:39.293367500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899293 - 1711804897151 = 2142
+2024-03-30T13:21:39.297367800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899297 - 1711804897151 = 2146
+2024-03-30T13:21:39.301372Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899300 - 1711804897151 = 2149
+2024-03-30T13:21:39.304368800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899304 - 1711804897151 = 2153
+2024-03-30T13:21:39.308369600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899308 - 1711804897151 = 2157
+2024-03-30T13:21:39.311371300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899311 - 1711804897151 = 2160
+2024-03-30T13:21:39.315369200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899315 - 1711804897151 = 2164
+2024-03-30T13:21:39.319369700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899318 - 1711804897151 = 2167
+2024-03-30T13:21:39.322367800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899322 - 1711804897151 = 2171
+2024-03-30T13:21:39.325368600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899325 - 1711804897151 = 2174
+2024-03-30T13:21:39.330371500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899330 - 1711804897151 = 2179
+2024-03-30T13:21:39.333368800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899333 - 1711804897151 = 2182
+2024-03-30T13:21:39.336368500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899336 - 1711804897151 = 2185
+2024-03-30T13:21:39.344383400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899343 - 1711804897151 = 2192
+2024-03-30T13:21:39.347370100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899347 - 1711804897151 = 2196
+2024-03-30T13:21:39.351371500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899351 - 1711804897151 = 2200
+2024-03-30T13:21:39.354369700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899354 - 1711804897151 = 2203
+2024-03-30T13:21:39.358371200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899358 - 1711804897151 = 2207
+2024-03-30T13:21:39.362367100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899362 - 1711804897151 = 2211
+2024-03-30T13:21:39.365371800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899365 - 1711804897151 = 2214
+2024-03-30T13:21:39.369370600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899369 - 1711804897151 = 2218
+2024-03-30T13:21:39.372370900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899372 - 1711804897151 = 2221
+2024-03-30T13:21:39.375368400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899375 - 1711804897151 = 2224
+2024-03-30T13:21:39.379371400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899379 - 1711804897151 = 2228
+2024-03-30T13:21:39.382370400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899382 - 1711804897151 = 2231
+2024-03-30T13:21:39.386370500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899386 - 1711804897151 = 2235
+2024-03-30T13:21:39.389373700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899389 - 1711804897151 = 2238
+2024-03-30T13:21:39.392370400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899392 - 1711804897151 = 2241
+2024-03-30T13:21:39.396370200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899396 - 1711804897151 = 2245
+2024-03-30T13:21:39.400369800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899400 - 1711804897151 = 2249
+2024-03-30T13:21:39.404369100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899404 - 1711804897151 = 2253
+2024-03-30T13:21:39.407374Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899407 - 1711804897151 = 2256
+2024-03-30T13:21:39.497544600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899497 - 1711804897151 = 2346
+2024-03-30T13:21:39.502542500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899502 - 1711804897151 = 2351
+2024-03-30T13:21:39.505549600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899505 - 1711804897151 = 2354
+2024-03-30T13:21:39.509541400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899509 - 1711804897151 = 2358
+2024-03-30T13:21:39.513543100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899512 - 1711804897151 = 2361
+2024-03-30T13:21:39.516545600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899516 - 1711804897151 = 2365
+2024-03-30T13:21:39.519544600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899519 - 1711804897151 = 2368
+2024-03-30T13:21:39.522545200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899522 - 1711804897151 = 2371
+2024-03-30T13:21:39.527544800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899527 - 1711804897151 = 2376
+2024-03-30T13:21:39.531544500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899531 - 1711804897151 = 2380
+2024-03-30T13:21:39.535545Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899535 - 1711804897151 = 2384
+2024-03-30T13:21:39.539544300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899539 - 1711804897151 = 2388
+2024-03-30T13:21:39.542544400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899542 - 1711804897151 = 2391
+2024-03-30T13:21:39.547544700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899547 - 1711804897151 = 2396
+2024-03-30T13:21:39.552550Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899552 - 1711804897151 = 2401
+2024-03-30T13:21:39.557542700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899557 - 1711804897151 = 2406
+2024-03-30T13:21:39.561564300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899561 - 1711804897151 = 2410
+2024-03-30T13:21:39.565543400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899565 - 1711804897151 = 2414
+2024-03-30T13:21:39.570544600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899569 - 1711804897151 = 2418
+2024-03-30T13:21:39.575543100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899575 - 1711804897151 = 2424
+2024-03-30T13:21:39.579544800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899579 - 1711804897151 = 2428
+2024-03-30T13:21:39.583545800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899583 - 1711804897151 = 2432
+2024-03-30T13:21:39.586541800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899586 - 1711804897151 = 2435
+2024-03-30T13:21:39.590545300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899590 - 1711804897151 = 2439
+2024-03-30T13:21:39.596543800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899596 - 1711804897151 = 2445
+2024-03-30T13:21:39.600546Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899600 - 1711804897151 = 2449
+2024-03-30T13:21:39.604373300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899603 - 1711804897151 = 2452
+2024-03-30T13:21:39.608425600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899608 - 1711804897151 = 2457
+2024-03-30T13:21:39.612425500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899612 - 1711804897151 = 2461
+2024-03-30T13:21:39.616424200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899616 - 1711804897151 = 2465
+2024-03-30T13:21:39.619424500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899619 - 1711804897151 = 2468
+2024-03-30T13:21:39.623423400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899623 - 1711804897151 = 2472
+2024-03-30T13:21:39.627424200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899627 - 1711804897151 = 2476
+2024-03-30T13:21:39.638487800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899638 - 1711804897151 = 2487
+2024-03-30T13:21:39.650485600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899650 - 1711804897151 = 2499
+2024-03-30T13:21:39.659484Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899659 - 1711804897151 = 2508
+2024-03-30T13:21:39.663487900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899663 - 1711804897151 = 2512
+2024-03-30T13:21:39.667485700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899667 - 1711804897151 = 2516
+2024-03-30T13:21:39.670020300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899670 - 1711804897151 = 2519
+2024-03-30T13:21:39.674013600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899674 - 1711804897151 = 2523
+2024-03-30T13:21:39.678041300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899678 - 1711804897151 = 2527
+2024-03-30T13:21:39.682014800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899682 - 1711804897151 = 2531
+2024-03-30T13:21:39.686014500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899686 - 1711804897151 = 2535
+2024-03-30T13:21:39.690014300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899690 - 1711804897151 = 2539
+2024-03-30T13:21:39.693013100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899693 - 1711804897151 = 2542
+2024-03-30T13:21:39.697017300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899697 - 1711804897151 = 2546
+2024-03-30T13:21:39.702014800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899702 - 1711804897151 = 2551
+2024-03-30T13:21:39.706014500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899706 - 1711804897151 = 2555
+2024-03-30T13:21:39.709017400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899709 - 1711804897151 = 2558
+2024-03-30T13:21:39.713014900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899713 - 1711804897151 = 2562
+2024-03-30T13:21:39.717013900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899717 - 1711804897151 = 2566
+2024-03-30T13:21:39.721014300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899721 - 1711804897151 = 2570
+2024-03-30T13:21:39.726015200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899726 - 1711804897151 = 2575
+2024-03-30T13:21:39.730019Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899730 - 1711804897151 = 2579
+2024-03-30T13:21:39.734014500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899734 - 1711804897151 = 2583
+2024-03-30T13:21:39.737013900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899737 - 1711804897151 = 2586
+2024-03-30T13:21:39.741017600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899741 - 1711804897151 = 2590
+2024-03-30T13:21:39.746021200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899746 - 1711804897151 = 2595
+2024-03-30T13:21:39.749015100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899749 - 1711804897151 = 2598
+2024-03-30T13:21:39.757015Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899757 - 1711804897151 = 2606
+2024-03-30T13:21:39.761078300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899761 - 1711804897151 = 2610
+2024-03-30T13:21:39.765078900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899765 - 1711804897151 = 2614
+2024-03-30T13:21:39.768078500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899768 - 1711804897151 = 2617
+2024-03-30T13:21:39.772078400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899772 - 1711804897151 = 2621
+2024-03-30T13:21:39.776081200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899776 - 1711804897151 = 2625
+2024-03-30T13:21:39.780079500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899780 - 1711804897151 = 2629
+2024-03-30T13:21:39.783078300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899783 - 1711804897151 = 2632
+2024-03-30T13:21:39.787080600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899787 - 1711804897151 = 2636
+2024-03-30T13:21:39.791077300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899791 - 1711804897151 = 2640
+2024-03-30T13:21:39.796081100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899796 - 1711804897151 = 2645
+2024-03-30T13:21:39.799078100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899799 - 1711804897151 = 2648
+2024-03-30T13:21:39.803077100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899803 - 1711804897151 = 2652
+2024-03-30T13:21:39.807077200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899807 - 1711804897151 = 2656
+2024-03-30T13:21:39.812081800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899812 - 1711804897151 = 2661
+2024-03-30T13:21:39.816079400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899816 - 1711804897151 = 2665
+2024-03-30T13:21:39.819079300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899819 - 1711804897151 = 2668
+2024-03-30T13:21:39.823076Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899823 - 1711804897151 = 2672
+2024-03-30T13:21:39.827077800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899827 - 1711804897151 = 2676
+2024-03-30T13:21:39.831078900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899831 - 1711804897151 = 2680
+2024-03-30T13:21:39.834605500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899834 - 1711804897151 = 2683
+2024-03-30T13:21:39.837604600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899837 - 1711804897151 = 2686
+2024-03-30T13:21:39.842605300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899842 - 1711804897151 = 2691
+2024-03-30T13:21:39.846608700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899846 - 1711804897151 = 2695
+2024-03-30T13:21:39.850607500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899850 - 1711804897151 = 2699
+2024-03-30T13:21:39.854605900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899854 - 1711804897151 = 2703
+2024-03-30T13:21:39.867132Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899867 - 1711804897151 = 2716
+2024-03-30T13:21:39.876133300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899876 - 1711804897151 = 2725
+2024-03-30T13:21:39.881133700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899881 - 1711804897151 = 2730
+2024-03-30T13:21:39.885130400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899885 - 1711804897151 = 2734
+2024-03-30T13:21:39.889132700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899889 - 1711804897151 = 2738
+2024-03-30T13:21:39.894134100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899894 - 1711804897151 = 2743
+2024-03-30T13:21:39.899130600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899899 - 1711804897151 = 2748
+2024-03-30T13:21:39.903132500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899903 - 1711804897151 = 2752
+2024-03-30T13:21:39.907133800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899907 - 1711804897151 = 2756
+2024-03-30T13:21:39.912131Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899912 - 1711804897151 = 2761
+2024-03-30T13:21:39.918132100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899918 - 1711804897151 = 2767
+2024-03-30T13:21:39.922132200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899921 - 1711804897151 = 2770
+2024-03-30T13:21:39.925133700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899925 - 1711804897151 = 2774
+2024-03-30T13:21:39.929660900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899929 - 1711804897151 = 2778
+2024-03-30T13:21:39.934191100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899933 - 1711804897151 = 2782
+2024-03-30T13:21:39.938191400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899938 - 1711804897151 = 2787
+2024-03-30T13:21:39.942190400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899942 - 1711804897151 = 2791
+2024-03-30T13:21:39.945716400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899945 - 1711804897151 = 2794
+2024-03-30T13:21:39.949244800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899949 - 1711804897151 = 2798
+2024-03-30T13:21:39.953243900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899953 - 1711804897151 = 2802
+2024-03-30T13:21:39.957242200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899957 - 1711804897151 = 2806
+2024-03-30T13:21:39.960240900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899960 - 1711804897151 = 2809
+2024-03-30T13:21:39.963776700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899963 - 1711804897151 = 2812
+2024-03-30T13:21:39.967770500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899967 - 1711804897151 = 2816
+2024-03-30T13:21:39.970772200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899970 - 1711804897151 = 2819
+2024-03-30T13:21:39.974771300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899974 - 1711804897151 = 2823
+2024-03-30T13:21:39.985771800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899985 - 1711804897151 = 2834
+2024-03-30T13:21:39.989773500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899989 - 1711804897151 = 2838
+2024-03-30T13:21:39.993769100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899993 - 1711804897151 = 2842
+2024-03-30T13:21:39.997771800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804899997 - 1711804897151 = 2846
+2024-03-30T13:21:40.001772300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900001 - 1711804897151 = 2850
+2024-03-30T13:21:40.004771800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900004 - 1711804897151 = 2853
+2024-03-30T13:21:40.008772Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900008 - 1711804897151 = 2857
+2024-03-30T13:21:40.011772900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900011 - 1711804897151 = 2860
+2024-03-30T13:21:40.015770900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900015 - 1711804897151 = 2864
+2024-03-30T13:21:40.019770100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900019 - 1711804897151 = 2868
+2024-03-30T13:21:40.023768700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900023 - 1711804897151 = 2872
+2024-03-30T13:21:40.027774500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900027 - 1711804897151 = 2876
+2024-03-30T13:21:40.031768500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900031 - 1711804897151 = 2880
+2024-03-30T13:21:40.035290600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900035 - 1711804897151 = 2884
+2024-03-30T13:21:40.040294600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900040 - 1711804897151 = 2889
+2024-03-30T13:21:40.045823800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900045 - 1711804897151 = 2894
+2024-03-30T13:21:40.048824700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900048 - 1711804897151 = 2897
+2024-03-30T13:21:40.051825800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900051 - 1711804897151 = 2900
+2024-03-30T13:21:40.055822600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900055 - 1711804897151 = 2904
+2024-03-30T13:21:40.059825300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900059 - 1711804897151 = 2908
+2024-03-30T13:21:40.062824600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900062 - 1711804897151 = 2911
+2024-03-30T13:21:40.065825400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900065 - 1711804897151 = 2914
+2024-03-30T13:21:40.069825900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900069 - 1711804897151 = 2918
+2024-03-30T13:21:40.072824300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900072 - 1711804897151 = 2921
+2024-03-30T13:21:40.076826100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900076 - 1711804897151 = 2925
+2024-03-30T13:21:40.080824500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900080 - 1711804897151 = 2929
+2024-03-30T13:21:40.084822900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900084 - 1711804897151 = 2933
+2024-03-30T13:21:40.123822500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900123 - 1711804897151 = 2972
+2024-03-30T13:21:40.128825600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900128 - 1711804897151 = 2977
+2024-03-30T13:21:40.132824300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900132 - 1711804897151 = 2981
+2024-03-30T13:21:40.137823200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900137 - 1711804897151 = 2986
+2024-03-30T13:21:40.141826900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900141 - 1711804897151 = 2990
+2024-03-30T13:21:40.145827400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900145 - 1711804897151 = 2994
+2024-03-30T13:21:40.149827800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900149 - 1711804897151 = 2998
+2024-03-30T13:21:41.155003700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804900175 - 1711804900153 = 22
+2024-03-30T13:21:41.156999900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901156 - 1711804900153 = 1003
+2024-03-30T13:21:41.160999900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901160 - 1711804900153 = 1007
+2024-03-30T13:21:41.164536700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901164 - 1711804900153 = 1011
+2024-03-30T13:21:41.167527500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901167 - 1711804900153 = 1014
+2024-03-30T13:21:41.170529500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901170 - 1711804900153 = 1017
+2024-03-30T13:21:41.173527900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901173 - 1711804900153 = 1020
+2024-03-30T13:21:41.176527600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901176 - 1711804900153 = 1023
+2024-03-30T13:21:41.179529900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901179 - 1711804900153 = 1026
+2024-03-30T13:21:41.182527400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901182 - 1711804900153 = 1029
+2024-03-30T13:21:41.186528800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901186 - 1711804900153 = 1033
+2024-03-30T13:21:41.189530800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901189 - 1711804900153 = 1036
+2024-03-30T13:21:41.193530Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901193 - 1711804900153 = 1040
+2024-03-30T13:21:41.196527800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901196 - 1711804900153 = 1043
+2024-03-30T13:21:41.199527Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901199 - 1711804900153 = 1046
+2024-03-30T13:21:41.202528500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901202 - 1711804900153 = 1049
+2024-03-30T13:21:41.205527600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901205 - 1711804900153 = 1052
+2024-03-30T13:21:41.208532200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901208 - 1711804900153 = 1055
+2024-03-30T13:21:41.212525700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901212 - 1711804900153 = 1059
+2024-03-30T13:21:41.215527600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901215 - 1711804900153 = 1062
+2024-03-30T13:21:41.218528Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901218 - 1711804900153 = 1065
+2024-03-30T13:21:41.222528700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901222 - 1711804900153 = 1069
+2024-03-30T13:21:41.225060900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901225 - 1711804900153 = 1072
+2024-03-30T13:21:41.228059300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901228 - 1711804900153 = 1075
+2024-03-30T13:21:41.231056600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901231 - 1711804900153 = 1078
+2024-03-30T13:21:41.234056200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901234 - 1711804900153 = 1081
+2024-03-30T13:21:41.238055600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901238 - 1711804900153 = 1085
+2024-03-30T13:21:41.241057600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901241 - 1711804900153 = 1088
+2024-03-30T13:21:41.246056300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901245 - 1711804900153 = 1092
+2024-03-30T13:21:41.249056300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901249 - 1711804900153 = 1096
+2024-03-30T13:21:41.252055800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901252 - 1711804900153 = 1099
+2024-03-30T13:21:41.255059300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901255 - 1711804900153 = 1102
+2024-03-30T13:21:41.258055200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901258 - 1711804900153 = 1105
+2024-03-30T13:21:41.261067Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901261 - 1711804900153 = 1108
+2024-03-30T13:21:41.264059900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901264 - 1711804900153 = 1111
+2024-03-30T13:21:41.267054600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901267 - 1711804900153 = 1114
+2024-03-30T13:21:41.271056100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901271 - 1711804900153 = 1118
+2024-03-30T13:21:41.274055400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901274 - 1711804900153 = 1121
+2024-03-30T13:21:41.278055700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901278 - 1711804900153 = 1125
+2024-03-30T13:21:41.281057700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901281 - 1711804900153 = 1128
+2024-03-30T13:21:41.285056500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901285 - 1711804900153 = 1132
+2024-03-30T13:21:41.287057800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901287 - 1711804900153 = 1134
+2024-03-30T13:21:41.290055100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901290 - 1711804900153 = 1137
+2024-03-30T13:21:41.294057300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901294 - 1711804900153 = 1141
+2024-03-30T13:21:41.297056600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901297 - 1711804900153 = 1144
+2024-03-30T13:21:41.300057Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901300 - 1711804900153 = 1147
+2024-03-30T13:21:41.304056100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901304 - 1711804900153 = 1151
+2024-03-30T13:21:41.307055200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901307 - 1711804900153 = 1154
+2024-03-30T13:21:41.311058Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901311 - 1711804900153 = 1158
+2024-03-30T13:21:41.315055100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901315 - 1711804900153 = 1162
+2024-03-30T13:21:41.318055400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901318 - 1711804900153 = 1165
+2024-03-30T13:21:41.321053900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901321 - 1711804900153 = 1168
+2024-03-30T13:21:41.325057300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901325 - 1711804900153 = 1172
+2024-03-30T13:21:41.329058400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901329 - 1711804900153 = 1176
+2024-03-30T13:21:41.332605500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901332 - 1711804900153 = 1179
+2024-03-30T13:21:41.335580600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901335 - 1711804900153 = 1182
+2024-03-30T13:21:41.338580800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901338 - 1711804900153 = 1185
+2024-03-30T13:21:41.342584500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901342 - 1711804900153 = 1189
+2024-03-30T13:21:41.347581100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901347 - 1711804900153 = 1194
+2024-03-30T13:21:41.351583200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901351 - 1711804900153 = 1198
+2024-03-30T13:21:41.356581400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901356 - 1711804900153 = 1203
+2024-03-30T13:21:41.360583700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901360 - 1711804900153 = 1207
+2024-03-30T13:21:41.364582Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901364 - 1711804900153 = 1211
+2024-03-30T13:21:41.368581600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901368 - 1711804900153 = 1215
+2024-03-30T13:21:41.372580900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901372 - 1711804900153 = 1219
+2024-03-30T13:21:41.375582500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901375 - 1711804900153 = 1222
+2024-03-30T13:21:41.659200800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901659 - 1711804900153 = 1506
+2024-03-30T13:21:41.662200600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901662 - 1711804900153 = 1509
+2024-03-30T13:21:41.666201Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901666 - 1711804900153 = 1513
+2024-03-30T13:21:41.669200800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901669 - 1711804900153 = 1516
+2024-03-30T13:21:41.673198700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901673 - 1711804900153 = 1520
+2024-03-30T13:21:41.677204600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901676 - 1711804900153 = 1523
+2024-03-30T13:21:41.680201Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901680 - 1711804900153 = 1527
+2024-03-30T13:21:41.684201900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901684 - 1711804900153 = 1531
+2024-03-30T13:21:41.687201100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901687 - 1711804900153 = 1534
+2024-03-30T13:21:41.690203300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901690 - 1711804900153 = 1537
+2024-03-30T13:21:41.693200600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901693 - 1711804900153 = 1540
+2024-03-30T13:21:41.697199800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901697 - 1711804900153 = 1544
+2024-03-30T13:21:41.700200800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901700 - 1711804900153 = 1547
+2024-03-30T13:21:41.704202800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901704 - 1711804900153 = 1551
+2024-03-30T13:21:41.707201200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901707 - 1711804900153 = 1554
+2024-03-30T13:21:41.710202100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901710 - 1711804900153 = 1557
+2024-03-30T13:21:41.714201800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901714 - 1711804900153 = 1561
+2024-03-30T13:21:41.718201300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901718 - 1711804900153 = 1565
+2024-03-30T13:21:41.721199700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901721 - 1711804900153 = 1568
+2024-03-30T13:21:41.724205100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901724 - 1711804900153 = 1571
+2024-03-30T13:21:41.729722700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901729 - 1711804900153 = 1576
+2024-03-30T13:21:41.732733600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901732 - 1711804900153 = 1579
+2024-03-30T13:21:41.736727700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901736 - 1711804900153 = 1583
+2024-03-30T13:21:41.740726200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901739 - 1711804900153 = 1586
+2024-03-30T13:21:41.743730700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901743 - 1711804900153 = 1590
+2024-03-30T13:21:41.746723400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901746 - 1711804900153 = 1593
+2024-03-30T13:21:41.749726Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901749 - 1711804900153 = 1596
+2024-03-30T13:21:41.752722500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901752 - 1711804900153 = 1599
+2024-03-30T13:21:41.756722900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901756 - 1711804900153 = 1603
+2024-03-30T13:21:41.759727Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901759 - 1711804900153 = 1606
+2024-03-30T13:21:41.762723900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901762 - 1711804900153 = 1609
+2024-03-30T13:21:41.765725700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901765 - 1711804900153 = 1612
+2024-03-30T13:21:41.769725100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901769 - 1711804900153 = 1616
+2024-03-30T13:21:41.773725100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901773 - 1711804900153 = 1620
+2024-03-30T13:21:41.777725100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901776 - 1711804900153 = 1623
+2024-03-30T13:21:41.781776Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901781 - 1711804900153 = 1628
+2024-03-30T13:21:41.784775800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901784 - 1711804900153 = 1631
+2024-03-30T13:21:41.787775500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901787 - 1711804900153 = 1634
+2024-03-30T13:21:41.791889500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901791 - 1711804900153 = 1638
+2024-03-30T13:21:41.794890900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901794 - 1711804900153 = 1641
+2024-03-30T13:21:41.797889800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901797 - 1711804900153 = 1644
+2024-03-30T13:21:41.801893800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901801 - 1711804900153 = 1648
+2024-03-30T13:21:41.805889800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901805 - 1711804900153 = 1652
+2024-03-30T13:21:41.817895600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901817 - 1711804900153 = 1664
+2024-03-30T13:21:41.821890Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901821 - 1711804900153 = 1668
+2024-03-30T13:21:41.825890Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901825 - 1711804900153 = 1672
+2024-03-30T13:21:41.831888900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901831 - 1711804900153 = 1678
+2024-03-30T13:21:41.835888300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901835 - 1711804900153 = 1682
+2024-03-30T13:21:41.839896800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901839 - 1711804900153 = 1686
+2024-03-30T13:21:41.844888400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901844 - 1711804900153 = 1691
+2024-03-30T13:21:41.848888700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901848 - 1711804900153 = 1695
+2024-03-30T13:21:41.852888900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901852 - 1711804900153 = 1699
+2024-03-30T13:21:41.855889Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901855 - 1711804900153 = 1702
+2024-03-30T13:21:41.858891300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901858 - 1711804900153 = 1705
+2024-03-30T13:21:41.862889100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901862 - 1711804900153 = 1709
+2024-03-30T13:21:41.865892300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901865 - 1711804900153 = 1712
+2024-03-30T13:21:41.869894700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901869 - 1711804900153 = 1716
+2024-03-30T13:21:41.874889100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901874 - 1711804900153 = 1721
+2024-03-30T13:21:41.879890700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901879 - 1711804900153 = 1726
+2024-03-30T13:21:41.883889600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901883 - 1711804900153 = 1730
+2024-03-30T13:21:41.924889800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901924 - 1711804900153 = 1771
+2024-03-30T13:21:41.929889500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901929 - 1711804900153 = 1776
+2024-03-30T13:21:41.933889500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901932 - 1711804900153 = 1779
+2024-03-30T13:21:41.936890500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901936 - 1711804900153 = 1783
+2024-03-30T13:21:41.940890400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901940 - 1711804900153 = 1787
+2024-03-30T13:21:41.946895400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901946 - 1711804900153 = 1793
+2024-03-30T13:21:41.950893600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901950 - 1711804900153 = 1797
+2024-03-30T13:21:41.958887700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901958 - 1711804900153 = 1805
+2024-03-30T13:21:41.963891100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901963 - 1711804900153 = 1810
+2024-03-30T13:21:41.967888400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901967 - 1711804900153 = 1814
+2024-03-30T13:21:41.971890300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901971 - 1711804900153 = 1818
+2024-03-30T13:21:41.974889800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901974 - 1711804900153 = 1821
+2024-03-30T13:21:41.978890100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901978 - 1711804900153 = 1825
+2024-03-30T13:21:41.981890200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901981 - 1711804900153 = 1828
+2024-03-30T13:21:41.984890800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901984 - 1711804900153 = 1831
+2024-03-30T13:21:41.988894400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901988 - 1711804900153 = 1835
+2024-03-30T13:21:41.992888200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901992 - 1711804900153 = 1839
+2024-03-30T13:21:41.995890600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901995 - 1711804900153 = 1842
+2024-03-30T13:21:41.999888Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804901999 - 1711804900153 = 1846
+2024-03-30T13:21:42.002890900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902002 - 1711804900153 = 1849
+2024-03-30T13:21:42.005890800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902005 - 1711804900153 = 1852
+2024-03-30T13:21:42.009895800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902009 - 1711804900153 = 1856
+2024-03-30T13:21:42.012891700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902012 - 1711804900153 = 1859
+2024-03-30T13:21:42.016890600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902016 - 1711804900153 = 1863
+2024-03-30T13:21:42.019892Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902019 - 1711804900153 = 1866
+2024-03-30T13:21:42.023889600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902023 - 1711804900153 = 1870
+2024-03-30T13:21:42.029889Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902029 - 1711804900153 = 1876
+2024-03-30T13:21:42.032893800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902032 - 1711804900153 = 1879
+2024-03-30T13:21:42.036890100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902036 - 1711804900153 = 1883
+2024-03-30T13:21:42.039890600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902039 - 1711804900153 = 1886
+2024-03-30T13:21:42.043899800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902043 - 1711804900153 = 1890
+2024-03-30T13:21:42.047892300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902047 - 1711804900153 = 1894
+2024-03-30T13:21:42.050942100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902050 - 1711804900153 = 1897
+2024-03-30T13:21:42.053941300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902053 - 1711804900153 = 1900
+2024-03-30T13:21:42.057943400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902057 - 1711804900153 = 1904
+2024-03-30T13:21:42.065947400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902065 - 1711804900153 = 1912
+2024-03-30T13:21:42.068942900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902068 - 1711804900153 = 1915
+2024-03-30T13:21:42.072946Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902072 - 1711804900153 = 1919
+2024-03-30T13:21:42.076944700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902076 - 1711804900153 = 1923
+2024-03-30T13:21:42.079944900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902079 - 1711804900153 = 1926
+2024-03-30T13:21:42.083944600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902083 - 1711804900153 = 1930
+2024-03-30T13:21:42.094945400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902094 - 1711804900153 = 1941
+2024-03-30T13:21:42.097946800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902097 - 1711804900153 = 1944
+2024-03-30T13:21:42.100944200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902100 - 1711804900153 = 1947
+2024-03-30T13:21:42.103949900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902103 - 1711804900153 = 1950
+2024-03-30T13:21:42.106943400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902106 - 1711804900153 = 1953
+2024-03-30T13:21:42.109943500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902109 - 1711804900153 = 1956
+2024-03-30T13:21:42.113941500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902113 - 1711804900153 = 1960
+2024-03-30T13:21:42.116943200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902116 - 1711804900153 = 1963
+2024-03-30T13:21:42.119943600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902119 - 1711804900153 = 1966
+2024-03-30T13:21:42.123942700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902123 - 1711804900153 = 1970
+2024-03-30T13:21:42.131941900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902131 - 1711804900153 = 1978
+2024-03-30T13:21:42.134941200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902134 - 1711804900153 = 1981
+2024-03-30T13:21:42.137942200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902137 - 1711804900153 = 1984
+2024-03-30T13:21:42.140942700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902140 - 1711804900153 = 1987
+2024-03-30T13:21:42.144941800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902144 - 1711804900153 = 1991
+2024-03-30T13:21:42.148941400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902148 - 1711804900153 = 1995
+2024-03-30T13:21:42.157942900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902157 - 1711804900153 = 2004
+2024-03-30T13:21:42.161944200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902161 - 1711804900153 = 2008
+2024-03-30T13:21:42.164942700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902164 - 1711804900153 = 2011
+2024-03-30T13:21:42.168941500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902168 - 1711804900153 = 2015
+2024-03-30T13:21:42.171948Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902171 - 1711804900153 = 2018
+2024-03-30T13:21:42.174944Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902174 - 1711804900153 = 2021
+2024-03-30T13:21:42.180946400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902180 - 1711804900153 = 2027
+2024-03-30T13:21:42.183942800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902183 - 1711804900153 = 2030
+2024-03-30T13:21:42.187943500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902187 - 1711804900153 = 2034
+2024-03-30T13:21:42.190940900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902190 - 1711804900153 = 2037
+2024-03-30T13:21:42.194949500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902194 - 1711804900153 = 2041
+2024-03-30T13:21:42.198944200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902198 - 1711804900153 = 2045
+2024-03-30T13:21:42.202948200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902202 - 1711804900153 = 2049
+2024-03-30T13:21:42.207941900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902207 - 1711804900153 = 2054
+2024-03-30T13:21:42.219944600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902219 - 1711804900153 = 2066
+2024-03-30T13:21:42.223942200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902223 - 1711804900153 = 2070
+2024-03-30T13:21:42.227943Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902227 - 1711804900153 = 2074
+2024-03-30T13:21:42.231940800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902231 - 1711804900153 = 2078
+2024-03-30T13:21:42.234945200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902234 - 1711804900153 = 2081
+2024-03-30T13:21:42.237945200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902237 - 1711804900153 = 2084
+2024-03-30T13:21:42.242942700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902242 - 1711804900153 = 2089
+2024-03-30T13:21:42.245943100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902245 - 1711804900153 = 2092
+2024-03-30T13:21:42.248944400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902248 - 1711804900153 = 2095
+2024-03-30T13:21:42.252946400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902252 - 1711804900153 = 2099
+2024-03-30T13:21:42.255940600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902255 - 1711804900153 = 2102
+2024-03-30T13:21:42.259944300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902259 - 1711804900153 = 2106
+2024-03-30T13:21:42.262941800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902262 - 1711804900153 = 2109
+2024-03-30T13:21:42.266941800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902266 - 1711804900153 = 2113
+2024-03-30T13:21:42.270028900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902270 - 1711804900153 = 2117
+2024-03-30T13:21:42.273011900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902273 - 1711804900153 = 2120
+2024-03-30T13:21:42.278012200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902278 - 1711804900153 = 2125
+2024-03-30T13:21:42.282070200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902282 - 1711804900153 = 2129
+2024-03-30T13:21:42.286072600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902286 - 1711804900153 = 2133
+2024-03-30T13:21:42.289071700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902289 - 1711804900153 = 2136
+2024-03-30T13:21:42.307069700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902307 - 1711804900153 = 2154
+2024-03-30T13:21:42.310070300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902310 - 1711804900153 = 2157
+2024-03-30T13:21:42.313069900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902313 - 1711804900153 = 2160
+2024-03-30T13:21:42.316069500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902316 - 1711804900153 = 2163
+2024-03-30T13:21:42.320069600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902320 - 1711804900153 = 2167
+2024-03-30T13:21:42.323067900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902323 - 1711804900153 = 2170
+2024-03-30T13:21:42.327071400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902327 - 1711804900153 = 2174
+2024-03-30T13:21:42.331070Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902331 - 1711804900153 = 2178
+2024-03-30T13:21:42.334070400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902334 - 1711804900153 = 2181
+2024-03-30T13:21:42.337071400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902337 - 1711804900153 = 2184
+2024-03-30T13:21:42.341073200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902341 - 1711804900153 = 2188
+2024-03-30T13:21:42.345069800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902344 - 1711804900153 = 2191
+2024-03-30T13:21:42.348070900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902348 - 1711804900153 = 2195
+2024-03-30T13:21:42.351070800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902351 - 1711804900153 = 2198
+2024-03-30T13:21:42.355070300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902355 - 1711804900153 = 2202
+2024-03-30T13:21:42.358069200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902358 - 1711804900153 = 2205
+2024-03-30T13:21:42.362069100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902362 - 1711804900153 = 2209
+2024-03-30T13:21:42.365069800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902365 - 1711804900153 = 2212
+2024-03-30T13:21:42.368068600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902368 - 1711804900153 = 2215
+2024-03-30T13:21:42.372068900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902372 - 1711804900153 = 2219
+2024-03-30T13:21:42.376070100Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902376 - 1711804900153 = 2223
+2024-03-30T13:21:42.379070500Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902379 - 1711804900153 = 2226
+2024-03-30T13:21:42.382072900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902382 - 1711804900153 = 2229
+2024-03-30T13:21:42.386069700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902386 - 1711804900153 = 2233
+2024-03-30T13:21:42.389070800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902389 - 1711804900153 = 2236
+2024-03-30T13:21:42.392068600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902392 - 1711804900153 = 2239
+2024-03-30T13:21:42.395070900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902395 - 1711804900153 = 2242
+2024-03-30T13:21:42.399069400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902399 - 1711804900153 = 2246
+2024-03-30T13:21:42.404072400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902404 - 1711804900153 = 2251
+2024-03-30T13:21:42.408070600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902408 - 1711804900153 = 2255
+2024-03-30T13:21:42.412074800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902412 - 1711804900153 = 2259
+2024-03-30T13:21:42.416070400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902416 - 1711804900153 = 2263
+2024-03-30T13:21:42.420070200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902420 - 1711804900153 = 2267
+2024-03-30T13:21:42.423069Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902423 - 1711804900153 = 2270
+2024-03-30T13:21:42.426067700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902426 - 1711804900153 = 2273
+2024-03-30T13:21:42.430068900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902430 - 1711804900153 = 2277
+2024-03-30T13:21:42.434070300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902434 - 1711804900153 = 2281
+2024-03-30T13:21:42.437069600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902437 - 1711804900153 = 2284
+2024-03-30T13:21:42.441071400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902441 - 1711804900153 = 2288
+2024-03-30T13:21:42.445069800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902445 - 1711804900153 = 2292
+2024-03-30T13:21:42.449069Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902449 - 1711804900153 = 2296
+2024-03-30T13:21:42.452069300Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902452 - 1711804900153 = 2299
+2024-03-30T13:21:42.456069900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902456 - 1711804900153 = 2303
+2024-03-30T13:21:42.460072Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902460 - 1711804900153 = 2307
+2024-03-30T13:21:42.464069700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902463 - 1711804900153 = 2310
+2024-03-30T13:21:42.708113900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902708 - 1711804900153 = 2555
+2024-03-30T13:21:42.712112400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902712 - 1711804900153 = 2559
+2024-03-30T13:21:42.715114800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902715 - 1711804900153 = 2562
+2024-03-30T13:21:42.718114900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902718 - 1711804900153 = 2565
+2024-03-30T13:21:42.722117400Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902722 - 1711804900153 = 2569
+2024-03-30T13:21:42.725112800Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902725 - 1711804900153 = 2572
+2024-03-30T13:21:42.729120200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902728 - 1711804900153 = 2575
+2024-03-30T13:21:42.732115900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902732 - 1711804900153 = 2579
+2024-03-30T13:21:42.736114600Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902736 - 1711804900153 = 2583
+2024-03-30T13:21:42.739115Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902739 - 1711804900153 = 2586
+2024-03-30T13:21:42.743135200Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902743 - 1711804900153 = 2590
+2024-03-30T13:21:42.747114700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902747 - 1711804900153 = 2594
+2024-03-30T13:21:42.750113Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902750 - 1711804900153 = 2597
+2024-03-30T13:21:42.753113700Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902753 - 1711804900153 = 2600
+2024-03-30T13:21:42.756115900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902756 - 1711804900153 = 2603
+2024-03-30T13:21:42.760114Z >> ManagerControllerThread : run() >> Epoch not reached ! 1711804902760 - 1711804900153 = 2607
+2024-03-30T13:21:42.763113800Z >> TagCollectorThread >> run >> back to mainLoop
