@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import org.obi.services.Docking.ConnectionFrame;
 import org.obi.services.Docking.MainWindowDocking;
-import org.obi.services.Form.SettingsApplicationFrame;
+import org.obi.services.Docking.SettingsApplicationFrame;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.listener.DatabaseInfoActionListener;
 import org.obi.services.util.Settings;

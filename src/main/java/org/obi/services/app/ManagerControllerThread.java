@@ -114,8 +114,6 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
 
         // Récupération des facades de communication bdd
         MachinesFacade machinesFacade = new MachinesFacade(Machines.class);
-        TagsFacade tagsFacade = TagsFacade.getInstance();
-        TagsTypesFacade tagsTypesFacade = new TagsTypesFacade(TagsTypes.class);
 
         // Int Main Loop 
         Integer mainLoop = 0;

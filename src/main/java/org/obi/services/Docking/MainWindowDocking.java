@@ -859,6 +859,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                 }
             }
         });
+        outputMenuItem.setEnabled(false);
 
         /// DISPLAY MENU - SETUP
         displayMenu = new JMenu();
@@ -941,6 +942,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                 }
             }
         });
+        configMenuItem.setEnabled(false);
 
         /// EDIT MENU - SETUP
         editMenu = new JMenu();
