@@ -8,9 +8,8 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import org.obi.services.Docking.ConnectionFrame;
 import org.obi.services.Docking.MainWindowDocking;
-import org.obi.services.Form.ConnectionFrame;
-import org.obi.services.Form.MainWindow;
 import org.obi.services.Form.SettingsApplicationFrame;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.listener.DatabaseInfoActionListener;
@@ -116,8 +115,8 @@ public class OBIServiceTrayIcon {
 
         // MainWindow Setup
         //
-        MainWindow mw = new MainWindow(trayIcon, managerCtrlThread);
-        mw.setLocation(100, 100);
+        MainWindowDocking mw = new MainWindowDocking(trayIcon, managerCtrlThread);
+        
 
         //
         // 0 - Create a popup menu components
@@ -206,8 +205,8 @@ public class OBIServiceTrayIcon {
         MenuItem connexionPLCMenuItem = new MenuItem("Connexions PLC");
         connexionPLCMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ConnectionFrame cf = new ConnectionFrame(trayIcon);
-                cf.setVisible(true);
+                //ConnectionFrame cf = new ConnectionFrame(trayIcon);
+                //cf.setVisible(true);
             }
         });
 
@@ -310,16 +309,16 @@ public class OBIServiceTrayIcon {
                     //break;
                 } catch (ClassNotFoundException ex) {
                     Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InstantiationException ex) {
                     Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IllegalAccessException ex) {
                     Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (UnsupportedLookAndFeelException ex) {
                     Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

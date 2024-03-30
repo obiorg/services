@@ -31,10 +31,8 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.obi.services.Form.ConnectionFrame;
 import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.Form.DatabaseInformations;
-import org.obi.services.Docking.SettingsApplicationFrame;
 import org.obi.services.Form.output.CapturePane;
 import org.obi.services.Form.output.StreamCapturer;
 import org.obi.services.OBIServiceTrayIcon;
@@ -211,7 +209,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 
         createRootWindow();
         setDefaultLayout();
-        showFrame();
+        initComponents();
 
         this.trayIcon = trayIcon;
         this.managerCtrlThread = managerCtrlThread;
@@ -290,7 +288,16 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         views[1] = new View("Configurations", VIEW_ICON, settingsApplicationFrame);
         viewMap.addView(1, views[1]);
         mainTabWindow.add(views[1]);
+        views[1].setEnabled(true);
         views[1].close();
+
+        // Connection 
+        connectionsFrame = new ConnectionFrame();
+        views[2] = new View("S7 Connexions", Ico.i16("/img/std/Refresh.png", this), connectionsFrame);
+        viewMap.addView(2, views[2]);
+        mainTabWindow.add(views[2]);
+        views[2].setEnabled(false);
+        views[2].close();
 
         // Create a custom view button and add it to view 2
 //        JButton button = new JButton(BUTTON_ICON);
@@ -400,14 +407,6 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     }
 
     /**
-     * Initializes the frame and shows it.
-     */
-    private void showFrame() {
-        initComponents();
-
-    }
-
-    /**
      * Creates the frame tool bar.
      *
      * @return the frame tool bar
@@ -422,224 +421,6 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             }
         });
         return toolBar;
-    }
-
-    /**
-     * Creates the frame menu bar.
-     *
-     * @return the menu bar
-     */
-    private JMenuBar createMenuBar() {
-        menuBar.add(createLayoutMenu());
-        menuBar.add(createFocusViewMenu());
-        menuBar.add(createThemesMenu());
-        menuBar.add(createPropertiesMenu());
-        menuBar.add(createWindowBarsMenu());
-        menuBar.add(createViewMenu());
-        return menuBar;
-    }
-
-    /**
-     * Creates the menu where layout can be saved and loaded.
-     *
-     * @return the layout menu
-     */
-    private JMenu createLayoutMenu() {
-        JMenu layoutMenu = new JMenu("Layout");
-
-        layoutMenu.add("Default Layout").addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setDefaultLayout();
-            }
-        });
-
-        layoutMenu.addSeparator();
-
-        for (int i = 0; i < layouts.length; i++) {
-            final int j = i;
-
-            layoutMenu.add("Save Layout " + i).addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        // Save the layout in a byte array
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        ObjectOutputStream out = new ObjectOutputStream(bos);
-                        rootWindow.write(out, false);
-                        out.close();
-                        layouts[j] = bos.toByteArray();
-                    } catch (IOException e1) {
-                        throw new RuntimeException(e1);
-                    }
-                }
-            });
-        }
-
-        layoutMenu.addSeparator();
-
-        for (int i = 0; i < layouts.length; i++) {
-            final int j = i;
-
-            layoutMenu.add("Load Layout " + j).addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            if (layouts[j] != null) {
-                                try {
-                                    // Load the layout from a byte array
-                                    ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(layouts[j]));
-                                    rootWindow.read(in, true);
-                                    in.close();
-                                } catch (IOException e1) {
-                                    throw new RuntimeException(e1);
-                                }
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        return layoutMenu;
-    }
-
-    /**
-     * Creates the menu where views can be shown and focused.
-     *
-     * @return the focus view menu
-     */
-    private JMenu createFocusViewMenu() {
-        JMenu viewsMenu = new JMenu("Focus View");
-
-        for (int i = 0; i < views.length; i++) {
-            final View view = views[i];
-            if (view != null) {
-                System.out.println("View :" + view.getTitle());
-                viewsMenu.add("Focus " + view.getTitle()).addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                // Ensure the view is shown in the root window
-                                DockingUtil.addWindow(view, rootWindow);
-
-                                // Transfer focus to the view
-                                view.restoreFocus();
-                            }
-                        });
-                    }
-                });
-            } else {
-                Util.out("MainWindowDocking >> CreateFocusViewMenu : "
-                        + "views[" + i + "] is null !");
-            }
-        }
-
-        return viewsMenu;
-    }
-
-    /**
-     * Creates the menu where different property values can be modified.
-     *
-     * @return the properties menu
-     */
-    private JMenu createPropertiesMenu() {
-        JMenu buttonsMenu = new JMenu("Properties");
-
-        buttonsMenu.add("Enable Close").addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                properties.getDockingWindowProperties().setCloseEnabled(true);
-            }
-        });
-
-        buttonsMenu.add("Hide Close Buttons").addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                properties.getDockingWindowProperties().setCloseEnabled(false);
-            }
-        });
-
-        buttonsMenu.add("Freeze Layout").addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Disable window operations
-                properties.getDockingWindowProperties().setDragEnabled(false);
-                properties.getDockingWindowProperties().setCloseEnabled(false);
-                properties.getDockingWindowProperties().setMinimizeEnabled(false);
-                properties.getDockingWindowProperties().setRestoreEnabled(false);
-                properties.getDockingWindowProperties().setMaximizeEnabled(false);
-
-                // Enable tab reordering inside tabbed panel
-                properties.getTabWindowProperties().getTabbedPanelProperties().setTabReorderEnabled(true);
-            }
-        });
-
-        buttonsMenu.add("Unfreeze Layout").addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Enable window operations
-                properties.getDockingWindowProperties().setDragEnabled(true);
-                properties.getDockingWindowProperties().setCloseEnabled(true);
-                properties.getDockingWindowProperties().setMinimizeEnabled(true);
-                properties.getDockingWindowProperties().setRestoreEnabled(true);
-                properties.getDockingWindowProperties().setMaximizeEnabled(true);
-
-                // Disable tab reordering inside tabbed panel
-                properties.getTabWindowProperties().getTabbedPanelProperties().setTabReorderEnabled(false);
-            }
-        });
-
-        return buttonsMenu;
-    }
-
-    /**
-     * Creates the menu where individual window bars can be enabled and
-     * disabled.
-     *
-     * @return the window bar menu
-     */
-    private JMenu createWindowBarsMenu() {
-        JMenu barsMenu = new JMenu("Window Bars");
-
-        for (int i = 0; i < 4; i++) {
-            final Direction d = Direction.getDirections()[i];
-            JCheckBoxMenuItem item = new JCheckBoxMenuItem("Toggle " + d);
-            item.setSelected(d == Direction.DOWN);
-            barsMenu.add(item).addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    // Enable/disable the window bar
-                    rootWindow.getWindowBar(d).setEnabled(!rootWindow.getWindowBar(d).isEnabled());
-                }
-            });
-        }
-
-        return barsMenu;
-    }
-
-    /**
-     * Creates the menu where not shown views can be shown.
-     *
-     * @return the view menu
-     */
-    private JMenu createViewMenu() {
-        JMenu menu = new JMenu("Views");
-
-        for (int i = 0; i < views.length; i++) {
-            final View view = views[i];
-            if (view != null) {
-                viewItems[i] = new JMenuItem(view.getTitle());
-                viewItems[i].setEnabled(views[i].getRootWindow() == null);
-                menu.add(viewItems[i]).addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (view.getRootWindow() != null) {
-                            view.restoreFocus();
-                        } else {
-                            DockingUtil.addWindow(view, rootWindow);
-                        }
-                    }
-                });
-            } else {
-                Util.out("MainWindowDocking >> createViewMenu : "
-                        + "views[" + i + "] is null !");
-            }
-        }
-
-        return menu;
     }
 
     /**
@@ -819,14 +600,21 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * @param evt event
      */
     private void configMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-        // Dedicated view [1] : Application configuration
-        mainTabWindow.add(views[2]);
-        if (SettingsApplicationFrame.openFrameCount == 0) {
 
+        if (views[1].getRootWindow() != null) {
+            views[1].restoreFocus();
         } else {
-//            revalidate();
-//            repaint();
+            DockingUtil.addWindow(views[1], rootWindow);
         }
+
+        // Dedicated view [1] : Application configuration
+//        mainTabWindow.add(views[2]);
+//        if (SettingsApplicationFrame.openFrameCount == 0) {
+//
+//        } else {
+////            revalidate();
+////            repaint();
+//        }
         //settingsApplicationFrame.setVisible(true);
 //        try {
 //            settingsApplicationFrame.setMaximum(true);
@@ -834,7 +622,6 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 //        } catch (PropertyVetoException ex) {
 //            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
     }
 
     /**
@@ -1121,6 +908,13 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         displayMenu.setText(bundle.getString("Window")); // NOI18N
         displayMenu.setToolTipText("Gérer les fenêtres d'affichage");
         displayMenu.add(databaseInfoMenu);
+        displayMenu.add(new JPopupMenu.Separator());
+        displayMenu.add(createLayoutMenu());
+        displayMenu.add(createFocusViewMenu());
+        displayMenu.add(createPropertiesMenu());
+        displayMenu.add(new JPopupMenu.Separator());
+        displayMenu.add(createWindowBarsMenu());
+        displayMenu.add(createViewMenu());
 
         //> TOOLS MENU - connectionsMenuItem
         connectionsMenuItem = new JMenuItem();
@@ -1166,10 +960,12 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         toolsMenu.add(stopTagCollectorMenuItem);
 
         //> EDIT MENU - configMenuItem
+        final View view = views[1];
         configMenuItem = new JMenuItem();
         configMenuItem.setIcon(Ico.i16("/img/oz/config.png", this));
         configMenuItem.setMnemonic('t');
-        configMenuItem.setText("Application");
+        configMenuItem.setText(view.getTitle());
+        configMenuItem.setEnabled(views[1].getRootWindow() == null);
         configMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 configMenuItemActionPerformed(evt);
@@ -1261,13 +1057,11 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         frame.setName("MainWindowFrame"); // NOI18N
         frame.setSize(new java.awt.Dimension(1024, 680));
 
-        //frame.getContentPane().add(createToolBar(), BorderLayout.NORTH);
+        frame.getContentPane().add(createToolBar(), BorderLayout.NORTH);
         frame.getContentPane().add(mainToolBar, BorderLayout.NORTH);
         frame.getContentPane().add(rootWindow, BorderLayout.CENTER);
-        frame.setJMenuBar(createMenuBar());
-//        frame.setJMenuBar(menuBar);
+        frame.setJMenuBar(menuBar);
         frame.setSize(900, 700);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
@@ -1307,6 +1101,220 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         }
 
         return themesMenu;
+    }
+
+    /**
+     * Creates the menu where views can be shown and focused.
+     *
+     * @return the focus view menu
+     */
+    private JMenu createFocusViewMenu() {
+        JMenu viewsMenu = new JMenu("Focus fenêtre");
+
+        for (int i = 0; i < views.length; i++) {
+            final View view = views[i];
+            if (view != null) {
+                System.out.println("View :" + view.getTitle());
+                viewsMenu.add("Focus " + view.getTitle()).addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                // Ensure the view is shown in the root window
+                                DockingUtil.addWindow(view, rootWindow);
+
+                                // Transfer focus to the view
+                                view.restoreFocus();
+                            }
+                        });
+                    }
+                });
+            } else {
+                Util.out("MainWindowDocking >> CreateFocusViewMenu : "
+                        + "views[" + i + "] is null !");
+            }
+        }
+
+        return viewsMenu;
+    }
+
+    /**
+     * Creates the menu where different property values can be modified.
+     *
+     * @return the properties menu
+     */
+    private JMenu createPropertiesMenu() {
+        JMenu buttonsMenu = new JMenu("Propriétés docking");
+
+        buttonsMenu.add("Fermeture activée").addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                properties.getDockingWindowProperties().setCloseEnabled(true);
+            }
+        });
+
+        buttonsMenu.add("Fermeture désactivée").addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                properties.getDockingWindowProperties().setCloseEnabled(false);
+            }
+        });
+
+        buttonsMenu.add("Bloquer Layout").addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Disable window operations
+                properties.getDockingWindowProperties().setDragEnabled(false);
+                properties.getDockingWindowProperties().setCloseEnabled(false);
+                properties.getDockingWindowProperties().setMinimizeEnabled(false);
+                properties.getDockingWindowProperties().setRestoreEnabled(false);
+                properties.getDockingWindowProperties().setMaximizeEnabled(false);
+
+                // Enable tab reordering inside tabbed panel
+                properties.getTabWindowProperties().getTabbedPanelProperties().setTabReorderEnabled(true);
+            }
+        });
+
+        buttonsMenu.add("Libérer Layout").addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Enable window operations
+                properties.getDockingWindowProperties().setDragEnabled(true);
+                properties.getDockingWindowProperties().setCloseEnabled(true);
+                properties.getDockingWindowProperties().setMinimizeEnabled(true);
+                properties.getDockingWindowProperties().setRestoreEnabled(true);
+                properties.getDockingWindowProperties().setMaximizeEnabled(true);
+
+                // Disable tab reordering inside tabbed panel
+                properties.getTabWindowProperties().getTabbedPanelProperties().setTabReorderEnabled(false);
+            }
+        });
+
+        return buttonsMenu;
+    }
+
+    /**
+     * Creates the menu where layout can be saved and loaded.
+     *
+     * @return the layout menu
+     */
+    private JMenu createLayoutMenu() {
+        JMenu layoutMenu = new JMenu("Layout");
+
+        layoutMenu.add("Layout (par défaut)").addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setDefaultLayout();
+            }
+        });
+
+        layoutMenu.addSeparator();
+
+        for (int i = 0; i < layouts.length; i++) {
+            final int j = i;
+
+            layoutMenu.add("Sauver Layout " + i).addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        // Save the layout in a byte array
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        ObjectOutputStream out = new ObjectOutputStream(bos);
+                        rootWindow.write(out, false);
+                        out.close();
+                        layouts[j] = bos.toByteArray();
+                    } catch (IOException e1) {
+                        throw new RuntimeException(e1);
+                    }
+                }
+            });
+        }
+
+        layoutMenu.addSeparator();
+
+        for (int i = 0; i < layouts.length; i++) {
+            final int j = i;
+
+            layoutMenu.add("Charger Layout" + j).addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            if (layouts[j] != null) {
+                                try {
+                                    // Load the layout from a byte array
+                                    ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(layouts[j]));
+                                    rootWindow.read(in, true);
+                                    in.close();
+                                } catch (IOException e1) {
+                                    throw new RuntimeException(e1);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        return layoutMenu;
+    }
+
+    /**
+     * Creates the menu where individual window bars can be enabled and
+     * disabled.
+     *
+     * @return the window bar menu
+     */
+    private JMenu createWindowBarsMenu() {
+        JMenu barsMenu = new JMenu("Barre de fenêtre");
+
+        for (int i = 0; i < 4; i++) {
+            final Direction d = Direction.getDirections()[i];
+            String tmp = "haut";
+            if (d.toString().matches("Up")) {
+                tmp = "le Haut";
+            } else if (d.toString().matches("Right")) {
+                tmp = "la Droite";
+            } else if (d.toString().matches("Down")) {
+                tmp = "le Bas";
+            } else if (d.toString().matches("Left")) {
+                tmp = "la Gauche";
+            }
+
+            JCheckBoxMenuItem item = new JCheckBoxMenuItem("Vers " + tmp);
+            item.setSelected(d == Direction.DOWN);
+            barsMenu.add(item).addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    // Enable/disable the window bar
+                    rootWindow.getWindowBar(d).setEnabled(!rootWindow.getWindowBar(d).isEnabled());
+                }
+            });
+        }
+
+        return barsMenu;
+    }
+
+    /**
+     * Creates the menu where not shown views can be shown.
+     *
+     * @return the view menu
+     */
+    private JMenu createViewMenu() {
+        JMenu menu = new JMenu("Fenêtres");
+
+        for (int i = 0; i < views.length; i++) {
+            final View view = views[i];
+            if (view != null) {
+                viewItems[i] = new JMenuItem(view.getTitle());
+                viewItems[i].setEnabled(views[i].getRootWindow() == null);
+                menu.add(viewItems[i]).addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (view.getRootWindow() != null) {
+                            view.restoreFocus();
+                        } else {
+                            DockingUtil.addWindow(view, rootWindow);
+                        }
+                    }
+                });
+            } else {
+                Util.out("MainWindowDocking >> createViewMenu : "
+                        + "views[" + i + "] is null !");
+            }
+        }
+
+        return menu;
     }
 
     /**
