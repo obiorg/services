@@ -5,7 +5,6 @@
 package org.obi.services.listener;
 
 import org.obi.services.app.TagsCollectorThread;
-import org.obi.services.entities.Machines;
 
 /**
  *

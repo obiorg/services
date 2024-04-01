@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.Form.DatabaseInformations;
+import org.obi.services.Form.DatabaseInformationsFrame;
 import org.obi.services.OBIServiceTrayIcon;
 import org.obi.services.model.DatabaseModel;
 
@@ -38,7 +38,7 @@ public class DatabaseInfoActionListener implements ActionListener {
                 System.out.println("Product name: " + dm.getDatabaseProductName());
                 System.out.println("Product version: " + dm.getDatabaseProductVersion());
                 
-                DatabaseInformations dbiForm = new DatabaseInformations(new Frame(), true);
+                DatabaseInformationsFrame dbiForm = new DatabaseInformationsFrame(new Frame(), true);
                 dbiForm.doUpdateWithDatabaseMetaData(dm);
                 dbiForm.show();
                 

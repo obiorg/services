@@ -8,13 +8,11 @@ import org.obi.services.listener.TagsCollectorThreadListener;
 import java.awt.TrayIcon;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.obi.services.entities.Machines;
-import org.obi.services.entities.Tags;
-import org.obi.services.entities.TagsTypes;
+import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.tags.TagsTypes;
 import org.obi.services.sessions.MachinesFacade;
 import org.obi.services.sessions.TagsFacade;
 import org.obi.services.sessions.TagsTypesFacade;
@@ -116,8 +114,6 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
 
         // Récupération des facades de communication bdd
         MachinesFacade machinesFacade = new MachinesFacade(Machines.class);
-        TagsFacade tagsFacade = TagsFacade.getInstance();
-        TagsTypesFacade tagsTypesFacade = new TagsTypesFacade(TagsTypes.class);
 
         // Int Main Loop 
         Integer mainLoop = 0;

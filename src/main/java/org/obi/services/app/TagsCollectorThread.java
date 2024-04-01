@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.obi.services.entities.Machines;
-import org.obi.services.entities.Tags;
-import org.obi.services.entities.TagsTypes;
+import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.tags.Tags;
+import org.obi.services.entities.tags.TagsTypes;
 import org.obi.services.sessions.MachinesFacade;
 import org.obi.services.sessions.TagsFacade;
 import org.obi.services.sessions.TagsTypesFacade;
@@ -175,26 +175,26 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
 
                                 tags.stream().forEach((tag) -> {
                                     // Collect only if cyle time is reached since last change
-                                    Date date = tag.getTValueDate();
+                                    Date date = tag.getVDateTime();
                                     long savedEpoch = date.toInstant().toEpochMilli();
-                                    long cycleTime = tag.getTCycle() * 1000; // sec
+                                    long cycleTime = tag.getCycle() * 1000; // sec
                                     long now3 = Instant.now().toEpochMilli();
                                     if ((now3 - savedEpoch) > cycleTime) {
                                         // Init. default value
-                                        tag.setTValueBool(false);
-                                        tag.setTValueFloat(0.0);
-                                        tag.setTValueInt(0);
-                                        tag.setTValueDate(Date.from(Instant.now()));
+                                        tag.setVBool(false);
+                                        tag.setVFloat(0.0);
+                                        tag.setVInt(0);
+                                        tag.setVDateTime(Date.from(Instant.now()));
 
-                                        List<TagsTypes> tagsTypes = tagsTypesFacade.findId(tag.getTType().getTtId());
+                                        List<TagsTypes> tagsTypes = tagsTypesFacade.findId(tag.getType().getId());
 
                                         if (tagsTypes != null) {
                                             TagsTypes tagType = tagsTypes.get(0);
-                                            tag.setTType(tagType);
+                                            tag.setType(tagType);
                                             mc.readValue(tag);
                                             tagsFacade.updateOnValue(tag);
                                         } else {
-                                            Util.out(methodName + " Unable to find type " + tag.getTType() + " for tag " + tag);
+                                            Util.out(methodName + " Unable to find type " + tag.getType() + " for tag " + tag);
                                         }
                                     }
                                 });
@@ -229,8 +229,8 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                         tagCollectorThreadListener.onOldingThread();
                     });
                 }
-                
-                if(requestKill){
+
+                if (requestKill) {
                     doStop();
                 }
 

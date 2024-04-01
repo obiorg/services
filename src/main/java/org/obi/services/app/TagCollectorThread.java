@@ -7,23 +7,18 @@ package org.obi.services.app;
 import org.obi.services.listener.TagsCollectorThreadListener;
 import java.awt.TrayIcon;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.obi.services.entities.Machines;
-import org.obi.services.entities.Tags;
-import org.obi.services.entities.TagsTypes;
-import org.obi.services.listener.ConnectionListener;
-import org.obi.services.model.DatabaseModel;
+import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.tags.Tags;
+import org.obi.services.entities.tags.TagsTypes;
 import org.obi.services.sessions.MachinesFacade;
 import org.obi.services.sessions.TagsFacade;
 import org.obi.services.sessions.TagsTypesFacade;
 import org.obi.services.util.Ico;
-import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
@@ -176,26 +171,26 @@ public class TagCollectorThread extends Thread implements TagsCollectorThreadLis
                                 if (mc.doConnect()) { // Check if connection is working
                                     tags.stream().forEach((tag) -> {
                                         // Collect only if cyle time is reached since last change
-                                        Date date = tag.getTValueDate();
+                                        Date date = tag.getVDateTime();
                                         long savedEpoch = date.toInstant().toEpochMilli();
-                                        long cycleTime = tag.getTCycle() * 1000; // sec
+                                        long cycleTime = tag.getCycle() * 1000; // sec
                                         long now3 = Instant.now().toEpochMilli();
                                         if ((now3 - savedEpoch) > cycleTime) {
                                             // Init. default value
-                                            tag.setTValueBool(false);
-                                            tag.setTValueFloat(0.0);
-                                            tag.setTValueInt(0);
-                                            tag.setTValueDate(Date.from(Instant.now()));
+                                            tag.setVBool(false);
+                                            tag.setVFloat(0.0);
+                                            tag.setVInt(0);
+                                            tag.setVDateTime(Date.from(Instant.now()));
 
-                                            List<TagsTypes> tagsTypes = tagsTypesFacade.findId(tag.getTType().getTtId());
+                                            List<TagsTypes> tagsTypes = tagsTypesFacade.findId(tag.getType().getId());
 
                                             if (tagsTypes != null) {
                                                 TagsTypes tagType = tagsTypes.get(0);
-                                                tag.setTType(tagType);
+                                                tag.setType(tagType);
                                                 mc.readValue(tag);
                                                 tagsFacade.updateOnValue(tag);
                                             } else {
-                                                Util.out(methodName + " Unable to find type " + tag.getTType() + " for tag " + tag);
+                                                Util.out(methodName + " Unable to find type " + tag.getType() + " for tag " + tag);
                                             }
                                         }
                                     });

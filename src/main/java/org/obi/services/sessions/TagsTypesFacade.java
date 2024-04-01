@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.entities.TagsTypes;
+import org.obi.services.entities.tags.TagsTypes;
 import org.obi.services.model.DatabaseModel;
-import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**

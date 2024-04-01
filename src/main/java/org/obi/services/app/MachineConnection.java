@@ -14,8 +14,8 @@ import org.obi.services.core.moka7.S7CpInfo;
 import org.obi.services.core.moka7.S7CpuInfo;
 import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
-import org.obi.services.entities.Machines;
-import org.obi.services.entities.Tags;
+import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.tags.Tags;
 import org.obi.services.listener.ConnectionListener;
 import org.obi.services.util.Util;
 
@@ -380,7 +380,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
      * @return Object value Double, Integer, Boolean or null in case of error
      */
     public Object readValue(Tags tag) {
-        byte[] Buffer = new byte[tag.getTType().getTtByte()];
+        byte[] Buffer = new byte[tag.getType().getByte1()];
 
         // Check if machine is connected
         if (!connected) {
@@ -389,35 +389,35 @@ public class MachineConnection extends Thread implements ConnectionListener {
         }
 
         // Process reading
-        int Result = client.ReadArea(S7.S7AreaDB, tag.getTDb(),
-                tag.getTByte(),
-                tag.getTType().getTtWord(), Buffer);
+        int Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                tag.getByte1(),
+                tag.getType().getWord(), Buffer);
 
         // If no error processed
         if (Result == 0) {
-            if (tag.getTType().getTtType().matches("Bool")) {
+            if (tag.getType().getType().matches("Bool")) {
 
             } // INT
-            else if (tag.getTType().getTtType().matches("Int")) {
+            else if (tag.getType().getType().matches("Int")) {
                 Integer v = S7.GetShortAt(Buffer, 0);
-                tag.setTValueInt(v);
+                tag.setVInt(v);
                 return v;
             } // REAL
-            else if (tag.getTType().getTtType().matches("Real")) {
+            else if (tag.getType().getType().matches("Real")) {
                 Float v = S7.GetFloatAt(Buffer, 0);
-                tag.setTValueFloat(v.doubleValue());
+                tag.setVFloat(v.doubleValue());
                 return v;
             } // UNKNOW
             else {
                 System.out.println("MachineConnection >> readValue tag id : "
-                        + tag.getTId() + " >> value = " + tag.toString() + " Error on type : " + tag.getTType().getTtType() + " not yet implemented");
+                        + tag.getId() + " >> value = " + tag.toString() + " Error on type : " + tag.getType().getType() + " not yet implemented");
                 return null;
             }
         } else {
             System.out.println("MachineConnection >> readValue tag id : "
-                    + tag.getTId() + " >> value = " + tag.toString()
-                    + " bad request on reading DB " + tag.getTDb()
-                    + " address " + tag.getTByte());
+                    + tag.getId() + " >> value = " + tag.toString()
+                    + " bad request on reading DB " + tag.getDb()
+                    + " address " + tag.getByte1());
             return null;
         }
         return null;
