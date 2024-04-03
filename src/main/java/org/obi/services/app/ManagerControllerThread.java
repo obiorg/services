@@ -171,7 +171,9 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                     requestEpochCnt = 0;
 
                     // Refresh list of available machine in the company 
-                    List<Machines> machines = machinesFacade.findByCompanyId((int)Settings.read(Settings.CONFIG, Settings.COMPANY));
+                    String societeStr = Settings.read(Settings.CONFIG, Settings.COMPANY).toString();
+                    Integer societe = Integer.valueOf(societeStr);
+                    List<Machines> machines = machinesFacade.findByCompanyId(societe);
 
                     // Actualize machine managed list
                     // 1. Remove deleted connection from managed list
@@ -232,9 +234,14 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
             if (onceOnMain) {
                 Util.out("TagCollectorThread >> run >> back to mainLoop");
                 onceOnMain = false;
-                tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
-                    tagCollectorThreadListener.onOldingThread();
+                tagsCollectorManaged.stream().forEach((tagsCollectorThread) -> {
+                    tagsCollectorThread.doStop();
+                    tagsCollectorThread.kill();
                 });
+                tagsCollectorManaged.clear();
+//                tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
+//                    tagCollectorThreadListener.onOldingThread();
+//                });
             }
 
             try {
@@ -243,6 +250,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                 Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        Util.out(methodName + " Terminate Manager Controller Thread");
     }
 
     @Override

@@ -538,14 +538,14 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 //            trayIcon.displayMessage("OBI",
 //                    bundle.getString("TagsCollector_Msg_Start"),
 //                    TrayIcon.MessageType.INFO);
-            startTagCollectorMenuItem.setEnabled(false);
-            stopTagCollectorMenuItem.setEnabled(true);
         } else {
             trayIcon.displayMessage("OBI",
                     "Processus is already running. Please stop before start !",
                     TrayIcon.MessageType.WARNING);
             Util.out("Processus is already running. Please stop before start !");
         }
+        startTagCollectorMenuItem.setEnabled(false);
+        stopTagCollectorMenuItem.setEnabled(true);
     }
 
     /**
@@ -563,14 +563,15 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 //                    "Tags collector est arrêté !",
 //                    TrayIcon.MessageType.INFO);
 
-            startTagCollectorMenuItem.setEnabled(true);
-            stopTagCollectorMenuItem.setEnabled(false);
         } else {
             trayIcon.displayMessage("OBI",
                     "Processus is already stopped. Please start before any stop !",
                     TrayIcon.MessageType.WARNING);
             Util.out("Processus is already stopped. Please start before any stop !");
         }
+
+        startTagCollectorMenuItem.setEnabled(true);
+        stopTagCollectorMenuItem.setEnabled(false);
     }
 
     /**

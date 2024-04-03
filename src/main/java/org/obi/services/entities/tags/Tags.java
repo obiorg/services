@@ -93,6 +93,7 @@ import org.obi.services.util.Util;
 public class Tags implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     private Integer id;
     private Boolean deleted;
     private Date created;
@@ -986,7 +987,7 @@ public class Tags implements Serializable {
                 timestampstr = timestampstr.substring(0, 19);
             }
             return "UPDATE dbo.tags set [vFloat] = " + value
-                    + ", vDateTime = '" + timestampstr + "' WHERE id = " + id;
+                    + ", vStamp = '" + timestampstr + "' WHERE id = " + id;
         } else if (column.matches("vInt")) {
             Date date = new Date();
             java.sql.Date timestamp = new java.sql.Date(date.getTime());
@@ -1014,6 +1015,40 @@ public class Tags implements Serializable {
         return null;
     }
 
+    
+    public static String queryUpdateOn(String column, Tags tag) {
+        if (column.matches("vFloat")) {
+            // Ajuste le nombre de détail en milliseconde
+            String timestampstr = Instant.now().toString();
+            if (timestampstr.contains(".")) {
+                timestampstr = timestampstr.substring(0, 19);
+            }
+            return "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
+                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
+        } else if (column.matches("vInt")) {
+            // Ajuste le nombre de détail en milliseconde
+            String timestampstr = Instant.now().toString();
+            if (timestampstr.contains(".")) {
+                timestampstr = timestampstr.substring(0, 19);
+            }
+            return "UPDATE dbo.tags set [vInt] = " + tag.getVInt()
+                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
+        } else if (column.matches("vBool")) {
+            // Ajuste le nombre de détail en milliseconde
+            String timestampstr = Instant.now().toString();
+            if (timestampstr.contains(".")) {
+                timestampstr = timestampstr.substring(0, 19);
+            }
+            return "UPDATE dbo.tags set [vBool] = " + tag.getVBool()
+                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
+        } 
+        else {
+            Util.out(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
+            System.out.println(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
+        }
+        return null;
+    }
+    
     public String prepareStatementUpdateOn() {
         String stmts = ""
                 + "UPDATE [dbo].[tags] "

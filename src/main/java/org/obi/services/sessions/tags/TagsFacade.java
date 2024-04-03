@@ -87,25 +87,22 @@ public final class TagsFacade {
     }
 
     public int updateOnValueFloat(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("t_value_float",
-                tag.getVFloat(),
-                tag.getId()
+        String Q_Update = Tags.queryUpdateOn("vFloat",
+                tag
         );
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueInt(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("t_value_int",
-                tag.getVInt(),
-                tag.getId()
+        String Q_Update = Tags.queryUpdateOn("vInt",
+                tag
         );
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueBool(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("t_value_bool",
-                tag.getVBool(),
-                tag.getId()
+        String Q_Update = Tags.queryUpdateOn("vBool",
+                tag
         );
         return updateOnValue(Q_Update);
     }
@@ -229,8 +226,8 @@ public final class TagsFacade {
     public List<Tags> findActiveByCompanyAndMachine(int companyId, int machineId) {
         String Q_find = "SELECT * FROM dbo.tags "
                 + "WHERE "
-                + "deleted = 0 AND active = 1 AND company = " + companyId 
-                + " machine = " + machineId;
+                + "deleted = 0 AND active = 1 AND company = " + companyId
+                + " AND machine = " + machineId;
         return find(Q_find);
     }
 

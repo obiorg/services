@@ -19,7 +19,7 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class EntitiesFacade  {
+public class EntitiesFacade {
 
     private static EntitiesFacade INSTANCE;
 
@@ -33,9 +33,7 @@ public class EntitiesFacade  {
     public EntitiesFacade() {
     }
 
-
     Connection conn = null;
-
 
     protected Connection getConnectionMannager() {
         if (conn == null) {
@@ -107,6 +105,22 @@ public class EntitiesFacade  {
      */
     public Entities findById(int id) {
         String Q_finBy = "SELECT * FROM dbo.entities WHERE id = " + id;
+        List<Entities> lst = find(Q_finBy);
+        if (lst.isEmpty()) {
+            return null;
+        }
+        return lst.get(0);
+    }
+
+    /**
+     * Find an element specified by entity
+     *
+     * Use request : "SELECT * FROM dbo.entities WHERE entity = '" + entity + "'"
+     *
+     * @return entity or null if empty
+     */
+    public Entities findByEntity(String entity) {
+        String Q_finBy = "SELECT * FROM dbo.entities WHERE entity = '" + entity + "'";
         List<Entities> lst = find(Q_finBy);
         if (lst.isEmpty()) {
             return null;

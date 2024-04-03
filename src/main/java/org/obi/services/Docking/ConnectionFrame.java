@@ -141,6 +141,7 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
             machineConnection.doStop();
             machineConnection.removeClientListener(machineConnection);
         });
+        machinesConnections.clear();
 
         // Emptying display list connection
         listConnexions.removeAll();
@@ -864,15 +865,18 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
                 System.out.println(selections[i] + "/" + selectionValues.get(i) + " ");
 
                 MachineConnection mc = machinesConnections.get(selections[i]);
-                if (!mc.isAlive()) {
+                if (!mc.getRunning()) {
+                    mc.setRequestStop(false);
                     mc.start();
                     mc.connect();
                 } else {
-                    address.setText(mc.getMachine().getAddress());
-                    rack.setValue(mc.getMachine().getRack());
-                    slot.setValue(mc.getMachine().getSlot());
                     mc.connectState();
                 }
+
+                // Update information connection
+                address.setText(mc.getMachine().getAddress());
+                rack.setValue(mc.getMachine().getRack());
+                slot.setValue(mc.getMachine().getSlot());
 
                 mc.dateTime();
                 mc.orderCode();

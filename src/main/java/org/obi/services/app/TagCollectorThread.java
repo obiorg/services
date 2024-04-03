@@ -164,8 +164,8 @@ public class TagCollectorThread extends Thread implements TagsCollectorThreadLis
                     // 4- Close connection to PLC
                     machines.stream().forEach((machine) -> {
                         List<Tags> tags = tagsFacade.findActiveByCompanyAndMachine(
-                                (int) Settings.read(Settings.CONFIG,
-                                        Settings.COMPANY),
+                                Integer.valueOf(Settings.read(Settings.CONFIG,
+                                        Settings.COMPANY).toString()),
                                 machine.getId());
 
                         if (tags != null) {

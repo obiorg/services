@@ -123,6 +123,7 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
         boolean onceOnMain = false; // only display once
         boolean onceOnStop = false; // only display once
 
+        Util.out(methodName + " Thead machine " + machine + " started ! ");
         // Main loop
         while (!requestKill) {
             long requestEpoch = 0; // allow firstime play
@@ -170,10 +171,10 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                         requestEpoch = Instant.now().toEpochMilli();
                         requestEpochCnt = 0;
 
-                        // check if connection exist, if not create !
+                        // Get all tags list active and available for recovery
                         List<Tags> tags = tagsFacade.findActiveByCompanyAndMachine(
-                                (int) Settings.read(Settings.CONFIG,
-                                        Settings.COMPANY),
+                                Integer.valueOf(Settings.read(Settings.CONFIG,
+                                        Settings.COMPANY).toString()),
                                 machine.getId());
 
                         if (tags != null) {
@@ -181,21 +182,26 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
 
                                 tags.stream().forEach((tag) -> {
                                     // Collect only if cyle time is reached since last change
-                                    Date date = tag.getVDateTime();
-                                    long savedEpoch = date.toInstant().toEpochMilli();
                                     long cycleTime = tag.getCycle() * 1000; // msec
-                                    long now3 = Instant.now().toEpochMilli();
-                                    if ((now3 - savedEpoch) > cycleTime) {
+                                    
+                                    long savedEpoch = Instant.now().toEpochMilli();
+                                    if(tag.getVStamp() != null){
+                                        savedEpoch = tag.getVStamp().toInstant().toEpochMilli();
+                                    }else{
+                                        savedEpoch = Instant.now().toEpochMilli() - cycleTime - 1;
+                                    }
+
+                                    if ((Instant.now().toEpochMilli() - savedEpoch) > cycleTime) {
                                         // Init. default value
                                         tag.setVBool(false);
                                         tag.setVFloat(0.0);
                                         tag.setVInt(0);
-                                        tag.setVDateTime(Date.from(Instant.now()));
+                                        tag.setVStamp(Date.from(Instant.now()));
 
-                                        TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
+                                        //TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
 
-                                        if (tagsType != null) {
-                                            tag.setType(tagsType);
+                                        if (tag.getType() != null) {
+                                            //tag.setType(tagsType);
                                             mc.readValue(tag);
                                             tagsFacade.updateOnValue(tag);
                                         } else {
@@ -251,6 +257,8 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
         tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
             tagCollectorThreadListener.onKillProcessThread(this);
         });
+
+        Util.out(methodName + " Thead machine " + machine + " run finished ! ");
     }
 
     public Machines getMachine() {

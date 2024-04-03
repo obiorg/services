@@ -51,6 +51,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
     private Boolean requestDateTime = false;
     private Boolean requestOrderCode = false;
     private Boolean requestStop = false;
+    private Boolean running  = false;
+
+
     private Boolean requestPLCStatus = false;
     private Boolean requestCpuInfo = false;
     private Boolean requestCpInfo = false;
@@ -111,6 +114,24 @@ public class MachineConnection extends Thread implements ConnectionListener {
         this.machine = machine;
     }
 
+    
+    
+    public Boolean getRequestStop() {
+        return requestStop;
+    }
+
+    public void setRequestStop(Boolean requestStop) {
+        this.requestStop = requestStop;
+    }
+    
+    
+    public Boolean getRunning() {
+        return running;
+    }
+
+    public void setRunning(Boolean running) {
+        this.running = running;
+    }
     /**
      * Read corresponding error code to deliver a description of it. The error
      * is register in the map key error.
@@ -504,6 +525,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
         String methodName = getClass().getSimpleName() + " : run() >> ";
         int loop = 0;
         while (!requestStop) {
+            running = true;
             if (requestConnection) {
                 doConnect();
                 requestConnection = false;
@@ -536,6 +558,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 requestSzl = false;
             }
         }
+        running = false;
         requestStop = false;
 
     }

@@ -288,7 +288,7 @@ public class Businesses implements Serializable {
                 this.changed = rs.getDate(c);
             } else if (c.matches("entity")) {
                 EntitiesFacade facade = new EntitiesFacade();
-                this.entity = facade.findById(rs.getInt(c));
+                this.entity = facade.findByEntity(rs.getString(c));
             } else if (c.matches("business")) {
                 this.business = rs.getString(c);
             }else if (c.matches("designation")) {
