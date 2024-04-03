@@ -12,11 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.entities.machines.Machines;
-import org.obi.services.entities.tags.TagsTypes;
-import org.obi.services.sessions.MachinesFacade;
-import org.obi.services.sessions.TagsFacade;
-import org.obi.services.sessions.TagsTypesFacade;
+import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
+import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
@@ -105,6 +103,20 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
     }
 
     /**
+     * Delay Method
+     *
+     * Delay allow to compute the delay between an old epoch compare to actual
+     * epoch (now - oldEpoch) = delay
+     *
+     * @param oldEpoch an epoch value of previous time
+     *
+     * @return delay in ms from oldEpoch to now
+     */
+    public static Long delay(Long oldEpoch) {
+        return (Instant.now().toEpochMilli() - oldEpoch);
+    }
+
+    /**
      * Main loop of the thread data collector
      */
     @Override
@@ -112,8 +124,10 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
         super.run(); //To change body of generated methods, choose Tools | Templates.
         String methodName = getClass().getSimpleName() + " : run() >> ";
 
+        Util.out(methodName + " state of machine connection are review each 5s");
+        
         // Récupération des facades de communication bdd
-        MachinesFacade machinesFacade = new MachinesFacade(Machines.class);
+        MachinesFacade machinesFacade = new MachinesFacade();
 
         // Int Main Loop 
         Integer mainLoop = 0;
@@ -132,30 +146,32 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                 running = true;
                 onceOnMain = true;
                 int requestEpochCnt = 0;
-                // Minimum One second between request
-                long now = Instant.now().toEpochMilli();
-                long delay = (now - requestEpoch);
-                if (delay < 1000) {
-                    long d = 1000 - delay;
+
+                // Elapse 5 second between each request ! 
+                long delay = delay(requestEpoch);
+                if (delay < 5000) {
+                    long d = 5000 - delay;
                     try {
                         sleep(d);
                     } catch (InterruptedException ex) {
-                        Util.out(methodName + " > Unable to sleep for minimum dealy time !" + ex.getLocalizedMessage());
+                        Util.out(methodName + " > Unable to sleep for minimum delay time !" + ex.getLocalizedMessage());
                         Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                long now2 = Instant.now().toEpochMilli();
+
+                
 
                 // Process only if minimum time is respected
-                if ((now2 - requestEpoch) >= 3000) {
-                    onceOnStop = true;
+//                long now2 = Instant.now().toEpochMilli();
+//                if ((now2 - requestEpoch) >= 3000) {
+//                    onceOnStop = true;
 
                     // change epoch reference
                     requestEpoch = Instant.now().toEpochMilli();
                     requestEpochCnt = 0;
 
-                    // Refresh list of available machine
-                    List<Machines> machines = machinesFacade.findAll();
+                    // Refresh list of available machine in the company 
+                    List<Machines> machines = machinesFacade.findByCompanyId((int)Settings.read(Settings.CONFIG, Settings.COMPANY));
 
                     // Actualize machine managed list
                     // 1. Remove deleted connection from managed list
@@ -198,19 +214,19 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                         });
                     }
 
-                } else {
-                    requestEpochCnt++;
-                    if (requestEpochCnt >= 2) {
-                        Util.out(methodName + "Epoch not reach more than 2 times : " + requestEpochCnt
-                                + " time : " + now + " - " + requestEpoch + " = " + (now - requestEpoch));
-                    } else {
-                        Util.out(methodName + "Epoch not reached ! "
-                                + now + " - " + requestEpoch + " = " + (now - requestEpoch));
-                    }
-                }
-                if (onceOnStop) {
-                    onceOnStop = false;
-                }
+//                } else {
+//                    requestEpochCnt++;
+//                    if (requestEpochCnt >= 2) {
+//                        Util.out(methodName + "Epoch not reach more than 2 times : " + requestEpochCnt
+//                                + " time : " + now2 + " - " + requestEpoch + " = " + (now2 - requestEpoch));
+//                    } else {
+//                        Util.out(methodName + "Epoch not reached ! "
+//                                + now2 + " - " + requestEpoch + " = " + (now2 - requestEpoch));
+//                    }
+//                }
+//                if (onceOnStop) {
+//                    onceOnStop = false;
+//                }
             }
             running = false; //!< indicate end of processus running
             if (onceOnMain) {

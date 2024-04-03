@@ -5,9 +5,14 @@
 package org.obi.services.entities.alarms;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.business.Companies;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -134,7 +139,47 @@ public class AlarmGroups implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.AlarmGroups[ id=" + id + " ]";
+//        return "org.obi.services.entities.AlarmGroups[ id=" + id + " ]";
+        return "" + this.group + " - (" + this.alarmsCollection.toString() + ") [ id=" + id + " ]";
     }
     
+    
+    
+    /**
+     * Allow to affect result object
+     *
+     * @param rs a set of data of the row
+     * @throws SQLException exception
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                CompaniesFacade cf = new CompaniesFacade();
+                company = cf.findById(rs.getInt(c));
+            } else if (c.matches("group")) {
+                this.group = rs.getString(c);
+            } /**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
+                this.comment = rs.getString(c);
+            } else {
+                Util.out(AlarmGroups.class + " >> update >> unknown column name " + c);
+                System.out.println(AlarmGroups.class + " >> update >> unknown column name " + c);
+            }
+
+        }
+    }
 }

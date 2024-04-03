@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.ListModel;
 import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.app.MachineConnection;
 import org.obi.services.core.moka7.IntByRef;
@@ -29,6 +30,7 @@ import org.obi.services.entities.machines.Machines;
 import org.obi.services.listener.ConnectionListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.moka.OrderCode;
+import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
@@ -70,7 +72,9 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
         if (tmp == null) {
             tmp = "jdbc:sqlserver:<hostname>\\<instance>:<port 1433>;databaseName=<dbName>?<user>?<password>";
             trayIcon.displayMessage("OBI",
-                    "Connexion schema does not exist ! Please Configure database and save", TrayIcon.MessageType.ERROR);
+                    "Connexion schema does not exist ! "
+                    + "Please Configure database and save",
+                    TrayIcon.MessageType.ERROR);
             return;
         }
         String urlOBI = tmp.toString();//"jdbc:sqlserver:10.116.26.35\\SQLSERVER:1433;databaseName=optimaint?sa?Opt!M@!nt";
@@ -83,7 +87,9 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
             Connection conn = DatabaseFrame.toConnection(model);
             if (conn == null) {
                 trayIcon.displayMessage("OBI",
-                        "Unable to parse schema defined in database configuration  ! Check you settings", TrayIcon.MessageType.ERROR);
+                        "Unable to parse schema defined in database "
+                        + "configuration  ! Check you settings",
+                        TrayIcon.MessageType.ERROR);
                 return;
             }
 
@@ -126,6 +132,37 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
         } finally {
 
         }
+
+    }
+
+    private void updateMachinesList() {
+        // Remove all existing machine in process
+        machinesConnections.stream().forEach((machineConnection) -> {
+            machineConnection.doStop();
+            machineConnection.removeClientListener(machineConnection);
+        });
+
+        // Emptying display list connection
+        listConnexions.removeAll();
+
+        // Get List of new machine
+        MachinesFacade mf = new MachinesFacade();
+        List<Machines> machines = mf.findAll();   // récupère all machine with no filter
+
+        // Collect each machine to create model and connections
+        DefaultListModel lst = new DefaultListModel();
+        machines.stream().forEach((machine) -> {
+            // add machines to model
+            lst.addElement(machine);
+
+            // create connection listener 
+            MachineConnection mc = new MachineConnection(machine);
+            mc.addClientListener(this);
+            machinesConnections.add(mc);
+        });
+
+        // Update display model
+        listConnexions.setModel(lst);
 
     }
 
@@ -850,7 +887,8 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
     }//GEN-LAST:event_listConnexionsValueChanged
 
     private void btnRefreshConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshConnexionActionPerformed
-        updateConnexionList();
+        //updateConnexionList();
+        updateMachinesList();
     }//GEN-LAST:event_btnRefreshConnexionActionPerformed
 
     private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed

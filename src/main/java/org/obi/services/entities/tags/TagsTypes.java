@@ -10,6 +10,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.entities.business.Companies;
+import org.obi.services.sessions.business.CompaniesFacade;
 import org.obi.services.util.Util;
 
 /**
@@ -168,45 +170,54 @@ public class TagsTypes implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.TagsTypes[ id=" + id + " ]";
+//        return "org.obi.services.entities.TagsTypes[ id=" + id + " ]";
+        return "" + this.type + " - " + this.designation
+                + " - " + this.group + " (" + this.bit + "; " + this.byte1 + "; " + this.getWord() + ") "
+                + " [ id=" + id + " ]";
+
     }
 
-    
-    
+    /**
+     * Allow to affect result object
+     *
+     * @param rs a set of data of the row
+     * @throws SQLException exception
+     */
     public void update(ResultSet rs) throws SQLException {
         ResultSetMetaData rsMetaData = rs.getMetaData();
-        int count = rsMetaData.getColumnCount();
         for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
             String c = rsMetaData.getColumnName(i);
 
-            if (c.matches("tt_id")) {
+            if (c.matches("id")) {
                 this.id = rs.getInt(c);
-            } else if (c.matches("tt_type")) {
-                this.type = rs.getString(c);
-            } else if (c.matches("tt_designation")) {
-                this.designation = rs.getString(c);
-            } else if (c.matches("tt_bit")) {
-                this.bit = rs.getInt(c);
-            } else if (c.matches("tt_byte")) {
-                this.byte1 = rs.getInt(c);
-            } else if (c.matches("tt_word")) {
-                this.word = rs.getInt(c);
-            } else if (c.matches("tt_deleted")) {
+            } else if (c.matches("deleted")) {
                 this.deleted = rs.getBoolean(c);
-            } else if (c.matches("tt_created")) {
+            } else if (c.matches("created")) {
                 this.created = rs.getDate(c);
-            } else if (c.matches("tt_changed")) {
+            } else if (c.matches("changed")) {
                 this.changed = rs.getDate(c);
-            } else {
+            } else if (c.matches("type")) {
+                this.type = rs.getString(c);
+            } else if (c.matches("designation")) {
+                this.designation = rs.getString(c);
+            } else if (c.matches("bit")) {
+                this.bit = rs.getInt(c);
+            } else if (c.matches("byte")) {
+                this.byte1 = rs.getInt(c);
+            } else if (c.matches("word")) {
+                this.word = rs.getInt(c);
+            } else if (c.matches("group")) {
+                this.group = rs.getString(c);
+            } /**
+             *
+             * informations
+             */
+             else {
                 Util.out(TagsTypes.class + " >> update >> unknown column name " + c);
                 System.out.println(TagsTypes.class + " >> update >> unknown column name " + c);
             }
 
         }
     }
-    
-    
-    
-    
-    
+
 }

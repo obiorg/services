@@ -22,6 +22,13 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.sessions.alarms.AlarmsFacade;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.sessions.machines.MachinesFacade;
+import org.obi.services.sessions.measures.MeasUnitsFacade;
+import org.obi.services.sessions.tags.TagsMemoriesFacade;
+import org.obi.services.sessions.tags.TagsTablesFacade;
+import org.obi.services.sessions.tags.TagsTypesFacade;
 import org.obi.services.util.Util;
 
 /**
@@ -66,7 +73,7 @@ import org.obi.services.util.Util;
 //    @NamedQuery(name = "Tags.findByMesure", query = "SELECT t FROM Tags t WHERE t.mesure = :mesure"),
 //    @NamedQuery(name = "Tags.findByMesureMin", query = "SELECT t FROM Tags t WHERE t.mesureMin = :mesureMin"),
 //    @NamedQuery(name = "Tags.findByMesureMax", query = "SELECT t FROM Tags t WHERE t.mesureMax = :mesureMax"),
-//    @NamedQuery(name = "Tags.findByMqqtTopic", query = "SELECT t FROM Tags t WHERE t.mqqtTopic = :mqqtTopic"),
+//    @NamedQuery(name = "Tags.findByMqqtTopic", query = "SELECT t FROM Tags t WHERE t.mqttTopic = :mqttTopic"),
 //    @NamedQuery(name = "Tags.findByWebhook", query = "SELECT t FROM Tags t WHERE t.webhook = :webhook"),
 //    @NamedQuery(name = "Tags.findByLaboratory", query = "SELECT t FROM Tags t WHERE t.laboratory = :laboratory"),
 //    @NamedQuery(name = "Tags.findByFormula", query = "SELECT t FROM Tags t WHERE t.formula = :formula"),
@@ -119,7 +126,7 @@ public class Tags implements Serializable {
     private Boolean mesure;
     private Double mesureMin;
     private Double mesureMax;
-    private String mqqtTopic;
+    private String mqttTopic;
     private String webhook;
     private Boolean laboratory;
     private Boolean formula;
@@ -425,12 +432,12 @@ public class Tags implements Serializable {
         this.mesureMax = mesureMax;
     }
 
-    public String getMqqtTopic() {
-        return mqqtTopic;
+    public String getMqttTopic() {
+        return mqttTopic;
     }
 
-    public void setMqqtTopic(String mqqtTopic) {
-        this.mqqtTopic = mqqtTopic;
+    public void setMqttTopic(String mqttTopic) {
+        this.mqttTopic = mqttTopic;
     }
 
     public String getWebhook() {
@@ -679,11 +686,10 @@ public class Tags implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.Tags[ id=" + id + " ]";
+//        return "org.obi.services.entities.Tags[ id=" + id + " ]";
+        return "" + this.name + " - " + this.getMachine().getName() + " [ id=" + id + " ]";
     }
 
-    
-    
     /**
      * Allow to affect result object
      *
@@ -698,57 +704,201 @@ public class Tags implements Serializable {
 
             if (c.matches("id")) {
                 this.id = rs.getInt(c);
-            } else if (c.matches("name")) {
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                CompaniesFacade cf = new CompaniesFacade();
+                company = cf.findById(rs.getInt(c));
+            }else if (c.matches("table")) {
+                TagsTablesFacade ttf = new TagsTablesFacade();
+                table = ttf.findById(rs.getInt(c));
+            } /**
+             * 
+             * PARAMETER
+             */
+            else if (c.matches("name")) {
                 this.name = rs.getString(c);
-            } else if (c.matches("table")) {
-                this.table = new TagsTables(rs.getInt(c));
             } else if (c.matches("machine")) {
-                this.machine = new Machines(rs.getInt(c));
+                MachinesFacade mf = new MachinesFacade();
+                machine = mf.findById(rs.getInt(c));
             } else if (c.matches("type")) {
-                this.type = new TagsTypes(rs.getInt(c));
+                TagsTypesFacade ttf = new TagsTypesFacade();
+                type = ttf.findById(rs.getInt(c));
             } else if (c.matches("memory")) {
-                this.memory = new TagsMemories(rs.getInt(c));
+                TagsMemoriesFacade tmf = new TagsMemoriesFacade();
+                memory = tmf.findById(rs.getInt(c));
             } else if (c.matches("db")) {
                 this.db = rs.getInt(c);
             } else if (c.matches("byte")) {
                 this.byte1 = rs.getInt(c);
             } else if (c.matches("bit")) {
                 this.bit = rs.getInt(c);
+            } /**
+             *
+             * ACTIVATION CYCLE
+             */
+            else if (c.matches("active")) {
+                this.active = rs.getBoolean(c);
             } else if (c.matches("cycle")) {
                 this.cycle = rs.getInt(c);
-            } else if (c.matches("active")) {
-                this.active = rs.getBoolean(c);
-            } else if (c.matches("vFloat")) {
+            } /**
+             *
+             * DELTA
+             */
+            else if (c.matches("delta")) {
+                this.delta = rs.getBoolean(c);
+            } else if (c.matches("deltaFloat")) {
+                this.deltaFloat = rs.getDouble(c);
+            } else if (c.matches("deltaInt")) {
+                this.deltaInt = rs.getInt(c);
+            } else if (c.matches("deltaBool")) {
+                this.deltaBool = rs.getInt(c);
+            } else if (c.matches("deltaDateTime")) {
+                this.deltaDateTime = BigInteger.valueOf(rs.getInt(c));
+            } /**
+             *
+             * VALUE
+             */
+            else if (c.matches("vFloat")) {
                 this.vFloat = rs.getDouble(c);
             } else if (c.matches("vInt")) {
                 this.vInt = rs.getInt(c);
             } else if (c.matches("vBool")) {
                 this.vBool = rs.getBoolean(c);
-            } else if (c.matches("value_date")) {
+            } else if (c.matches("vStr")) {
+                this.vStr = rs.getString(c);
+            } else if (c.matches("vDateTime")) {
                 Timestamp timestamp = rs.getTimestamp(c);
                 if (timestamp != null) {
                     this.vDateTime = new java.util.Date(timestamp.getTime());
                 } else {
                     this.vDateTime = null;
                 }
-            } else if (c.matches("comment")) {
+            } else if (c.matches("vStamp")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.vStamp = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.vStamp = null;
+                }
+            } /**
+             *
+             * DEFAULT VALUE
+             */
+            else if (c.matches("vDefault")) {
+                this.vDefault = rs.getBoolean(c);
+            } else if (c.matches("vFloatDefault")) {
+                this.vFloatDefault = rs.getDouble(c);
+            } else if (c.matches("vIntDefault")) {
+                this.vIntDefault = rs.getInt(c);
+            } else if (c.matches("vBoolDefault")) {
+                this.vBoolDefault = rs.getBoolean(c);
+            } else if (c.matches("vStrDefault")) {
+                this.vStrDefault = rs.getString(c);
+            } else if (c.matches("vDateTimeDefault")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.vDateTimeDefault = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.vDateTimeDefault = null;
+                }
+            } else if (c.matches("vStampDefault")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.vStampDefault = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.vStampDefault = null;
+                }
+            } /**
+             * Counter
+             */
+            else if (c.matches("counter")) {
+                this.counter = rs.getBoolean(c);
+            } else if (c.matches("counterType")) {
+                this.counterType = rs.getInt(c);
+            } /**
+             * Mesures
+             */
+            else if (c.matches("mesure")) {
+                this.mesure = rs.getBoolean(c);
+            } else if (c.matches("mesureMin")) {
+                this.mesureMin = rs.getDouble(c);
+            } else if (c.matches("mesureMax")) {
+                this.mesureMax = rs.getDouble(c);
+            } else if (c.matches("measureUnit")) {
+                MeasUnitsFacade muf = new MeasUnitsFacade();
+                measureUnit = muf.findById(rs.getInt(c));
+            }/**
+             *
+             * LINKS
+             */
+            else if (c.matches("mqttTopic")) {
+                this.mqttTopic = rs.getString(c);
+            } else if (c.matches("webhook")) {
+                this.webhook = rs.getString(c);
+            } else if (c.matches("laboratory")) {
+                this.laboratory = rs.getBoolean(c);
+            } else if (c.matches("formula")) {
+                this.formula = rs.getBoolean(c);
+            } else if (c.matches("formCalculus")) {
+                this.formCalculus = rs.getString(c);
+            } else if (c.matches("formProcessing")) {
+                this.formProcessing = rs.getInt(c);
+            }/**
+             *
+             * ERRORS
+             */
+            else if (c.matches("error")) {
+                this.error = rs.getBoolean(c);
+            } else if (c.matches("errorMsg")) {
+                this.errorMsg = rs.getString(c);
+            } else if (c.matches("errorStamp")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.errorStamp = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.errorStamp = null;
+                }
+            }/**
+             *
+             * ALARMS
+             */
+            else if (c.matches("alarmEnable")) {
+                this.alarmEnable = rs.getBoolean(c);
+            } else if (c.matches("alarm")) {
+                AlarmsFacade facade = new AlarmsFacade();
+                this.alarm = facade.findById(rs.getInt(c));
+            }/**
+             *
+             * PERSISTENCE
+             */
+            else if (c.matches("persistenceEnable")) {
+                this.persistenceEnable = rs.getBoolean(c);
+            } else if (c.matches("alarmEnable")) {
+                this.persOffsetEnable = rs.getBoolean(c);
+            } else if (c.matches("persOffsetFloat")) {
+                this.persOffsetFloat = rs.getDouble(c);
+            } else if (c.matches("persOffsetInt")) {
+                this.persOffsetInt = rs.getInt(c);
+            } else if (c.matches("persOffsetBool")) {
+                this.persOffsetBool = rs.getBoolean(c);
+            } else if (c.matches("persOffsetDateTime")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp != null) {
+                    this.persOffsetDateTime = new java.util.Date(timestamp.getTime());
+                } else {
+                    this.persOffsetDateTime = null;
+                }
+            } /**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
                 this.comment = rs.getString(c);
-            } else if (c.matches("deleted")) {
-                this.deleted = rs.getBoolean(c);
-            } else if (c.matches("created")) {
-                Timestamp timestamp = rs.getTimestamp(c);
-                if (timestamp != null) {
-                    this.created = new java.util.Date(timestamp.getTime());
-                } else {
-                    this.created = null;
-                }
-            } else if (c.matches("changed")) {
-                Timestamp timestamp = rs.getTimestamp(c);
-                if (timestamp != null) {
-                    this.changed = new java.util.Date(timestamp.getTime());
-                } else {
-                    this.changed = null;
-                }
             } else {
                 Util.out(Tags.class + " >> update >> unknown column name " + c);
                 System.out.println(Tags.class + " >> update >> unknown column name " + c);
@@ -889,6 +1039,4 @@ public class Tags implements Serializable {
         return stmts;
     }
 
-    
-    
 }

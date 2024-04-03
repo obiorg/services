@@ -15,10 +15,11 @@ import java.util.logging.Logger;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.entities.tags.TagsTypes;
-import org.obi.services.sessions.MachinesFacade;
-import org.obi.services.sessions.TagsFacade;
-import org.obi.services.sessions.TagsTypesFacade;
+import org.obi.services.sessions.machines.MachinesFacade;
+import org.obi.services.sessions.tags.TagsFacade;
+import org.obi.services.sessions.tags.TagsTypesFacade;
 import org.obi.services.util.Ico;
+import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
@@ -107,9 +108,9 @@ public class TagCollectorThread extends Thread implements TagsCollectorThreadLis
         String methodName = getClass().getSimpleName() + " : run() >> ";
 
         // Récupération des facades de communication bdd
-        MachinesFacade machinesFacade = new MachinesFacade(Machines.class);
+        MachinesFacade machinesFacade = new MachinesFacade();
         TagsFacade tagsFacade = TagsFacade.getInstance();
-        TagsTypesFacade tagsTypesFacade = new TagsTypesFacade(TagsTypes.class);
+        TagsTypesFacade tagsTypesFacade = new TagsTypesFacade();
 
         // Int Main Loop 
         Integer mainLoop = 0;
@@ -162,7 +163,10 @@ public class TagCollectorThread extends Thread implements TagsCollectorThreadLis
                     // 3.3- Store data to corresponding line
                     // 4- Close connection to PLC
                     machines.stream().forEach((machine) -> {
-                        List<Tags> tags = tagsFacade.findActiveByMachine(machine.getId());
+                        List<Tags> tags = tagsFacade.findActiveByCompanyAndMachine(
+                                (int) Settings.read(Settings.CONFIG,
+                                        Settings.COMPANY),
+                                machine.getId());
 
                         if (tags != null) {
                             if (tags.size() != 0) {
@@ -182,11 +186,10 @@ public class TagCollectorThread extends Thread implements TagsCollectorThreadLis
                                             tag.setVInt(0);
                                             tag.setVDateTime(Date.from(Instant.now()));
 
-                                            List<TagsTypes> tagsTypes = tagsTypesFacade.findId(tag.getType().getId());
+                                            TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
 
-                                            if (tagsTypes != null) {
-                                                TagsTypes tagType = tagsTypes.get(0);
-                                                tag.setType(tagType);
+                                            if (tagsType != null) {
+                                                tag.setType(tagsType);
                                                 mc.readValue(tag);
                                                 tagsFacade.updateOnValue(tag);
                                             } else {
@@ -251,7 +254,5 @@ public class TagCollectorThread extends Thread implements TagsCollectorThreadLis
         Util.out("TagsCollectorThread >> Not defined !!!");
         ///throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-
 
 }

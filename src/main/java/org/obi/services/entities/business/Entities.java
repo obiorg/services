@@ -5,12 +5,16 @@
 package org.obi.services.entities.business;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.locations.Locations;
 import org.obi.services.entities.measures.MeasUnits;
 import org.obi.services.entities.users.UserRolePermissions;
 import org.obi.services.entities.users.UserRoles;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -142,7 +146,6 @@ public class Entities implements Serializable {
         this.logoPath = logoPath;
     }
 
-
     public Collection<UserRolePermissions> getUserRolePermissionsCollection() {
         return userRolePermissionsCollection;
     }
@@ -151,7 +154,6 @@ public class Entities implements Serializable {
         this.userRolePermissionsCollection = userRolePermissionsCollection;
     }
 
-
     public Collection<UserRoles> getUserRolesCollection() {
         return userRolesCollection;
     }
@@ -159,7 +161,6 @@ public class Entities implements Serializable {
     public void setUserRolesCollection(Collection<UserRoles> userRolesCollection) {
         this.userRolesCollection = userRolesCollection;
     }
-
 
     public Collection<Businesses> getBusinessesCollection() {
         return businessesCollection;
@@ -176,7 +177,6 @@ public class Entities implements Serializable {
     public void setLocation(Locations location) {
         this.location = location;
     }
-
 
     public Collection<MeasUnits> getMeasUnitsCollection() {
         return measUnitsCollection;
@@ -208,7 +208,58 @@ public class Entities implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.Entities[ entity=" + entity + " ]";
+//        return "org.obi.services.entities.Entities[ entity=" + entity + " ]";
+        return "" + this.entity + " - " + this.designation + " [ id=" + id + " ]";
     }
-    
+
+    /**
+     * Allow to affect result object
+     *
+     * @param rs a set of data of the row
+     * @throws SQLException exception
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("entity")) {
+                this.entity = rs.getString(c);
+            } else if (c.matches("designation")) {
+                this.designation = rs.getString(c);
+            } else if (c.matches("builded")) {
+                this.builded = rs.getInt(c);
+            } else if (c.matches("main")) {
+                this.main = rs.getBoolean(c);
+            } else if (c.matches("activated")) {
+                this.activated = rs.getBoolean(c);
+            } else if (c.matches("logoPath")) {
+                this.logoPath = rs.getString(c);
+            } else if (c.matches("location")) {
+                Util.out(Entities.class + " >> update >> location entities is not yet recover only id key");
+                int val = rs.getInt(c);
+                if (val == 0) {
+                    this.location = null;
+                } else {
+                    this.location = new Locations(rs.getInt(c));
+                }
+            } /**
+             *
+             * informations
+             */
+            else {
+                Util.out(Entities.class + " >> update >> unknown column name " + c);
+                System.out.println(Entities.class + " >> update >> unknown column name " + c);
+            }
+        }
+    }
+
 }

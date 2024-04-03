@@ -1,5 +1,6 @@
-package org.obi.services.sessions;
+package org.obi.services.sessions.measures;
 
+import org.obi.services.sessions.tags.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,23 +10,33 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.entities.tags.TagsTypes;
+import org.obi.services.entities.measures.MeasUnits;
 import org.obi.services.model.DatabaseModel;
+import org.obi.services.sessions.AbstractFacade;
 import org.obi.services.util.Util;
 
 /**
  *
  * @author r.hendrick
  */
-public class TagsTypesFacade extends AbstractFacade<TagsTypes> {
+public class MeasUnitsFacade {
 
-    public TagsTypesFacade(Class<TagsTypes> entityClass) {
-        super(entityClass);
+    private static MeasUnitsFacade INSTANCE;
+
+    public static MeasUnitsFacade getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new MeasUnitsFacade();
+        }
+        return INSTANCE;
     }
+
+    public MeasUnitsFacade() {
+    }
+    
 
     Connection conn = null;
 
-    @Override
+    
     protected Connection getConnectionMannager() {
         if (conn == null) {
             conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
@@ -34,7 +45,7 @@ public class TagsTypesFacade extends AbstractFacade<TagsTypes> {
                 conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
             }
         } catch (SQLException ex) {
-            Util.out("TagsTypesFacade >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
+            Util.out("MeasUnitsFacade >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
             Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
@@ -46,43 +57,60 @@ public class TagsTypesFacade extends AbstractFacade<TagsTypes> {
      * @param findQuery existing query in string format
      * @return list of result found
      */
-    private List<TagsTypes> find(String findQuery) {
+    private List<MeasUnits> find(String findQuery) {
         String Q_find = findQuery;
 
-        List<TagsTypes> lst = new ArrayList<>();
+        List<MeasUnits> lst = new ArrayList<>();
         Statement stmt = null;
         try {
             stmt = getConnectionMannager().createStatement();
             ResultSet rs = stmt.executeQuery(Q_find);
             while (rs.next()) {
-                TagsTypes m = new TagsTypes();
+                MeasUnits m = new MeasUnits();
                 m.update(rs);
                 lst.add(m);
             }
         } catch (SQLException ex) {
-            Util.out("TagsTypesFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
+            Util.out("MeasUnitsFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
             Logger.getLogger(AbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
             try {
                 stmt.close();
             } catch (SQLException ex) {
-                Util.out("TagsTypesFacade >> find on close statement : " + ex.getLocalizedMessage());
+                Util.out("MeasUnitsFacade >> find on close statement : " + ex.getLocalizedMessage());
                 Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return lst;
     }
 
-    public List<TagsTypes> findAll() {
-        String Q_findAll = "SELECT * FROM dbo.TagsTypes";
+    /**
+     * Find All elment in table
+     *
+     * Use request : "SELECT * FROM dbo.meas_units"
+     *
+     * @return List of tags tabels
+     */
+    public List<MeasUnits> findAll() {
+        String Q_findAll = "SELECT * FROM dbo.meas_units";
         return find(Q_findAll);
+
     }
 
-    public List<TagsTypes> findId(int id) {
-
-        String Q_findById = "SELECT * FROM dbo.tags_types WHERE tt_id = " + id;
-        return find(Q_findById);
+    /**
+     * Find an element specified by id
+     *
+     * Use request : "SELECT * FROM dbo.meas_units WHERE id = " + id
+     *
+     * @return tags tables or null if empty
+     */
+    public MeasUnits findById(int id) {
+        String Q_finBy = "SELECT * FROM dbo.meas_units WHERE id = " + id;
+        List<MeasUnits> lst = find(Q_finBy);
+        if (lst.isEmpty()) {
+            return null;
+        }
+        return lst.get(0);
     }
-
 }

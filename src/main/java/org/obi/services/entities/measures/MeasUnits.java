@@ -7,9 +7,14 @@ package org.obi.services.entities.measures;
 import org.obi.services.entities.business.Entities;
 import org.obi.services.entities.analyses.AnalyseTypes;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.tags.Tags;
+import org.obi.services.sessions.business.EntitiesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -208,7 +213,59 @@ public class MeasUnits implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.MeasUnits[ id=" + id + " ]";
+//        return "org.obi.services.entities.MeasUnits[ id=" + id + " ]";
+        return "" + this.sizeName + " - " + this.unitName + " [ id=" + id + " ]";
     }
 
+    
+    
+    /**
+     * Allow to affect result object
+     *
+     * @param rs a set of data of the row
+     * @throws SQLException exception
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("entity")) {
+                EntitiesFacade facade = new EntitiesFacade();
+                entity = facade.findById(rs.getInt(c));
+            } else if (c.matches("sizeName")) {
+                this.sizeName = rs.getString(c);
+            } else if (c.matches("sizeSymbol")) {
+                this.sizeSymbol = rs.getString(c);
+            } else if (c.matches("unitName")) {
+                this.unitName = rs.getString(c);
+            }else if (c.matches("unitSymbol")) {
+                this.unitSymbol = rs.getString(c);
+            }else if (c.matches("dimension")) {
+                this.dimension = rs.getString(c);
+            }else if (c.matches("group")) {
+                this.group = rs.getString(c);
+            }else if (c.matches("tagging")) {
+                this.tagging = rs.getString(c);
+            }/**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
+                this.comment = rs.getString(c);
+            } else {
+                Util.out(MeasUnits.class + " >> update >> unknown column name " + c);
+                System.out.println(MeasUnits.class + " >> update >> unknown column name " + c);
+            }
+
+        }
+    }
 }

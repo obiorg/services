@@ -5,9 +5,14 @@
 package org.obi.services.entities.alarms;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.business.Companies;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -164,7 +169,6 @@ public class AlarmRender implements Serializable {
         this.company = company;
     }
 
-
     public Collection<AlarmClasses> getAlarmClassesCollection() {
         return alarmClassesCollection;
     }
@@ -195,7 +199,56 @@ public class AlarmRender implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.AlarmRender[ id=" + id + " ]";
+//        return "org.obi.services.entities.AlarmRender[ id=" + id + " ]";
+        return "" + this.render + " - " + this.name + "(" + this.color + "; " + this.background + ") [ id=" + id + " ]";
     }
-    
+
+    /**
+     * Allow to affect result object
+     *
+     * @param rs a set of data of the row
+     * @throws SQLException exception
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                CompaniesFacade cf = new CompaniesFacade();
+                company = cf.findById(rs.getInt(c));
+            } else if (c.matches("render")) {
+                this.render = rs.getString(c);
+            } else if (c.matches("name")) {
+                this.name = rs.getString(c);
+            } else if (c.matches("color")) {
+                this.color = rs.getString(c);
+            } else if (c.matches("background")) {
+                this.background = rs.getString(c);
+            } else if (c.matches("blink")) {
+                this.blink = rs.getBoolean(c);
+            } else if (c.matches("colorBlink")) {
+                this.colorBlink = rs.getString(c);
+            } else if (c.matches("backgroundBlink")) {
+                this.backgroundBlink = rs.getString(c);
+            }/**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
+                this.comment = rs.getString(c);
+            } else {
+                Util.out(AlarmRender.class + " >> update >> unknown column name " + c);
+                System.out.println(AlarmRender.class + " >> update >> unknown column name " + c);
+            }
+        }
+    }
 }

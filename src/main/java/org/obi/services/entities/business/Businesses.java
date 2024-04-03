@@ -8,6 +8,9 @@ import org.obi.services.entities.analyses.AnalyseTypes;
 import org.obi.services.entities.analyses.AnalyseCategories;
 import org.obi.services.entities.analyses.AnalyseMethods;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.locations.Locations;
@@ -15,6 +18,8 @@ import org.obi.services.entities.measures.MeasLimits;
 import org.obi.services.entities.measures.MeasLimitsGroups;
 import org.obi.services.entities.users.UserRolePermissions;
 import org.obi.services.entities.users.UserRoles;
+import org.obi.services.sessions.business.EntitiesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -253,7 +258,62 @@ public class Businesses implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.Businesses[ id=" + id + " ]";
+//        return "org.obi.services.entities.Businesses[ id=" + id + " ]";
+        return "" + this.business + " - "
+                + this.designation
+                + " (" + this.entity.toString()
+                + ") [ id=" + id + " ]";
     }
 
+    /**
+     * Update the entity with result provide by result set
+     *
+     * All field need to be check in order to set the value
+     *
+     * @param rs corresponding to request of field
+     * @throws SQLException if SQL error appear on result set use
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("entity")) {
+                EntitiesFacade facade = new EntitiesFacade();
+                this.entity = facade.findById(rs.getInt(c));
+            } else if (c.matches("business")) {
+                this.business = rs.getString(c);
+            }else if (c.matches("designation")) {
+                this.designation = rs.getString(c);
+            } else if (c.matches("builded")) {
+                this.builded = rs.getInt(c);
+            } else if (c.matches("main")) {
+                this.main = rs.getBoolean(c);
+            } else if (c.matches("activated")) {
+                this.activated = rs.getBoolean(c);
+            } else if (c.matches("logoPath")) {
+                this.logoPath = rs.getString(c);
+            } else if (c.matches("location")) {
+                Util.out(Businesses.class + " >> update >> location entities is not yet recover only id key");
+                int val = rs.getInt(c);
+                if(val == 0) this.location = null;
+                else this.location = new Locations(rs.getInt(c));
+            } /**
+             *
+             * informations
+             */
+            else {
+                Util.out(Businesses.class + " >> update >> unknown column name " + c);
+                System.out.println(Businesses.class + " >> update >> unknown column name " + c);
+            }
+        }
+    }
 }

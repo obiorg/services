@@ -17,6 +17,8 @@ import org.obi.services.entities.tags.TagsMemories;
 import org.obi.services.entities.tags.TagsTables;
 import org.obi.services.entities.tags.TagsTypes;
 import org.obi.services.entities.business.Companies;
+import org.obi.services.sessions.alarms.AlarmRenderFacade;
+import org.obi.services.sessions.business.CompaniesFacade;
 import org.obi.services.util.Util;
 
 /**
@@ -151,7 +153,8 @@ public class AlarmClasses implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.AlarmClasses[ id=" + id + " ]";
+//        return "org.obi.services.entities.AlarmClasses[ id=" + id + " ]";
+        return "" + this.class1 + " - " + this.name + " [ id=" + id + " ]";
     }
 
     /**
@@ -185,17 +188,24 @@ public class AlarmClasses implements Serializable {
                     this.changed = null;
                 }
             } else if (c.matches("company")) {
-                this.company = new Companies(rs.getInt(c));
+                CompaniesFacade cf = new CompaniesFacade();
+                company = cf.findById(rs.getInt(c));
             } else if (c.matches("class")) {
                 this.class1 = rs.getString(c);
             } else if (c.matches("name")) {
                 this.name = rs.getString(c);
             } else if (c.matches("render")) {
-                this.render = new AlarmRender(rs.getInt(c));
-            } else if (c.matches("comment")) {
+                AlarmRenderFacade cf = new AlarmRenderFacade();
+                render = cf.findById(rs.getInt(c));
+            } /**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
                 this.comment = rs.getString(c);
             } else {
-                Util.out(AlarmClasses.class + " >> update >> unknown field name " + c);
+                Util.out(TagsTables.class + " >> update >> unknown column name " + c);
+                System.out.println(TagsTables.class + " >> update >> unknown column name " + c);
             }
 
         }

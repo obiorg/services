@@ -1,4 +1,4 @@
-package org.obi.services.sessions;
+package org.obi.services.sessions.tags;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.model.DatabaseModel;
+import org.obi.services.sessions.AbstractFacade;
 import org.obi.services.util.Util;
 
 /**
@@ -196,11 +197,26 @@ public final class TagsFacade {
     /**
      * Convenient method to find tags by specified machine
      *
-     * @param machine specied code to reduce amound of data
+     * @param machineId specied code to reduce amound of data
      * @return list of result find
      */
-    public List<Tags> findByMachine(int machine) {
-        String Q_finByMachine = "SELECT * FROM dbo.tags WHERE t_machine = " + machine;
+    public List<Tags> findByMachineId(int machineId) {
+        String Q_finByMachine = "SELECT * FROM dbo.tags WHERE  machine = " + machineId;
+        return find(Q_finByMachine);
+    }
+
+    /**
+     * Convenient method to find tags by specified machine
+     *
+     * SELECT * FROM dbo.tags " + "WHERE company = " + companyId + " AND machine
+     * = " + machineId
+     *
+     * @param machineId specied code to reduce amound of data
+     * @return list of result find
+     */
+    public List<Tags> findByCompanyAndMachineId(int companyId, int machineId) {
+        String Q_finByMachine = "SELECT * FROM dbo.tags "
+                + "WHERE deleted = 0 AND company = " + companyId + " AND machine = " + machineId;
         return find(Q_finByMachine);
     }
 
@@ -210,9 +226,12 @@ public final class TagsFacade {
      * @param machine specied code to reduce amound of data
      * @return
      */
-    public List<Tags> findActiveByMachine(int machine) {
-        String Q_finBActiveyMachine = "SELECT * FROM dbo.tags WHERE t_active = 1 and t_machine = " + machine;
-        return find(Q_finBActiveyMachine);
+    public List<Tags> findActiveByCompanyAndMachine(int companyId, int machineId) {
+        String Q_find = "SELECT * FROM dbo.tags "
+                + "WHERE "
+                + "deleted = 0 AND active = 1 AND company = " + companyId 
+                + " machine = " + machineId;
+        return find(Q_find);
     }
 
 }

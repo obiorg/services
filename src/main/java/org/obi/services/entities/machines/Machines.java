@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.machines.MachDrivers;
 import org.obi.services.entities.tags.Tags;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.sessions.machines.MachDriversFacade;
 import org.obi.services.util.Util;
 
 /**
@@ -32,9 +34,9 @@ import org.obi.services.util.Util;
 //    @NamedQuery(name = "Machines.findByName", query = "SELECT m FROM Machines m WHERE m.name = :name"),
 //    @NamedQuery(name = "Machines.findByRack", query = "SELECT m FROM Machines m WHERE m.rack = :rack"),
 //    @NamedQuery(name = "Machines.findBySlot", query = "SELECT m FROM Machines m WHERE m.slot = :slot"),
-//    @NamedQuery(name = "Machines.findByMqqt", query = "SELECT m FROM Machines m WHERE m.mqqt = :mqqt"),
-//    @NamedQuery(name = "Machines.findByMqqtUser", query = "SELECT m FROM Machines m WHERE m.mqqtUser = :mqqtUser"),
-//    @NamedQuery(name = "Machines.findByMqqtPassword", query = "SELECT m FROM Machines m WHERE m.mqqtPassword = :mqqtPassword"),
+//    @NamedQuery(name = "Machines.findByMqqt", query = "SELECT m FROM Machines m WHERE m.mqtt = :mqtt"),
+//    @NamedQuery(name = "Machines.findByMqqtUser", query = "SELECT m FROM Machines m WHERE m.mqttUser = :mqttUser"),
+//    @NamedQuery(name = "Machines.findByMqqtPassword", query = "SELECT m FROM Machines m WHERE m.mqttPassword = :mqttPassword"),
 //    @NamedQuery(name = "Machines.findByWebhook", query = "SELECT m FROM Machines m WHERE m.webhook = :webhook"),
 //    @NamedQuery(name = "Machines.findByWebhookSecret", query = "SELECT m FROM Machines m WHERE m.webhookSecret = :webhookSecret"),
 //    @NamedQuery(name = "Machines.findByBus", query = "SELECT m FROM Machines m WHERE m.bus = :bus"),
@@ -54,9 +56,9 @@ public class Machines implements Serializable {
     private String name;
     private Integer rack;
     private Integer slot;
-    private Boolean mqqt;
-    private String mqqtUser;
-    private String mqqtPassword;
+    private Boolean mqtt;
+    private String mqttUser;
+    private String mqttPassword;
     private Boolean webhook;
     private String webhookSecret;
     private Integer bus;
@@ -173,28 +175,28 @@ public class Machines implements Serializable {
         this.slot = slot;
     }
 
-    public Boolean getMqqt() {
-        return mqqt;
+    public Boolean getMqtt() {
+        return mqtt;
     }
 
-    public void setMqqt(Boolean mqqt) {
-        this.mqqt = mqqt;
+    public void setMqtt(Boolean mqtt) {
+        this.mqtt = mqtt;
     }
 
-    public String getMqqtUser() {
-        return mqqtUser;
+    public String getMqttUser() {
+        return mqttUser;
     }
 
-    public void setMqqtUser(String mqqtUser) {
-        this.mqqtUser = mqqtUser;
+    public void setMqttUser(String mqttUser) {
+        this.mqttUser = mqttUser;
     }
 
-    public String getMqqtPassword() {
-        return mqqtPassword;
+    public String getMqttPassword() {
+        return mqttPassword;
     }
 
-    public void setMqqtPassword(String mqqtPassword) {
-        this.mqqtPassword = mqqtPassword;
+    public void setMqttPassword(String mqttPassword) {
+        this.mqttPassword = mqttPassword;
     }
 
     public Boolean getWebhook() {
@@ -275,13 +277,12 @@ public class Machines implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.Machines[ id=" + id + " ]";
+//        return "org.obi.services.entities.Machines[ id=" + id + " ]";
+        return "" + this.name + " - " + this.address
+                + " (" + this.company
+                + ") [ id=" + id + " ]";
     }
 
-    
-    
-    
-    
     public void update(ResultSet rs, String c) throws SQLException {
 
         if (c.matches("id")) {
@@ -310,27 +311,55 @@ public class Machines implements Serializable {
 
     public void update(ResultSet rs) throws SQLException {
         ResultSetMetaData rsMetaData = rs.getMetaData();
-        int count = rsMetaData.getColumnCount();
+        //int count = rsMetaData.getColumnCount();
         for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
             String c = rsMetaData.getColumnName(i);
 
             if (c.matches("id")) {
                 this.id = rs.getInt(c);
-            } else if (c.matches("address")) {
-                this.address = rs.getString(c);
-            } else if (c.matches("rack")) {
-                this.rack = rs.getInt(c);
-            } else if (c.matches("slot")) {
-                this.slot = rs.getInt(c);
-            } else if (c.matches("type")) {
-                this.driver = new MachDrivers();
-                this.driver.setDriver(rs.getString(c));
             } else if (c.matches("deleted")) {
                 this.deleted = rs.getBoolean(c);
             } else if (c.matches("created")) {
                 this.created = rs.getDate(c);
             } else if (c.matches("changed")) {
                 this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+//                company = new Companies(rs.getInt(c));
+                CompaniesFacade cf = new CompaniesFacade();
+                company = cf.findById(rs.getInt(c));
+            } else if (c.matches("address")) {
+                this.address = rs.getString(c);
+            } else if (c.matches("mask")) {
+                this.mask = rs.getString(c);
+            } else if (c.matches("dns")) {
+                this.dns = rs.getString(c);
+            } else if (c.matches("ipv6")) {
+                this.ipv6 = rs.getString(c);
+            } else if (c.matches("port")) {
+                this.port = rs.getInt(c);
+            } else if (c.matches("name")) {
+                this.name = rs.getString(c);
+            } else if (c.matches("rack")) {
+                this.rack = rs.getInt(c);
+            } else if (c.matches("slot")) {
+                this.slot = rs.getInt(c);
+            } else if (c.matches("driver")) {
+                MachDriversFacade mdf = new MachDriversFacade();
+                driver = mdf.findById(rs.getInt(c));
+            } else if (c.matches("mqtt")) {
+                this.mqtt = rs.getBoolean(c);
+            } else if (c.matches("mqtt_user")) {
+                this.mqttUser = rs.getString(c);
+            } else if (c.matches("mqtt_password")) {
+                this.mqttPassword = rs.getString(c);
+            } else if (c.matches("webhook")) {
+                this.webhook = rs.getBoolean(c);
+            } else if (c.matches("webhook_secret")) {
+                this.webhookSecret = rs.getString(c);
+            } else if (c.matches("bus")) {
+                this.bus = rs.getInt(c);
+            } else if (c.matches("description")) {
+                this.description = rs.getString(c);
             } else {
                 Util.out(Machines.class + " >> update >> unknown column name " + c);
                 System.out.println(Machines.class + " >> update >> unknown column name " + c);

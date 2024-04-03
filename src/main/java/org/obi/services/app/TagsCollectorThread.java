@@ -15,10 +15,11 @@ import java.util.logging.Logger;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.entities.tags.TagsTypes;
-import org.obi.services.sessions.MachinesFacade;
-import org.obi.services.sessions.TagsFacade;
-import org.obi.services.sessions.TagsTypesFacade;
+import org.obi.services.sessions.machines.MachinesFacade;
+import org.obi.services.sessions.tags.TagsFacade;
+import org.obi.services.sessions.tags.TagsTypesFacade;
 import org.obi.services.util.Ico;
+import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
@@ -115,27 +116,30 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
         String methodName = getClass().getSimpleName() + " : run() >> ";
 
         // Récupération des facades de communication bdd
-        MachinesFacade machinesFacade = new MachinesFacade(Machines.class);
         TagsFacade tagsFacade = TagsFacade.getInstance();
-        TagsTypesFacade tagsTypesFacade = new TagsTypesFacade(TagsTypes.class);
+        TagsTypesFacade tagsTypesFacade = new TagsTypesFacade();
 
-        // Int Main Loop 
-        Integer mainLoop = 0;
+        // Track for activity
         boolean onceOnMain = false; // only display once
         boolean onceOnStop = false; // only display once
+
+        // Main loop
         while (!requestKill) {
             long requestEpoch = 0; // allow firstime play
-            // Main loop
 
+            // If not machine define stop process immediatly
             if (machine == null) {
                 this.doStop();
             }
+
+            // Normal loop processing
             while (!requestStop) {
                 if (running == false) {
                     tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
                         tagCollectorThreadListener.onProcessingThread();
                     });
                 }
+
                 // Set processus in run mode
                 running = true;
                 onceOnMain = true;
@@ -157,10 +161,9 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                             Logger.getLogger(TagsCollectorThread.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    long now2 = Instant.now().toEpochMilli();
 
                     // Process only if minimum time is respected
-                    if ((now2 - requestEpoch) >= 1000) {
+                    if ((Instant.now().toEpochMilli() - requestEpoch) >= 1000) {
                         onceOnStop = true;
 
                         // change epoch reference
@@ -168,7 +171,10 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                         requestEpochCnt = 0;
 
                         // check if connection exist, if not create !
-                        List<Tags> tags = tagsFacade.findActiveByMachine(machine.getId());
+                        List<Tags> tags = tagsFacade.findActiveByCompanyAndMachine(
+                                (int) Settings.read(Settings.CONFIG,
+                                        Settings.COMPANY),
+                                machine.getId());
 
                         if (tags != null) {
                             if (tags.size() != 0) {
@@ -177,7 +183,7 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                                     // Collect only if cyle time is reached since last change
                                     Date date = tag.getVDateTime();
                                     long savedEpoch = date.toInstant().toEpochMilli();
-                                    long cycleTime = tag.getCycle() * 1000; // sec
+                                    long cycleTime = tag.getCycle() * 1000; // msec
                                     long now3 = Instant.now().toEpochMilli();
                                     if ((now3 - savedEpoch) > cycleTime) {
                                         // Init. default value
@@ -186,11 +192,10 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                                         tag.setVInt(0);
                                         tag.setVDateTime(Date.from(Instant.now()));
 
-                                        List<TagsTypes> tagsTypes = tagsTypesFacade.findId(tag.getType().getId());
+                                        TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
 
-                                        if (tagsTypes != null) {
-                                            TagsTypes tagType = tagsTypes.get(0);
-                                            tag.setType(tagType);
+                                        if (tagsType != null) {
+                                            tag.setType(tagsType);
                                             mc.readValue(tag);
                                             tagsFacade.updateOnValue(tag);
                                         } else {

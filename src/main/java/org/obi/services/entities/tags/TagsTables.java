@@ -6,8 +6,13 @@ package org.obi.services.entities.tags;
 
 import org.obi.services.entities.business.Companies;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -144,7 +149,48 @@ public class TagsTables implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.TagsTables[ id=" + id + " ]";
+//        return "org.obi.services.entities.TagsTables[ id=" + id + " ]";
+        return "" + this.table + " - " + this.designation + " [ id=" + id + " ]";
+    }
+
+    /**
+     * Allow to affect result object
+     *
+     * @param rs a set of data of the row
+     * @throws SQLException exception
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                CompaniesFacade cf = new CompaniesFacade();
+                company = cf.findById(rs.getInt(c));
+            } else if (c.matches("table")) {
+                this.table = rs.getString(c);
+            } else if (c.matches("designation")) {
+                this.designation = rs.getString(c);
+            }/**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
+                this.comment = rs.getString(c);
+            } else {
+                Util.out(TagsTables.class + " >> update >> unknown column name " + c);
+                System.out.println(TagsTables.class + " >> update >> unknown column name " + c);
+            }
+
+        }
     }
 
 }
