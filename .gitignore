@@ -28,3 +28,4 @@ replay_pid*
 OBILog.txt
 obi_service.ini
 launch4j*
+/obi-service-release/

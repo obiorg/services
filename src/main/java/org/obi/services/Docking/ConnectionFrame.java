@@ -858,34 +858,36 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
             JList list = (JList) evt.getSource();
             int selections[] = list.getSelectedIndices();
             List<Object> selectionValues = list.getSelectedValuesList();
-            for (int i = 0, n = selections.length; i < n; i++) {
+            for (int i = 0; i < selections.length; i++) {
                 if (i == 0) {
                     System.out.println(" Selections: ");
                 }
                 System.out.println(selections[i] + "/" + selectionValues.get(i) + " ");
 
-                MachineConnection mc = machinesConnections.get(selections[i]);
-                if (!mc.getRunning()) {
-                    mc.setRequestStop(false);
-                    mc.start();
-                    mc.connect();
-                } else {
-                    mc.connectState();
+                if (!machinesConnections.isEmpty()) {
+
+                    MachineConnection mc = machinesConnections.get(selections[i]);
+                    if (!mc.getRunning()) {
+                        mc.setRequestStop(false);
+                        mc.start();
+                        mc.connect();
+                    } else {
+                        mc.connectState();
+                    }
+
+                    // Update information connection
+                    address.setText(mc.getMachine().getAddress());
+                    rack.setValue(mc.getMachine().getRack());
+                    slot.setValue(mc.getMachine().getSlot());
+
+                    mc.dateTime();
+                    mc.orderCode();
+                    mc.plcStatus();
+                    mc.plcInfo();
+                    mc.cpInfo();
+                    mc.SzlInfo();
+                    btnTest.setEnabled(false);
                 }
-
-                // Update information connection
-                address.setText(mc.getMachine().getAddress());
-                rack.setValue(mc.getMachine().getRack());
-                slot.setValue(mc.getMachine().getSlot());
-
-                mc.dateTime();
-                mc.orderCode();
-                mc.plcStatus();
-                mc.plcInfo();
-                mc.cpInfo();
-                mc.SzlInfo();
-                btnTest.setEnabled(false);
-
             }
         }
     }//GEN-LAST:event_listConnexionsValueChanged

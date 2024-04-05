@@ -147,7 +147,8 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
 
                 //2- create S7 connection to PLC
                 MachineConnection mc = new MachineConnection(machine);
-                while (mc.doConnect() & !requestStop & !requestKill) {
+                mc.doConnect(); // demande la connexion
+                while (mc.getConnected() & !requestStop & !requestKill) {
 
                     int requestEpochCnt = 0;
                     // Minimum One second between request
@@ -183,11 +184,11 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                                 tags.stream().forEach((tag) -> {
                                     // Collect only if cyle time is reached since last change
                                     long cycleTime = tag.getCycle() * 1000; // msec
-                                    
+
                                     long savedEpoch = Instant.now().toEpochMilli();
-                                    if(tag.getVStamp() != null){
+                                    if (tag.getVStamp() != null) {
                                         savedEpoch = tag.getVStamp().toInstant().toEpochMilli();
-                                    }else{
+                                    } else {
                                         savedEpoch = Instant.now().toEpochMilli() - cycleTime - 1;
                                     }
 
@@ -199,7 +200,6 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                                         tag.setVStamp(Date.from(Instant.now()));
 
                                         //TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
-
                                         if (tag.getType() != null) {
                                             //tag.setType(tagsType);
                                             mc.readValue(tag);
@@ -210,11 +210,11 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                                     }
                                 });
                             } else {
-                                Util.out(methodName + " Unable to connect to client S7 machine = " + machine);
+                                Util.out(methodName + " empty list tag found for machine = " + machine);
                             }
-                            mc.close();
+
                         } else {
-                            Util.out(methodName + " empty list tag found for machine = " + machine);
+                            Util.out(methodName + " null value for tags machine :  = " + machine);
                         }
 
                     } else {
@@ -231,6 +231,7 @@ public class TagsCollectorThread extends Thread implements TagsCollectorThreadLi
                         onceOnStop = false;
                     }
                 }
+                mc.close();
 
                 running = false; //!< indicate end of processus running
                 if (onceOnMain) {

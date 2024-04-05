@@ -302,7 +302,7 @@ public class Businesses implements Serializable {
             } else if (c.matches("logoPath")) {
                 this.logoPath = rs.getString(c);
             } else if (c.matches("location")) {
-                Util.out(Businesses.class + " >> update >> location entities is not yet recover only id key");
+//                Util.out(Businesses.class + " >> update >> location entities is not yet recover only id key");
                 int val = rs.getInt(c);
                 if(val == 0) this.location = null;
                 else this.location = new Locations(rs.getInt(c));

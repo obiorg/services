@@ -198,7 +198,20 @@ public class MachineConnection extends Thread implements ConnectionListener {
             return true;
         } else { // try to connect
             connected = false;
-            client.SetConnectionType(S7.OP);
+            
+            // SELECT Connection type depend on machine driver
+            byte connectionType = S7.OP;
+            switch(machine.getDriver().getId()){
+                case 4 : // IM151-
+                    connectionType = S7.PG;
+                    break;
+                default : // S7300 / S7400 / WinAC / S71200 / S71500
+                    connectionType = S7.OP;
+                    break;
+            }
+            
+            // Process to connection type and connection
+            client.SetConnectionType(connectionType);
             errorCode = client.ConnectTo(machine.getAddress(),
                     machine.getRack(),
                     machine.getSlot());

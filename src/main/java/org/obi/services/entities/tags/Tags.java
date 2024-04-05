@@ -837,7 +837,7 @@ public class Tags implements Serializable {
              *
              * LINKS
              */
-            else if (c.matches("mqttTopic")) {
+            else if (c.matches("mqtt_topic")) {
                 this.mqttTopic = rs.getString(c);
             } else if (c.matches("webhook")) {
                 this.webhook = rs.getString(c);
@@ -879,7 +879,7 @@ public class Tags implements Serializable {
              */
             else if (c.matches("persistenceEnable")) {
                 this.persistenceEnable = rs.getBoolean(c);
-            } else if (c.matches("alarmEnable")) {
+            } else if (c.matches("persOffsetEnable")) {
                 this.persOffsetEnable = rs.getBoolean(c);
             } else if (c.matches("persOffsetFloat")) {
                 this.persOffsetFloat = rs.getDouble(c);
