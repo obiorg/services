@@ -1,4 +1,4 @@
-package org.obi.services.sessions;
+package org.obi.services.sessions.tags;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.model.DatabaseModel;
+import org.obi.services.sessions.AbstractFacade;
 import org.obi.services.util.Util;
 
 /**
@@ -86,25 +87,22 @@ public final class TagsFacade {
     }
 
     public int updateOnValueFloat(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("t_value_float",
-                tag.getVFloat(),
-                tag.getId()
+        String Q_Update = Tags.queryUpdateOn("vFloat",
+                tag
         );
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueInt(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("t_value_int",
-                tag.getVInt(),
-                tag.getId()
+        String Q_Update = Tags.queryUpdateOn("vInt",
+                tag
         );
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueBool(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("t_value_bool",
-                tag.getVBool(),
-                tag.getId()
+        String Q_Update = Tags.queryUpdateOn("vBool",
+                tag
         );
         return updateOnValue(Q_Update);
     }
@@ -137,13 +135,13 @@ public final class TagsFacade {
      * affected
      */
     public int updateOnValue(Tags tag) {
-        if (tag.getType().getType().matches("Bool")) {
+        if (tag.getType().getId() == 1) { // 1 : Bool
             return updateOnValueBool(tag);
         } // INT
-        else if (tag.getType().getType().matches("Int")) {
+        else if (tag.getType().getId() == 4) { // 4 : Int
             return updateOnValueInt(tag);
         } // REAL
-        else if (tag.getType().getType().matches("Real")) {
+        else if (tag.getType().getId() == 6) { // 6 : Real
             return updateOnValueFloat(tag);
         }
         return 0;
@@ -155,7 +153,7 @@ public final class TagsFacade {
      * @param findQuery existing query in string format
      * @return list of result found
      */
-    private List<Tags> find(String findQuery) {
+    private List<Tags> find(String findQuery, Boolean easy) {
         String Q_find = findQuery;
 
         List<Tags> lst = new ArrayList<>();
@@ -165,7 +163,7 @@ public final class TagsFacade {
             ResultSet rs = stmt.executeQuery(Q_find);
             while (rs.next()) {
                 Tags m = new Tags();
-                m.update(rs);
+                m.update(rs, easy);
                 lst.add(m);
             }
         } catch (SQLException ex) {
@@ -190,18 +188,33 @@ public final class TagsFacade {
      */
     public List<Tags> findAll() {
         String Q_findAll = "SELECT * FROM dbo.tags";
-        return find(Q_findAll);
+        return find(Q_findAll, false);
     }
 
     /**
      * Convenient method to find tags by specified machine
      *
-     * @param machine specied code to reduce amound of data
+     * @param machineId specied code to reduce amound of data
      * @return list of result find
      */
-    public List<Tags> findByMachine(int machine) {
-        String Q_finByMachine = "SELECT * FROM dbo.tags WHERE t_machine = " + machine;
-        return find(Q_finByMachine);
+    public List<Tags> findByMachineId(int machineId) {
+        String Q_finByMachine = "SELECT * FROM dbo.tags WHERE  machine = " + machineId;
+        return find(Q_finByMachine, false);
+    }
+
+    /**
+     * Convenient method to find tags by specified machine
+     *
+     * SELECT * FROM dbo.tags " + "WHERE company = " + companyId + " AND machine
+     * = " + machineId
+     *
+     * @param machineId specied code to reduce amound of data
+     * @return list of result find
+     */
+    public List<Tags> findByCompanyAndMachineId(int companyId, int machineId) {
+        String Q_finByMachine = "SELECT * FROM dbo.tags "
+                + "WHERE deleted = 0 AND company = " + companyId + " AND machine = " + machineId;
+        return find(Q_finByMachine, false);
     }
 
     /**
@@ -210,9 +223,26 @@ public final class TagsFacade {
      * @param machine specied code to reduce amound of data
      * @return
      */
-    public List<Tags> findActiveByMachine(int machine) {
-        String Q_finBActiveyMachine = "SELECT * FROM dbo.tags WHERE t_active = 1 and t_machine = " + machine;
-        return find(Q_finBActiveyMachine);
+    public List<Tags> findActiveByCompanyAndMachine(int companyId, int machineId) {
+        String Q_find = "SELECT * FROM dbo.tags "
+                + "WHERE "
+                + "deleted = 0 AND active = 1 AND company = " + companyId
+                + " AND machine = " + machineId;
+        return find(Q_find, false);
+    }
+
+    /**
+     * Convenient method to find tags only by activated machine in simplify way
+     *
+     * @param machine specied code to reduce amound of data
+     * @return
+     */
+    public List<Tags> _findActiveByCompanyAndMachine(int companyId, int machineId) {
+        String Q_find = "SELECT * FROM dbo.tags "
+                + "WHERE "
+                + "deleted = 0 AND active = 1 AND company = " + companyId
+                + " AND machine = " + machineId;
+        return find(Q_find, true);
     }
 
 }

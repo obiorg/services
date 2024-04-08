@@ -37,7 +37,6 @@ import org.obi.services.Form.output.CapturePane;
 import org.obi.services.Form.output.StreamCapturer;
 import org.obi.services.OBIServiceTrayIcon;
 import org.obi.services.app.ManagerControllerThread;
-import org.obi.services.app.TagsCollectorThread;
 import org.obi.services.listener.TagsCollectorThreadListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.util.Ico;
@@ -57,14 +56,17 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Custom view icon.
      */
     private static final Icon VIEW_ICON = new Icon() {
+        @Override
         public int getIconHeight() {
             return ICON_SIZE;
         }
 
+        @Override
         public int getIconWidth() {
             return ICON_SIZE;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Color oldColor = g.getColor();
 
@@ -82,14 +84,17 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Custom view button icon.
      */
     private static final Icon BUTTON_ICON = new Icon() {
+        @Override
         public int getIconHeight() {
             return ICON_SIZE;
         }
 
+        @Override
         public int getIconWidth() {
             return ICON_SIZE;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Color oldColor = g.getColor();
 
@@ -116,8 +121,10 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      *
      * [3] : Database driver
      *
+     * [4] : Manager controller
+     *
      */
-    private View[] views = new View[4];
+    private final View[] views = new View[5];
 
     /**
      * Contains all the static views
@@ -153,6 +160,12 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * The application database informations frame
      */
     private DatabaseInformationsFrame databaseInformationsFrame = null;
+
+    /**
+     * The application Manager controller Frame for connectivity in production
+     */
+    private ManagerControllerFrame managerControllerFrame = new ManagerControllerFrame();
+
     /**
      * Tray Icon System to be use in this class
      */
@@ -167,6 +180,16 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Main Windows Pane
      */
     private DockingWindow mainTabWindow = new TabWindow();
+
+    @Override
+    public void onSubProcessActivityState(Thread thread, Boolean activity) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onCollectionCount(Thread thread, int count) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     /**
      * A dynamically created view containing an id.
@@ -214,16 +237,18 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      */
     private JFrame frame = new JFrame("OBI Service");
 
-    public MainWindowDocking(TrayIcon trayIcon, ManagerControllerThread managerCtrlThread) {
+    public MainWindowDocking(TrayIcon trayIcon, ManagerControllerThread _managerCtrlThread) {
 
         createRootWindow();
         setDefaultLayout();
         initComponents();
 
         this.trayIcon = trayIcon;
-        this.managerCtrlThread = managerCtrlThread;
+        this.managerCtrlThread = _managerCtrlThread;
         this.managerCtrlThread.addClientListener(this);
-        Util.out("MainWindow : Constructor >> Started ...");
+        this.managerCtrlThread.addClientListener(managerControllerFrame);
+        this.managerCtrlThread.addMachinesEvent(managerControllerFrame);
+        Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : Constructor >> Started ...");
     }
 
     /**
@@ -250,7 +275,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * @return the dynamic view
      */
     private View getDynamicView(int id) {
-        View view = (View) dynamicViews.get(new Integer(id));
+        View view = (View) dynamicViews.get(id);
 
         if (view == null) {
             view = new DynamicView("Dynamic View " + id, Ico.i16("/img/oz/exit.png", this), createViewComponent("Dynamic View " + id), id);
@@ -267,7 +292,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     private int getDynamicViewId() {
         int id = 0;
 
-        while (dynamicViews.containsKey(new Integer(id))) {
+        while (dynamicViews.containsKey(id)) {
             id++;
         }
 
@@ -282,7 +307,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         CapturePane capturePane = new CapturePane();
         PrintStream ps = System.out;
         System.setOut(new PrintStream(new StreamCapturer("obi", capturePane, ps)));
-        Util.out("MainWindow : Constructor >> Started ...");
+        Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : createRootWindow >> Started ...");
         views[0] = new View("Sorties", Ico.i16("/img/javadocking/icons/terminal.png", this), capturePane);
         viewMap.addView(0, views[0]);
 
@@ -303,6 +328,14 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         views[2].close();
 
         // [3] : Database driver
+        // [4] : Manager controller
+        //managerControllerFrame = new ManagerControllerFrame(); /!\ already init in object
+        views[4] = new View("Manager Controller", Ico.i16("/img/std/Tree.png", this), managerControllerFrame);
+        viewMap.addView(4, views[4]);
+        mainTabWindow.add(views[4]);
+        views[4].setEnabled(false);
+        views[4].close();
+
         // The mixed view map makes it easy to mix static and dynamic views inside the same root window
         MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
             public void writeView(View view, ObjectOutputStream out) throws IOException {
@@ -359,9 +392,9 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         if (window instanceof View) {
             if (window instanceof DynamicView) {
                 if (added) {
-                    dynamicViews.put(new Integer(((DynamicView) window).getId()), window);
+                    dynamicViews.put(((DynamicView) window).getId(), window);
                 } else {
-                    dynamicViews.remove(new Integer(((DynamicView) window).getId()));
+                    dynamicViews.remove(((DynamicView) window).getId());
                 }
             } else {
                 for (int i = 0; i < views.length; i++) {
@@ -528,24 +561,27 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      */
     private void startTagCollectorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
         if (!managerCtrlThread.isRunning()) {
+            managerControllerFrame.clearMachineTable();
             managerCtrlThread.doRelease();
             if (!managerCtrlThread.isAlive()) {
+//                managerCtrlThread.kill();
+//                managerCtrlThread = new ManagerControllerThread(trayIcon);
                 managerCtrlThread.start();
             } else {
-                managerCtrlThread.notify();
+//                managerCtrlThread.doRelease();
             }
             // Done in TagsCollectorThreadListener
 //            trayIcon.displayMessage("OBI",
 //                    bundle.getString("TagsCollector_Msg_Start"),
 //                    TrayIcon.MessageType.INFO);
-            startTagCollectorMenuItem.setEnabled(false);
-            stopTagCollectorMenuItem.setEnabled(true);
         } else {
             trayIcon.displayMessage("OBI",
                     "Processus is already running. Please stop before start !",
                     TrayIcon.MessageType.WARNING);
-            Util.out("Processus is already running. Please stop before start !");
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : startTagCollectorMenuItem >> Processus is already running. Please stop before start !");
         }
+        startTagCollectorMenuItem.setEnabled(false);
+        stopTagCollectorMenuItem.setEnabled(true);
     }
 
     /**
@@ -563,14 +599,15 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 //                    "Tags collector est arrêté !",
 //                    TrayIcon.MessageType.INFO);
 
-            startTagCollectorMenuItem.setEnabled(true);
-            stopTagCollectorMenuItem.setEnabled(false);
         } else {
             trayIcon.displayMessage("OBI",
                     "Processus is already stopped. Please start before any stop !",
                     TrayIcon.MessageType.WARNING);
-            Util.out("Processus is already stopped. Please start before any stop !");
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : stopTagCollectorMenuItem >> Processus is already stopped. Please start before any stop !");
         }
+
+        startTagCollectorMenuItem.setEnabled(true);
+        stopTagCollectorMenuItem.setEnabled(false);
     }
 
     /**
@@ -585,7 +622,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
     }
 
@@ -601,7 +638,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
     }
 
@@ -617,7 +654,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
     }
 
@@ -633,7 +670,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
     }
 
@@ -649,7 +686,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
     }
 
@@ -665,7 +702,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (Exception e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
         UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
@@ -684,7 +721,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (Exception e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
         UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
@@ -702,7 +739,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (Exception e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
         UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
@@ -720,7 +757,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (Exception e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
         UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
@@ -738,7 +775,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (Exception e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
         UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
@@ -756,7 +793,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             SwingUtilities.updateComponentTreeUI(frame);
             //frame.pack();
         } catch (Exception e) {
-            Util.out(e.getLocalizedMessage());
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + e.getLocalizedMessage());
         }
         UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
@@ -793,6 +830,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     private JMenuItem nimbusMenuItem;
     private JMenuItem startTagCollectorMenuItem;
     private JMenuItem stopTagCollectorMenuItem;
+    private JMenuItem managerControllerMenuItem;
     private JButton tbBtnHide;
     private JButton tbBtnExit;
     private JMenu themeMenu;
@@ -922,6 +960,23 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         });
         stopTagCollectorMenuItem.setEnabled(false);
 
+        //> TOOLS MENU - managerControllerMenuItem
+        managerControllerMenuItem = new JMenuItem();
+        managerControllerMenuItem.setIcon(Ico.i16("/img/std/Tree.png", this));
+        managerControllerMenuItem.setMnemonic('t');
+        managerControllerMenuItem.setText(bundle.getString("MenuItemControllerManager")); // NOI18N
+        managerControllerMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (views[4].getRootWindow() != null) {
+                    views[4].restoreFocus();
+                    managerControllerMenuItem.setEnabled(false);
+                } else {
+                    DockingUtil.addWindow(views[4], rootWindow);
+                }
+            }
+        });
+        managerControllerMenuItem.setEnabled(true);
+
         /// TOOLS MENU - SETUP
         toolsMenu = new JMenu();
         toolsMenu.setMnemonic('o');
@@ -932,6 +987,8 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         toolsMenu.add(jSeparator1);
         toolsMenu.add(startTagCollectorMenuItem);
         toolsMenu.add(stopTagCollectorMenuItem);
+        toolsMenu.add(new JPopupMenu.Separator());
+        toolsMenu.add(managerControllerMenuItem);
 
         //> EDIT MENU - configMenuItem
         final View view = views[1];
@@ -1109,7 +1166,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                     }
                 });
             } else {
-                Util.out("MainWindowDocking >> CreateFocusViewMenu : "
+                Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : createFocusViewMenu >> CreateFocusViewMenu : "
                         + "views[" + i + "] is null !");
             }
         }
@@ -1289,7 +1346,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                     }
                 });
             } else {
-                Util.out("MainWindowDocking >> createViewMenu : "
+                Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : createViewMenu >> createViewMenu : "
                         + "views[" + i + "] is null !");
             }
         }
@@ -1462,7 +1519,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Will be call when thread is processing and display message to trayIcon
      */
     @Override
-    public void onProcessingThread() {
+    public void onProcessingThread(Thread t) {
         trayIcon.displayMessage("OBI",
                 "Main Tag collector system has start !",
                 TrayIcon.MessageType.INFO);
@@ -1474,7 +1531,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Will be call when thread is olding and display message to trayIcon
      */
     @Override
-    public void onOldingThread() {
+    public void onProcessingSubStopThread(Thread t) {
         trayIcon.displayMessage("OBI",
                 "Main Tag collector system has stop !",
                 TrayIcon.MessageType.INFO);
@@ -1487,8 +1544,40 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * @param m process to be killed
      */
     @Override
-    public void onKillProcessThread(TagsCollectorThread m) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void onProcessingStopThread(Thread m) {
+        trayIcon.displayMessage("OBI",
+                "Main Tag collector system has stop !",
+                TrayIcon.MessageType.ERROR);
+    }
+
+    /**
+     *
+     * @param thread the value of thread
+     * @param ms the value of ms
+     */
+    @Override
+    public void onProcessingSubCycleTime(Thread thread, Long ms) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onProcessingSubThread(Thread thread) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    /**
+     *
+     * @param thread the value of thread
+     * @param ms the value of ms
+     */
+    @Override
+    public void onProcessingCycleTime(Thread thread, Long ms) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onErrorCollection(Thread thread, String message) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

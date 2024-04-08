@@ -5,10 +5,10 @@ import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import org.obi.services.Docking.ConnectionFrame;
 import org.obi.services.Docking.MainWindowDocking;
 import org.obi.services.Docking.SettingsApplicationFrame;
 import org.obi.services.app.ManagerControllerThread;
@@ -30,6 +30,8 @@ import org.obi.services.util.Util;
  */
 public class OBIServiceTrayIcon {
 
+    // Variables declaration - do not modify   
+    public static ResourceBundle bundle = ResourceBundle.getBundle("bundles/Fr_fr"); // NOI18N
     /* Define logo signet dark path */
     public static final String signet_dark = "/img/obi/obi-signet-dark.png";
     /* Define logo signet light path */
@@ -53,10 +55,9 @@ public class OBIServiceTrayIcon {
 
         // Setup configuration ".in" file
         //
-        Util.out(OBIServiceTrayIcon.class + " >> main : OBI - Start...");
+        Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " >> main : OBI - Start...");
         Settings.iniFilename = "obi_service.ini";
-        Util.out(OBIServiceTrayIcon.class + " >> main : "
-                + "Setup configuration file .ini");
+        Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " >> main : Setup configuration file .ini");
         if (Settings.createIniFile()) {
             Settings.writeDefaultClientSetup();
         }
@@ -67,7 +68,7 @@ public class OBIServiceTrayIcon {
                 = new TrayIcon(createImage(signet_dark, app_description)
                         .getScaledInstance(16, 16, Image.SCALE_SMOOTH));
         trayIcon.setToolTip(app_toolTip);
-        Util.out(OBIServiceTrayIcon.class + " >> main : Tray icon create");
+        Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " >> main : Tray icon create");
 
         // Create a swing thread
         //
@@ -83,7 +84,7 @@ public class OBIServiceTrayIcon {
         });
 
         // Affichage plein écrant
-        Util.out(OBIServiceTrayIcon.class + " >> main : program ready.");
+        Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " >> main : program ready.");
 
     }
 
@@ -100,7 +101,7 @@ public class OBIServiceTrayIcon {
         // Check the SystemTray support
         //
         if (!SystemTray.isSupported()) {
-            Util.out(OBIServiceTrayIcon.class
+            Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName()
                     + " >> CreateAndShowGui >> SystemTray is not supported !");
             return null;
         }
@@ -116,7 +117,6 @@ public class OBIServiceTrayIcon {
         // MainWindow Setup
         //
         MainWindowDocking mw = new MainWindowDocking(trayIcon, managerCtrlThread);
-        
 
         //
         // 0 - Create a popup menu components
@@ -170,23 +170,16 @@ public class OBIServiceTrayIcon {
         });
         //===== 0.2. End Menu Close 
 
-        //===== 0.3. Menu Base de donnée
-        MenuItem obiAppMenuItem = new MenuItem("OBI SERVICE GUI");
+        //===== 0.3. Menu Application
+        MenuItem obiAppMenuItem = new MenuItem("obi-service");
         obiAppMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mw.setVisible(true);
             }
         });
+        //===== 0.3. Menu Application
 
-        MainWindowDocking mainWindowDocking = new MainWindowDocking(trayIcon, managerCtrlThread);
-        MenuItem obi2AppMenuItem = new MenuItem("New Gui");
-        obi2AppMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                mainWindowDocking.setVisible(true);
-            }
-        });
-        //===== 0.3. End Menu Close 
-
+        //===== 0.4. Menu Configuration BDD
         MenuItem configDBMenuItem = new MenuItem("Configurations");
         configDBMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -200,8 +193,9 @@ public class OBIServiceTrayIcon {
         Menu databaseMenu = new Menu("Base de donnée");
         databaseMenu.add(configDBMenuItem);
         databaseMenu.add(infoDBMenuItem);
+        //===== 0.4. End Menu Configuration BDD
 
-        // 0.4. Menu Processus
+        // 0.5. Menu Processus
         MenuItem connexionPLCMenuItem = new MenuItem("Connexions PLC");
         connexionPLCMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -222,7 +216,7 @@ public class OBIServiceTrayIcon {
                     trayIcon.displayMessage("OBI",
                             "Processus is already running. Please stop before start !",
                             TrayIcon.MessageType.WARNING);
-                    Util.out(OBIServiceTrayIcon.class + " Processus is already running. Please stop before start !");
+                    Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Processus is already running. Please stop before start !");
                 }
             }
         });
@@ -235,21 +229,21 @@ public class OBIServiceTrayIcon {
                     trayIcon.displayMessage("OBI",
                             "Processus is already stopped. Please start before any stop !",
                             TrayIcon.MessageType.WARNING);
-                    Util.out(OBIServiceTrayIcon.class + " Processus is already stopped. Please start before any stop !");
+                    Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Processus is already stopped. Please start before any stop !");
                 }
             }
         });
         Menu processusMenu = new Menu("Processus");
-        processusMenu.add(connexionPLCMenuItem);
+//        processusMenu.add(connexionPLCMenuItem);
         processusMenu.add(startProcessusMenuItem);
         processusMenu.add(stopProcessusMenuItem);
+        // 0.5. END Menu Processus
 
         // 1 - Add components to popup menu
         final PopupMenu popup = new PopupMenu();
         popup.add(obiAppMenuItem);
-        popup.add(obi2AppMenuItem);
         popup.addSeparator();
-        popup.add(databaseMenu);
+//        popup.add(databaseMenu);
         popup.add(processusMenu);
         popup.addSeparator();
         popup.add(optionsMenu);
@@ -299,25 +293,25 @@ public class OBIServiceTrayIcon {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
 
-        Util.out(OBIServiceTrayIcon.class + " Try to check look and feel...");
+        Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Try to check look and feel...");
         for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            Util.out(OBIServiceTrayIcon.class + " Look and fell " + info.getName() + " use class : " + info.getClassName());
+            Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Look and fell " + info.getName() + " use class : " + info.getClassName());
             if ("FlatGitHubDarkIJtheme".equals(info.getName())) {
                 try {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     UIManager.setLookAndFeel(new FlatLightLaf());
                     //break;
                 } catch (ClassNotFoundException ex) {
-                    Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
+                    Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Error on look and feel");
                     Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InstantiationException ex) {
-                    Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
+                    Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Error on look and feel");
                     Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IllegalAccessException ex) {
-                    Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
+                    Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Error on look and feel");
                     Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (UnsupportedLookAndFeelException ex) {
-                    Util.out(OBIServiceTrayIcon.class + " Error on look and feel");
+                    Util.out(Util.errLine() + OBIServiceTrayIcon.class.getSimpleName() + " Error on look and feel");
                     Logger.getLogger(TrayIcon.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

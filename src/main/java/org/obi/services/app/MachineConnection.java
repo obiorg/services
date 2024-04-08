@@ -51,6 +51,8 @@ public class MachineConnection extends Thread implements ConnectionListener {
     private Boolean requestDateTime = false;
     private Boolean requestOrderCode = false;
     private Boolean requestStop = false;
+    private Boolean running = false;
+
     private Boolean requestPLCStatus = false;
     private Boolean requestCpuInfo = false;
     private Boolean requestCpInfo = false;
@@ -109,6 +111,22 @@ public class MachineConnection extends Thread implements ConnectionListener {
      */
     public MachineConnection(Machines machine) {
         this.machine = machine;
+    }
+
+    public Boolean getRequestStop() {
+        return requestStop;
+    }
+
+    public void setRequestStop(Boolean requestStop) {
+        this.requestStop = requestStop;
+    }
+
+    public Boolean getRunning() {
+        return running;
+    }
+
+    public void setRunning(Boolean running) {
+        this.running = running;
     }
 
     /**
@@ -177,7 +195,20 @@ public class MachineConnection extends Thread implements ConnectionListener {
             return true;
         } else { // try to connect
             connected = false;
-            client.SetConnectionType(S7.OP);
+
+            // SELECT Connection type depend on machine driver
+            byte connectionType = S7.OP;
+            switch (machine.getDriver().getId()) {
+                case 4: // IM151-
+                    connectionType = S7.PG;
+                    break;
+                default: // S7300 / S7400 / WinAC / S71200 / S71500
+                    connectionType = S7.OP;
+                    break;
+            }
+
+            // Process to connection type and connection
+            client.SetConnectionType(connectionType);
             errorCode = client.ConnectTo(machine.getAddress(),
                     machine.getRack(),
                     machine.getSlot());
@@ -199,10 +230,12 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 });
                 connected = true;
             } else {
-                Util.out("MachineConnection : doConnect >> Error " + errorCode + " : "
-                        + getErrorText());
+//                Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+//                        + " : doConnect >> Error " + errorCode + " : "
+//                        + getErrorText());
                 connectionListeners.stream().forEach((connectionMachine) -> {
                     connectionMachine.onConnectionError((int) end(errorCode));
+                    connectionMachine.onNewError(errorCode, getErrorText());
                 });
                 return connected;
             }
@@ -376,51 +409,153 @@ public class MachineConnection extends Thread implements ConnectionListener {
      *
      * / ! \ only read value in database right now
      *
+     * <p>
+     * 1 Bool	Boolean	1	0	0 * siemens
+     * <p>
+     * 2 DateTime	Date Time	64	8	4
+     * <p>
+     * 3 DInt Double Int	32 4	0
+     * <p>
+     * 4 Int	Integer	16	2	1 siemens
+     * <p>
+     * 5 LReal	Long Real 0	0	0 siemens
+     * <p>
+     * 6 Real	Real	64	8 4	siemens
+     * <p>
+     * 7 SInt	Small Int	8	1	0
+     * <p>
+     * 8 UDInt	Unsigned Double Integer	16 2	1	siemens
+     * <p>
+     * 9	UInt	Unsigned Integer	0	0 0	siemens
+     * <p>
+     * 10 USInt Unsigned Small Integer	0	0	0	siemens
+     * <p>
+     * 11 Wide String	0	0 0	siemens
+     *
+     *
      * @param tag object containing address and type of value to be read
      * @return Object value Double, Integer, Boolean or null in case of error
      */
     public Object readValue(Tags tag) {
-        byte[] Buffer = new byte[tag.getType().getByte1()];
 
         // Check if machine is connected
         if (!connected) {
-            System.out.println("MachineConnection >> readValue >> connection not established ! Please doConnect first !");
+            Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                    + " : readValue >> Connection not established ! Please doConnect first !");
             return null;
         }
 
-        // Process reading
-        int Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
-                tag.getByte1(),
-                tag.getType().getWord(), Buffer);
+        // Prepare system
+        byte[] Buffer; // buffer for data storage
+        int Result = -1; // result reading with default error
+        Integer word = 0;
+        Object obj = null;  // return object
 
-        // If no error processed
-        if (Result == 0) {
-            if (tag.getType().getType().matches("Bool")) {
+        /**
+         * Select type of data to be read before processing
+         */
+        switch (tag.getType().getId()) {
+            case 1: // Boolean Siemens
+                Buffer = new byte[1];
+                word = 1;
 
-            } // INT
-            else if (tag.getType().getType().matches("Int")) {
+                // Process reading
+                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                        tag.getByte1(),
+                        word, Buffer);
+
+                // Process reading
+                if (Result != 0) {
+                    Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                            + " : readValue >> Boolean tag id : "
+                            + tag.getId() + " >> value = " + tag.getName()
+                            + " bad request on reading DB " + tag.getDb()
+                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                    return null;
+                }
+
+                // Reading succed process conversion and storage
+                break;
+            case 2: // Date Time
+
+                break;
+            case 3: // Double Int
+
+                break;
+            case 4: // Integer
+                Buffer = new byte[2];
+                word = 1;
+
+                // Process reading
+                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                        tag.getByte1(),
+                        word, Buffer);
+
+                // Process reading
+                if (Result != 0) {
+                    Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                            + " : readValue >> Integer tag id : "
+                            + tag.getId() + " >> value = " + tag.getName()
+                            + " bad request on reading DB " + tag.getDb()
+                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                    return null;
+                }
+
+                // Reading succed process conversion and storage
                 Integer v = S7.GetShortAt(Buffer, 0);
                 tag.setVInt(v);
-                return v;
-            } // REAL
-            else if (tag.getType().getType().matches("Real")) {
-                Float v = S7.GetFloatAt(Buffer, 0);
-                tag.setVFloat(v.doubleValue());
-                return v;
-            } // UNKNOW
-            else {
-                System.out.println("MachineConnection >> readValue tag id : "
-                        + tag.getId() + " >> value = " + tag.toString() + " Error on type : " + tag.getType().getType() + " not yet implemented");
+                obj = v;
+                break;
+            case 5: // Long Real
+
+                break;
+            case 6: // Real
+                Buffer = new byte[8]; // Number of byte
+                word = 4;
+
+                // Process reading
+                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                        tag.getByte1(),
+                        word, Buffer); // nombre de mot
+
+                // Process reading
+                if (Result != 0) {
+                    Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                            + " : readValue >> Real tag id : "
+                            + tag.getId() + " >> value = " + tag.getName()
+                            + " bad request on reading DB " + tag.getDb()
+                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                    return null;
+                }
+
+                // Reading succed process conversion and storage
+                Float f = S7.GetFloatAt(Buffer, 0);
+                tag.setVFloat(f.doubleValue());
+                obj = f;
+
+                break;
+            case 7: // Small Int
+
+                break;
+            case 8: // Unsigned Double Integer
+
+                break;
+            case 9: // Unsigned Integer
+
+                break;
+            case 10: // Unsigned Small Integer
+
+                break;
+            case 11: // Wide string
+
+                break;
+            default:
+                Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                        + " : readValue(tag) >> undefine type id : " + tag.getType().getId());
                 return null;
-            }
-        } else {
-            System.out.println("MachineConnection >> readValue tag id : "
-                    + tag.getId() + " >> value = " + tag.toString()
-                    + " bad request on reading DB " + tag.getDb()
-                    + " address " + tag.getByte1());
-            return null;
         }
-        return null;
+
+        return obj;
     }
 
     /**
@@ -430,7 +565,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
      * @return true if connection has already been connected
      */
     public Boolean getConnected() {
-        return connected;
+        return client.Connected;
     }
 
     /**
@@ -504,6 +639,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
         String methodName = getClass().getSimpleName() + " : run() >> ";
         int loop = 0;
         while (!requestStop) {
+            running = true;
             if (requestConnection) {
                 doConnect();
                 requestConnection = false;
@@ -536,6 +672,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 requestSzl = false;
             }
         }
+        running = false;
         requestStop = false;
 
     }

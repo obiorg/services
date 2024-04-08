@@ -14,6 +14,9 @@ import org.obi.services.entities.alarms.AlarmGroups;
 import org.obi.services.entities.alarms.AlarmClasses;
 import org.obi.services.entities.alarms.Alarms;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.maintenance.Equipements;
@@ -30,6 +33,8 @@ import org.obi.services.entities.tags.Tags;
 import org.obi.services.entities.tags.TagsTables;
 import org.obi.services.entities.users.UserRolePermissions;
 import org.obi.services.entities.users.UserRoles;
+import org.obi.services.sessions.business.BusinessesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -180,7 +185,6 @@ public class Companies implements Serializable {
         this.logoPath = logoPath;
     }
 
-
     public Collection<EquipementsExternalProviders> getEquipementsExternalProvidersCollection() {
         return equipementsExternalProvidersCollection;
     }
@@ -188,7 +192,6 @@ public class Companies implements Serializable {
     public void setEquipementsExternalProvidersCollection(Collection<EquipementsExternalProviders> equipementsExternalProvidersCollection) {
         this.equipementsExternalProvidersCollection = equipementsExternalProvidersCollection;
     }
-
 
     public Collection<TagsTables> getTagsTablesCollection() {
         return tagsTablesCollection;
@@ -198,7 +201,6 @@ public class Companies implements Serializable {
         this.tagsTablesCollection = tagsTablesCollection;
     }
 
-
     public Collection<UserRolePermissions> getUserRolePermissionsCollection() {
         return userRolePermissionsCollection;
     }
@@ -206,7 +208,6 @@ public class Companies implements Serializable {
     public void setUserRolePermissionsCollection(Collection<UserRolePermissions> userRolePermissionsCollection) {
         this.userRolePermissionsCollection = userRolePermissionsCollection;
     }
-
 
     public Collection<AnalyseAllowed> getAnalyseAllowedCollection() {
         return analyseAllowedCollection;
@@ -216,7 +217,6 @@ public class Companies implements Serializable {
         this.analyseAllowedCollection = analyseAllowedCollection;
     }
 
-
     public Collection<PersStandard> getPersStandardCollection() {
         return persStandardCollection;
     }
@@ -224,7 +224,6 @@ public class Companies implements Serializable {
     public void setPersStandardCollection(Collection<PersStandard> persStandardCollection) {
         this.persStandardCollection = persStandardCollection;
     }
-
 
     public Collection<AnalyseMethods> getAnalyseMethodsCollection() {
         return analyseMethodsCollection;
@@ -234,7 +233,6 @@ public class Companies implements Serializable {
         this.analyseMethodsCollection = analyseMethodsCollection;
     }
 
-
     public Collection<AnalyseTypes> getAnalyseTypesCollection() {
         return analyseTypesCollection;
     }
@@ -242,7 +240,6 @@ public class Companies implements Serializable {
     public void setAnalyseTypesCollection(Collection<AnalyseTypes> analyseTypesCollection) {
         this.analyseTypesCollection = analyseTypesCollection;
     }
-
 
     public Collection<MeasLimits> getMeasLimitsCollection() {
         return measLimitsCollection;
@@ -252,7 +249,6 @@ public class Companies implements Serializable {
         this.measLimitsCollection = measLimitsCollection;
     }
 
-
     public Collection<Equipements> getEquipementsCollection() {
         return equipementsCollection;
     }
@@ -260,7 +256,6 @@ public class Companies implements Serializable {
     public void setEquipementsCollection(Collection<Equipements> equipementsCollection) {
         this.equipementsCollection = equipementsCollection;
     }
-
 
     public Collection<UserRoles> getUserRolesCollection() {
         return userRolesCollection;
@@ -286,7 +281,6 @@ public class Companies implements Serializable {
         this.location = location;
     }
 
-
     public Collection<PersStandardLimits> getPersStandardLimitsCollection() {
         return persStandardLimitsCollection;
     }
@@ -294,7 +288,6 @@ public class Companies implements Serializable {
     public void setPersStandardLimitsCollection(Collection<PersStandardLimits> persStandardLimitsCollection) {
         this.persStandardLimitsCollection = persStandardLimitsCollection;
     }
-
 
     public Collection<MeasLimitsGroups> getMeasLimitsGroupsCollection() {
         return measLimitsGroupsCollection;
@@ -304,7 +297,6 @@ public class Companies implements Serializable {
         this.measLimitsGroupsCollection = measLimitsGroupsCollection;
     }
 
-
     public Collection<AlarmGroups> getAlarmGroupsCollection() {
         return alarmGroupsCollection;
     }
@@ -312,7 +304,6 @@ public class Companies implements Serializable {
     public void setAlarmGroupsCollection(Collection<AlarmGroups> alarmGroupsCollection) {
         this.alarmGroupsCollection = alarmGroupsCollection;
     }
-
 
     public Collection<EquipementsDataExternal> getEquipementsDataExternalCollection() {
         return equipementsDataExternalCollection;
@@ -322,7 +313,6 @@ public class Companies implements Serializable {
         this.equipementsDataExternalCollection = equipementsDataExternalCollection;
     }
 
-
     public Collection<Alarms> getAlarmsCollection() {
         return alarmsCollection;
     }
@@ -330,7 +320,6 @@ public class Companies implements Serializable {
     public void setAlarmsCollection(Collection<Alarms> alarmsCollection) {
         this.alarmsCollection = alarmsCollection;
     }
-
 
     public Collection<AnalysePoints> getAnalysePointsCollection() {
         return analysePointsCollection;
@@ -340,7 +329,6 @@ public class Companies implements Serializable {
         this.analysePointsCollection = analysePointsCollection;
     }
 
-
     public Collection<AnalyseCategories> getAnalyseCategoriesCollection() {
         return analyseCategoriesCollection;
     }
@@ -348,7 +336,6 @@ public class Companies implements Serializable {
     public void setAnalyseCategoriesCollection(Collection<AnalyseCategories> analyseCategoriesCollection) {
         this.analyseCategoriesCollection = analyseCategoriesCollection;
     }
-
 
     public Collection<Tags> getTagsCollection() {
         return tagsCollection;
@@ -358,7 +345,6 @@ public class Companies implements Serializable {
         this.tagsCollection = tagsCollection;
     }
 
-
     public Collection<AlarmRender> getAlarmRenderCollection() {
         return alarmRenderCollection;
     }
@@ -366,7 +352,6 @@ public class Companies implements Serializable {
     public void setAlarmRenderCollection(Collection<AlarmRender> alarmRenderCollection) {
         this.alarmRenderCollection = alarmRenderCollection;
     }
-
 
     public Collection<Persistence> getPersistenceCollection() {
         return persistenceCollection;
@@ -376,7 +361,6 @@ public class Companies implements Serializable {
         this.persistenceCollection = persistenceCollection;
     }
 
-
     public Collection<Machines> getMachinesCollection() {
         return machinesCollection;
     }
@@ -384,7 +368,6 @@ public class Companies implements Serializable {
     public void setMachinesCollection(Collection<Machines> machinesCollection) {
         this.machinesCollection = machinesCollection;
     }
-
 
     public Collection<AlarmClasses> getAlarmClassesCollection() {
         return alarmClassesCollection;
@@ -416,7 +399,71 @@ public class Companies implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.Companies[ id=" + id + " ]";
+//        return "org.obi.services.entities.Companies[ id=" + id + " ]";
+        return "" + this.company + " - " + this.designation + " (" + this.business + ") [ id=" + id + " ]";
     }
-    
+
+    /**
+     * Update the entity with result provide by result set
+     *
+     * All field need to be check in order to set the value
+     *
+     * @param rs corresponding to request of field
+     * @throws SQLException if SQL error appear on result set use
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                this.company = rs.getString(c);
+            } else if (c.matches("designation")) {
+                this.designation = rs.getString(c);
+            } else if (c.matches("builded")) {
+                this.builded = rs.getInt(c);
+            } else if (c.matches("main")) {
+                this.main = rs.getBoolean(c);
+            } else if (c.matches("activated")) {
+                this.activated = rs.getBoolean(c);
+            } else if (c.matches("logoPath")) {
+                this.logoPath = rs.getString(c);
+            } /**
+             * Need to get entity
+             */
+            else if (c.matches("location")) {
+                //this.location = rs.getInt(c);
+//                System.out.println("!!!! Companies entity no recovery location yet only id!!!");
+                int val = rs.getInt(c);
+                if (val == 0) {
+                    this.location = null;
+                } else {
+                    this.location = new Locations(rs.getInt(c));
+                }
+            } /**
+             * end entity GET
+             */
+            /**
+             * Need to get entity
+             */
+            else if (c.matches("business")) {
+                BusinessesFacade ttf = new BusinessesFacade();
+                this.business = ttf.findById(rs.getInt(c));
+            } /**
+             * end entity GET
+             */
+            else {
+                Util.out(Companies.class + " >> update >> unknown column name " + c);
+                System.out.println(Companies.class + " >> update >> unknown column name " + c);
+            }
+        }
+    }
 }

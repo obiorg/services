@@ -5,10 +5,18 @@
 package org.obi.services.entities.alarms;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.business.Companies;
 import org.obi.services.entities.tags.Tags;
+import org.obi.services.entities.tags.TagsTables;
+import org.obi.services.sessions.alarms.AlarmClassesFacade;
+import org.obi.services.sessions.alarms.AlarmGroupsFacade;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -181,9 +189,67 @@ public class Alarms implements Serializable {
         return true;
     }
 
+
     @Override
     public String toString() {
-        return "org.obi.services.entities.Alarms[ id=" + id + " ]";
+//        return "org.obi.services.entities.Alarms[ id=" + id + " ]";
+        return "" + this.alarm + " - " + this.name + "(" + this.language + ") [ id=" + id + " ]";
     }
     
+    
+    
+    /**
+     * Allow to affect result object
+     *
+     * @param rs a set of data of the row
+     * @throws SQLException exception
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                CompaniesFacade facade = new CompaniesFacade();
+                company = facade.findById(rs.getInt(c));
+            } else if (c.matches("alarm")) {
+                this.alarm = rs.getString(c);
+            } else if (c.matches("name")) {
+                this.name = rs.getString(c);
+            } else if (c.matches("descirption")) {
+                this.descirption = rs.getString(c);
+            }
+             else if (c.matches("group")) {
+                AlarmGroupsFacade facade = new AlarmGroupsFacade();
+                group1 = facade.findById(rs.getInt(c));
+            }
+              else if (c.matches("class")) {
+                AlarmClassesFacade facade = new AlarmClassesFacade();
+                class1 = facade.findById(rs.getInt(c));
+            }
+            
+            else if (c.matches("language")) {
+                this.language = rs.getInt(c);
+            }
+            /**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
+                this.comment = rs.getString(c);
+            } else {
+                Util.out(Alarms.class + " >> update >> unknown column name " + c);
+                System.out.println(Alarms.class + " >> update >> unknown column name " + c);
+            }
+
+        }
+    }
 }

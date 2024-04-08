@@ -5,8 +5,14 @@
 package org.obi.services.entities.machines;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.entities.business.Companies;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -124,7 +130,41 @@ public class MachDrivers implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.MachDrivers[ id=" + id + " ]";
+//        return "org.obi.services.entities.MachDrivers[ id=" + id + " ]";
+        return "" + this.driver + " - " + this.designation + " [ id=" + id + " ]";
     }
 
+    /**
+     * Update the entity with result provide by result set
+     *
+     * All field need to be check in order to set the value
+     *
+     * @param rs corresponding to request of field
+     * @throws SQLException if SQL error appear on result set use
+     */
+    public void update(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        //int count = rsMetaData.getColumnCount();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("driver")) {
+                driver = rs.getString(c);
+            } else if (c.matches("designation")) {
+                this.designation = rs.getString(c);
+            } else {
+                Util.out(MachDrivers.class + " >> update >> unknown column name " + c);
+                System.out.println(MachDrivers.class + " >> update >> unknown column name " + c);
+            }
+
+        }
+    }
 }
