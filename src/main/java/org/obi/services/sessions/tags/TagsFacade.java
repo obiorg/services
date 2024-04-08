@@ -135,13 +135,13 @@ public final class TagsFacade {
      * affected
      */
     public int updateOnValue(Tags tag) {
-        if (tag.getType().getType().matches("Bool")) {
+        if (tag.getType().getId() == 1) { // 1 : Bool
             return updateOnValueBool(tag);
         } // INT
-        else if (tag.getType().getType().matches("Int")) {
+        else if (tag.getType().getId() == 4) { // 4 : Int
             return updateOnValueInt(tag);
         } // REAL
-        else if (tag.getType().getType().matches("Real")) {
+        else if (tag.getType().getId() == 6) { // 6 : Real
             return updateOnValueFloat(tag);
         }
         return 0;
@@ -153,7 +153,7 @@ public final class TagsFacade {
      * @param findQuery existing query in string format
      * @return list of result found
      */
-    private List<Tags> find(String findQuery) {
+    private List<Tags> find(String findQuery, Boolean easy) {
         String Q_find = findQuery;
 
         List<Tags> lst = new ArrayList<>();
@@ -163,7 +163,7 @@ public final class TagsFacade {
             ResultSet rs = stmt.executeQuery(Q_find);
             while (rs.next()) {
                 Tags m = new Tags();
-                m.update(rs);
+                m.update(rs, easy);
                 lst.add(m);
             }
         } catch (SQLException ex) {
@@ -188,7 +188,7 @@ public final class TagsFacade {
      */
     public List<Tags> findAll() {
         String Q_findAll = "SELECT * FROM dbo.tags";
-        return find(Q_findAll);
+        return find(Q_findAll, false);
     }
 
     /**
@@ -199,7 +199,7 @@ public final class TagsFacade {
      */
     public List<Tags> findByMachineId(int machineId) {
         String Q_finByMachine = "SELECT * FROM dbo.tags WHERE  machine = " + machineId;
-        return find(Q_finByMachine);
+        return find(Q_finByMachine, false);
     }
 
     /**
@@ -214,7 +214,7 @@ public final class TagsFacade {
     public List<Tags> findByCompanyAndMachineId(int companyId, int machineId) {
         String Q_finByMachine = "SELECT * FROM dbo.tags "
                 + "WHERE deleted = 0 AND company = " + companyId + " AND machine = " + machineId;
-        return find(Q_finByMachine);
+        return find(Q_finByMachine, false);
     }
 
     /**
@@ -228,7 +228,21 @@ public final class TagsFacade {
                 + "WHERE "
                 + "deleted = 0 AND active = 1 AND company = " + companyId
                 + " AND machine = " + machineId;
-        return find(Q_find);
+        return find(Q_find, false);
+    }
+
+    /**
+     * Convenient method to find tags only by activated machine in simplify way
+     *
+     * @param machine specied code to reduce amound of data
+     * @return
+     */
+    public List<Tags> _findActiveByCompanyAndMachine(int companyId, int machineId) {
+        String Q_find = "SELECT * FROM dbo.tags "
+                + "WHERE "
+                + "deleted = 0 AND active = 1 AND company = " + companyId
+                + " AND machine = " + machineId;
+        return find(Q_find, true);
     }
 
 }

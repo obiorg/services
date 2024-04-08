@@ -73,11 +73,11 @@ public class SettingsApplicationFrame extends javax.swing.JPanel implements Data
         schemaZen.setText(urlZen);
 
         // Init table model
-        Object obj = Settings.read(Settings.URL_OBI, Settings.COUNTER);
-        Integer counter = 0;
-        if (obj != null) {
-            counter = Integer.valueOf(obj.toString());
-        }
+//        Object obj = Settings.read(Settings.URL_OBI, Settings.COUNTER);
+//        Integer counter = 0;
+//        if (obj != null) {
+//            counter = Integer.valueOf(obj.toString());
+//        }
 
         // 
 //        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);

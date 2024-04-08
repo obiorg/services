@@ -1,24 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package org.obi.services.Docking;
 
 import java.awt.Color;
 import java.awt.TrayIcon;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.ListModel;
-import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.app.MachineConnection;
 import org.obi.services.core.moka7.IntByRef;
 import org.obi.services.core.moka7.S7;
@@ -28,11 +17,9 @@ import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.listener.ConnectionListener;
-import org.obi.services.model.DatabaseModel;
 import org.obi.services.moka.OrderCode;
 import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
-import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
@@ -64,75 +51,6 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
      */
     public ConnectionFrame() {
         initComponents();
-    }
-
-    private void updateConnexionList() {
-        // Read saved data
-        Object tmp = Settings.read(Settings.CONFIG, Settings.URL_OBI);
-        if (tmp == null) {
-            tmp = "jdbc:sqlserver:<hostname>\\<instance>:<port 1433>;databaseName=<dbName>?<user>?<password>";
-            trayIcon.displayMessage("OBI",
-                    "Connexion schema does not exist ! "
-                    + "Please Configure database and save",
-                    TrayIcon.MessageType.ERROR);
-            return;
-        }
-        String urlOBI = tmp.toString();//"jdbc:sqlserver:10.116.26.35\\SQLSERVER:1433;databaseName=optimaint?sa?Opt!M@!nt";
-
-        // Récupoère le modèle et valide que l'on peut se connecter
-        DatabaseModel model = DatabaseModel.parseFull(urlOBI);
-
-        String url = "";
-        try {
-            Connection conn = DatabaseFrame.toConnection(model);
-            if (conn == null) {
-                trayIcon.displayMessage("OBI",
-                        "Unable to parse schema defined in database "
-                        + "configuration  ! Check you settings",
-                        TrayIcon.MessageType.ERROR);
-                return;
-            }
-
-            // Prepare query and statement before getting result and metadata for colum
-            String query = "SELECT * FROM dbo.machines";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-
-            // Create Model to old the list of machine
-            DefaultListModel lst = new DefaultListModel();
-            listConnexions.removeAll();
-            machinesConnections.stream().forEach((machineConnection) -> {
-                machineConnection.doStop();
-                machineConnection.removeClientListener(machineConnection);
-            });
-
-            // Loop over element and convert to object
-            while (rs.next()) {
-                Machines m = new Machines();
-                int count = rsMetaData.getColumnCount();
-                for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
-                    String c = rsMetaData.getColumnName(i);
-                    m.update(rs, c);
-                }
-                // Add machine to list element
-                lst.addElement(m);
-
-                // Create corresponding machine list
-                MachineConnection mc = new MachineConnection(m);
-                mc.addClientListener(this);
-                machinesConnections.add(mc);
-
-            }
-            listConnexions.setModel(lst);
-
-        } catch (SQLException ex) {
-            Util.out(ConnectionFrame.class.getName() + " >> btnRefreshConnexionActionPerformed for url(" + url + ") : " + ex.getLocalizedMessage());
-
-        } finally {
-
-        }
-
     }
 
     private void updateMachinesList() {
@@ -1138,10 +1056,10 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
 
     @Override
     public void onCpInfoResponse(S7CpInfo CpInfo) {
-        plcCPMaxPDULength.setText(Integer.valueOf(CpInfo.MaxPduLength).toString());
-        plcCPMaxConnections.setText(Integer.valueOf(CpInfo.MaxConnections).toString());
-        plcCPMaxMPIRate.setText(Integer.valueOf(CpInfo.MaxMpiRate).toString());
-        plcCPMaxBusRate.setText(Integer.valueOf(CpInfo.MaxBusRate).toString());
+        plcCPMaxPDULength.setText(Integer.toString(CpInfo.MaxPduLength));
+        plcCPMaxConnections.setText(Integer.toString(CpInfo.MaxConnections));
+        plcCPMaxMPIRate.setText(Integer.toString(CpInfo.MaxMpiRate));
+        plcCPMaxBusRate.setText(Integer.toString(CpInfo.MaxBusRate));
     }
 
     @Override

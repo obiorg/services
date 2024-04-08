@@ -695,9 +695,10 @@ public class Tags implements Serializable {
      * Allow to affect result object
      *
      * @param rs
+     * @param easy indicate no class is required
      * @throws SQLException
      */
-    public void update(ResultSet rs) throws SQLException {
+    public void update(ResultSet rs, Boolean easy) throws SQLException {
         ResultSetMetaData rsMetaData = rs.getMetaData();
         int count = rsMetaData.getColumnCount();
         for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
@@ -712,26 +713,46 @@ public class Tags implements Serializable {
             } else if (c.matches("changed")) {
                 this.changed = rs.getDate(c);
             } else if (c.matches("company")) {
-                CompaniesFacade cf = new CompaniesFacade();
-                company = cf.findById(rs.getInt(c));
-            }else if (c.matches("table")) {
-                TagsTablesFacade ttf = new TagsTablesFacade();
-                table = ttf.findById(rs.getInt(c));
+                if (easy) {
+                    company = new Companies(rs.getInt(c));
+                } else {
+                    CompaniesFacade cf = new CompaniesFacade();
+                    company = cf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("table")) {
+                if (easy) {
+                    table = new TagsTables(rs.getInt(c));
+                } else {
+                    TagsTablesFacade ttf = new TagsTablesFacade();
+                    table = ttf.findById(rs.getInt(c));
+                }
             } /**
-             * 
+             *
              * PARAMETER
              */
             else if (c.matches("name")) {
                 this.name = rs.getString(c);
             } else if (c.matches("machine")) {
-                MachinesFacade mf = new MachinesFacade();
-                machine = mf.findById(rs.getInt(c));
+                if (easy) {
+                    machine = new Machines(rs.getInt(c));
+                } else {
+                    MachinesFacade mf = new MachinesFacade();
+                    machine = mf.findById(rs.getInt(c));
+                }
             } else if (c.matches("type")) {
-                TagsTypesFacade ttf = new TagsTypesFacade();
-                type = ttf.findById(rs.getInt(c));
+                if (easy) {
+                    type = new TagsTypes(rs.getInt(c));
+                } else {
+                    TagsTypesFacade ttf = new TagsTypesFacade();
+                    type = ttf.findById(rs.getInt(c));
+                }
             } else if (c.matches("memory")) {
-                TagsMemoriesFacade tmf = new TagsMemoriesFacade();
-                memory = tmf.findById(rs.getInt(c));
+                if (easy) {
+                    memory = new TagsMemories(rs.getInt(c));
+                } else {
+                    TagsMemoriesFacade tmf = new TagsMemoriesFacade();
+                    memory = tmf.findById(rs.getInt(c));
+                }
             } else if (c.matches("db")) {
                 this.db = rs.getInt(c);
             } else if (c.matches("byte")) {
@@ -831,8 +852,12 @@ public class Tags implements Serializable {
             } else if (c.matches("mesureMax")) {
                 this.mesureMax = rs.getDouble(c);
             } else if (c.matches("measureUnit")) {
-                MeasUnitsFacade muf = new MeasUnitsFacade();
-                measureUnit = muf.findById(rs.getInt(c));
+                if (easy) {
+                    measureUnit = new MeasUnits(rs.getInt(c));
+                } else {
+                    MeasUnitsFacade muf = new MeasUnitsFacade();
+                    measureUnit = muf.findById(rs.getInt(c));
+                }
             }/**
              *
              * LINKS
@@ -1015,7 +1040,6 @@ public class Tags implements Serializable {
         return null;
     }
 
-    
     public static String queryUpdateOn(String column, Tags tag) {
         if (column.matches("vFloat")) {
             // Ajuste le nombre de détail en milliseconde
@@ -1041,14 +1065,13 @@ public class Tags implements Serializable {
             }
             return "UPDATE dbo.tags set [vBool] = " + tag.getVBool()
                     + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
-        } 
-        else {
+        } else {
             Util.out(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
             System.out.println(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
         }
         return null;
     }
-    
+
     public String prepareStatementUpdateOn() {
         String stmts = ""
                 + "UPDATE [dbo].[tags] "
