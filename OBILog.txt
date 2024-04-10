@@ -6,7 +6,7 @@
 2024-02-29T19:57:50.916876200Z >> Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
 2024-02-29T19:57:51.697095800Z >> OBI - Start...
 2024-02-29T19:57:51.701095700Z >> ImokaServiceTrayIcon >> Main  : Initialisation du fichier de configuration...
-2024-02-29T19:57:51.725094300Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini vient d'être créé !
+2024-02-29T19:57:51.725094300Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini vient d'ï¿½tre crï¿½ï¿½ !
 2024-02-29T20:03:07.993249Z >> Try to check look and feel...
 2024-02-29T20:03:08.315244600Z >> Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
 2024-02-29T20:03:08.317243400Z >> Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
@@ -15,13 +15,13 @@
 2024-02-29T20:03:08.321242800Z >> Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
 2024-02-29T20:03:08.626242600Z >> OBI - Start...
 2024-02-29T20:03:08.628243300Z >> ImokaServiceTrayIcon >> Main  : Initialisation du fichier de configuration...
-2024-02-29T20:03:08.631243600Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-02-29T20:03:08.631243600Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe dï¿½jï¿½ !
 2024-02-29T20:03:08.725244800Z >> ISMPro - End run...
 2024-02-29T20:03:11.529750500Z >> MainWindow : Constructor >> Started ...
-2024-02-29T20:06:52.446912100Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : Échec de la connexion TCP/IP à l'hôte BLCSRV22002, port 1433. Erreur : « null. Vérifiez les propriétés de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exécution sur l'hôte et accepte les connexions TCP/IP au port. Vérifiez que les connexions TCP au port ne sont pas bloquées par un pare-feu. ».
-2024-02-29T20:08:31.284242900Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : Échec de la connexion TCP/IP à l'hôte BLCSRV22002, port 1433. Erreur : « Connect timed out. Vérifiez les propriétés de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exécution sur l'hôte et accepte les connexions TCP/IP au port. Vérifiez que les connexions TCP au port ne sont pas bloquées par un pare-feu. ».
-2024-02-29T20:09:08.322954600Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : Échec de la connexion TCP/IP à l'hôte BLCSRV22002, port 1433. Erreur : « Connect timed out. Vérifiez les propriétés de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exécution sur l'hôte et accepte les connexions TCP/IP au port. Vérifiez que les connexions TCP au port ne sont pas bloquées par un pare-feu. ».
-2024-02-29T20:09:38.155965Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : Échec de la connexion TCP/IP à l'hôte BLCSRV22002, port 1433. Erreur : « Connect timed out. Vérifiez les propriétés de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exécution sur l'hôte et accepte les connexions TCP/IP au port. Vérifiez que les connexions TCP au port ne sont pas bloquées par un pare-feu. ».
+2024-02-29T20:06:52.446912100Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : ï¿½chec de la connexion TCP/IP ï¿½ l'hï¿½te BLCSRV22002, port 1433. Erreurï¿½: ï¿½ï¿½null. Vï¿½rifiez les propriï¿½tï¿½s de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exï¿½cution sur l'hï¿½te et accepte les connexions TCP/IP au port. Vï¿½rifiez que les connexions TCP au port ne sont pas bloquï¿½es par un pare-feu.ï¿½ï¿½.
+2024-02-29T20:08:31.284242900Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : ï¿½chec de la connexion TCP/IP ï¿½ l'hï¿½te BLCSRV22002, port 1433. Erreurï¿½: ï¿½ï¿½Connect timed out. Vï¿½rifiez les propriï¿½tï¿½s de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exï¿½cution sur l'hï¿½te et accepte les connexions TCP/IP au port. Vï¿½rifiez que les connexions TCP au port ne sont pas bloquï¿½es par un pare-feu.ï¿½ï¿½.
+2024-02-29T20:09:08.322954600Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : ï¿½chec de la connexion TCP/IP ï¿½ l'hï¿½te BLCSRV22002, port 1433. Erreurï¿½: ï¿½ï¿½Connect timed out. Vï¿½rifiez les propriï¿½tï¿½s de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exï¿½cution sur l'hï¿½te et accepte les connexions TCP/IP au port. Vï¿½rifiez que les connexions TCP au port ne sont pas bloquï¿½es par un pare-feu.ï¿½ï¿½.
+2024-02-29T20:09:38.155965Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA:1433;databaseName=imoka) : ï¿½chec de la connexion TCP/IP ï¿½ l'hï¿½te BLCSRV22002, port 1433. Erreurï¿½: ï¿½ï¿½Connect timed out. Vï¿½rifiez les propriï¿½tï¿½s de connexion. Assurez-vous qu'une instance de SQL Server est en cours d'exï¿½cution sur l'hï¿½te et accepte les connexions TCP/IP au port. Vï¿½rifiez que les connexions TCP au port ne sont pas bloquï¿½es par un pare-feu.ï¿½ï¿½.
 2024-02-29T20:10:22.731272400Z >> ConnexionForm : onNewError >>1 : TCP Connection failed.
 2024-02-29T20:10:22.837380800Z >> MachineConnection : doConnect >> Error 1 : TCP Connection failed.
 2024-02-29T20:10:22.847422Z >> ConnexionForm : onConnectionWrong :5131ms
@@ -36,13 +36,13 @@
 2024-02-29T22:24:11.031902700Z >> Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
 2024-02-29T22:24:11.246903200Z >> OBI - Start...
 2024-02-29T22:24:11.248902400Z >> ImokaServiceTrayIcon >> Main  : Initialisation du fichier de configuration...
-2024-02-29T22:24:11.250902900Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-02-29T22:24:11.250902900Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe dï¿½jï¿½ !
 2024-02-29T22:24:11.331903600Z >> ISMPro - End run...
 2024-02-29T22:24:13.221107500Z >> MainWindow : Constructor >> Started ...
-2024-02-29T22:25:43.570544300Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA;databaseName=imoka) : Échec de la connexion à l'hôte BLCSRV22002, instance nommée blcscada. Erreur : « java.net.UnknownHostException: Hôte inconnu (BLCSRV22002) ». Vérifiez le nom du serveur et celui de l'instance et assurez-vous qu'aucun pare-feu ne bloque le trafic UDP vers le port 1434. Pour SQL Server 2005 ou version ultérieure, vérifiez que le service SQL Server Browser est en cours d'exécution sur l'hôte.
-2024-02-29T22:26:05.687981300Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA;databaseName=imoka) : Échec de la connexion à l'hôte BLCSRV22002, instance nommée blcscada. Erreur : « java.net.UnknownHostException: BLCSRV22002 ». Vérifiez le nom du serveur et celui de l'instance et assurez-vous qu'aucun pare-feu ne bloque le trafic UDP vers le port 1434. Pour SQL Server 2005 ou version ultérieure, vérifiez que le service SQL Server Browser est en cours d'exécution sur l'hôte.
-2024-02-29T22:26:35.400358300Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA;databaseName=imoka) : Échec de la connexion à l'hôte BLCSRV22002, instance nommée blcscada. Erreur : « java.net.UnknownHostException: Hôte inconnu (BLCSRV22002) ». Vérifiez le nom du serveur et celui de l'instance et assurez-vous qu'aucun pare-feu ne bloque le trafic UDP vers le port 1434. Pour SQL Server 2005 ou version ultérieure, vérifiez que le service SQL Server Browser est en cours d'exécution sur l'hôte.
-2024-02-29T22:27:58.314760500Z >> org.obi.services.util.Settings : read(section, param, value) >> ...Erreur suivante est survenue pour (CONFIG, company) : D:\APPLICATIONS\Java\OBI\repos\obi-services\app (Le fichier spécifié est introuvable)
+2024-02-29T22:25:43.570544300Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA;databaseName=imoka) : ï¿½chec de la connexion ï¿½ l'hï¿½te BLCSRV22002, instance nommï¿½e blcscada. Erreurï¿½: ï¿½ï¿½java.net.UnknownHostException: Hï¿½te inconnu (BLCSRV22002)ï¿½ï¿½. Vï¿½rifiez le nom du serveur et celui de l'instance et assurez-vous qu'aucun pare-feu ne bloque le trafic UDP vers le portï¿½1434. Pour SQL Server 2005 ou version ultï¿½rieure, vï¿½rifiez que le service SQL Server Browser est en cours d'exï¿½cution sur l'hï¿½te.
+2024-02-29T22:26:05.687981300Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA;databaseName=imoka) : ï¿½chec de la connexion ï¿½ l'hï¿½te BLCSRV22002, instance nommï¿½e blcscada. Erreurï¿½: ï¿½ï¿½java.net.UnknownHostException: BLCSRV22002ï¿½ï¿½. Vï¿½rifiez le nom du serveur et celui de l'instance et assurez-vous qu'aucun pare-feu ne bloque le trafic UDP vers le portï¿½1434. Pour SQL Server 2005 ou version ultï¿½rieure, vï¿½rifiez que le service SQL Server Browser est en cours d'exï¿½cution sur l'hï¿½te.
+2024-02-29T22:26:35.400358300Z >> org.obi.services.Form.DatabaseFrame >> isConnectable(DatabaseModel model) for url(jdbc:sqlserver://BLCSRV22002\BLCSCADA;databaseName=imoka) : ï¿½chec de la connexion ï¿½ l'hï¿½te BLCSRV22002, instance nommï¿½e blcscada. Erreurï¿½: ï¿½ï¿½java.net.UnknownHostException: Hï¿½te inconnu (BLCSRV22002)ï¿½ï¿½. Vï¿½rifiez le nom du serveur et celui de l'instance et assurez-vous qu'aucun pare-feu ne bloque le trafic UDP vers le portï¿½1434. Pour SQL Server 2005 ou version ultï¿½rieure, vï¿½rifiez que le service SQL Server Browser est en cours d'exï¿½cution sur l'hï¿½te.
+2024-02-29T22:27:58.314760500Z >> org.obi.services.util.Settings : read(section, param, value) >> ...Erreur suivante est survenue pour (CONFIG, company) : D:\APPLICATIONS\Java\OBI\repos\obi-services\app (Le fichier spï¿½cifiï¿½ est introuvable)
 2024-03-01T08:29:56.526042900Z >> Try to check look and feel...
 2024-03-01T08:29:57.186045400Z >> Look and fell Metal use class : javax.swing.plaf.metal.MetalLookAndFeel
 2024-03-01T08:29:57.190044700Z >> Look and fell Nimbus use class : javax.swing.plaf.nimbus.NimbusLookAndFeel
@@ -51,7 +51,7 @@
 2024-03-01T08:29:57.199047400Z >> Look and fell Windows Classic use class : com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
 2024-03-01T08:29:57.888047300Z >> OBI - Start...
 2024-03-01T08:29:57.893046800Z >> ImokaServiceTrayIcon >> Main  : Initialisation du fichier de configuration...
-2024-03-01T08:29:57.898045100Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe déjà !
+2024-03-01T08:29:57.898045100Z >> org.obi.services.util.Settings : createIniFile(String) >> Le fichier obi_service.ini existe dï¿½jï¿½ !
 2024-03-01T08:29:58.075563Z >> ISMPro - End run...
 2024-03-01T08:30:00.948154400Z >> MainWindow : Constructor >> Started ...
 2024-03-01T08:30:17.243710900Z >> ManagerControllerThread : run() >> Epoch not reached ! 1709281817233 - 1709281816081 = 1152
@@ -3796,3 +3796,22 @@
 2024-03-01T08:55:32.558561200Z >> TagsCollectorThread : run() >>  Unable to connect to client S7 machine = 10.150.20.11, 0, 2 [S7300_S7400] [3]
 2024-03-01T08:55:33.559679100Z >> TagsCollectorThread : run() >>  Unable to connect to client S7 machine = 10.150.20.11, 0, 2 [S7300_S7400] [3]
 2024-03-01T08:55:34.561963600Z >> TagsCollectorThread : run() >>  Unable to connect to client S7 machine = 10.150.20.11, 0, 2 [S7300_S7400] [3]
+2024-03-08T20:06:12.611136700Z >> replace is done _ 
+2024-03-12T12:16:49.154837900Z >> Settings initFilenmae = obi_service.ini
+2024-03-12T12:16:49.186838700Z >> org.obi.services.util.Settings : read(section, param, value) >> Tentative de lecture de la section (CONFIG) paramÃ¨tre logFileSizeMB...
+2024-03-12T12:16:49.260841400Z >> Taille des log max = 1
+2024-03-12T12:27:33.356164100Z >> Settings initFilenmae = obi_service.ini
+2024-03-12T12:27:33.392169200Z >> org.obi.services.util.Settings : read(section, param, value) >> Tentative de lecture de la section (CONFIG) paramÃ¨tre logFileSizeMB...
+2024-03-12T12:27:33.493171500Z >> Taille des log max = 1
+2024-03-12T12:57:31.699804300Z >> Settings initFilenmae = obi_service.ini
+2024-03-12T12:57:31.747807Z >> org.obi.services.util.Settings : read(section, param, value) >> Tentative de lecture de la section (CONFIG) paramÃ¨tre logFileSizeMB...
+2024-03-12T12:57:31.806812100Z >> Taille des log max = 1
+2024-03-12T12:58:41.693685200Z >> Settings initFilenmae = obi_service.ini
+2024-03-12T12:58:41.739684500Z >> org.obi.services.util.Settings : read(section, param, value) >> Tentative de lecture de la section (CONFIG) paramÃ¨tre logFileSizeMB...
+2024-03-12T12:58:41.863681900Z >> Taille des log max = 1
+2024-03-12T13:03:59.856759800Z >> Settings initFilenmae = obi_service.ini
+2024-03-12T13:03:59.890760500Z >> org.obi.services.util.Settings : read(section, param, value) >> Tentative de lecture de la section (CONFIG) paramÃ¨tre logFileSizeMB...
+2024-03-12T13:03:59.978761100Z >> Taille des log max = 1
+2024-03-12T13:11:55.249103500Z >> Settings initFilenmae = obi_service.ini
+2024-03-12T13:11:55.291105200Z >> org.obi.services.util.Settings : read(section, param, value) >> Tentative de lecture de la section (CONFIG) paramÃ¨tre logFileSizeMB...
+2024-03-12T13:11:55.380105800Z >> Taille des log max = 1
