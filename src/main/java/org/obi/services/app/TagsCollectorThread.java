@@ -4,6 +4,7 @@ import org.obi.services.listener.TagsCollectorThreadListener;
 import java.awt.TrayIcon;
 import static java.lang.Thread.sleep;
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.listener.ConnectionListener;
 import org.obi.services.sessions.tags.TagsFacade;
+import org.obi.services.util.DateUtil;
 import org.obi.services.util.Ico;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
@@ -142,6 +144,8 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
         TagsFacade tagsFacade = TagsFacade.getInstance();
         MachineConnection mc = new MachineConnection(machine);
         boolean firstTimeInProcessing = true;   //< Inidcate run loop go back at first in main processing loop
+        Integer gmtIndex = Integer.valueOf(Settings.read(Settings.CONFIG, Settings.GMT).toString());
+        Integer companyId = Integer.valueOf(Settings.read(Settings.CONFIG, Settings.COMPANY).toString());
 
         /**
          * START MAIN THREAD LOOP will stop when requestKill is receive by
@@ -164,16 +168,13 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
 
             // Check available tags for processing
             Boolean wait = false;
-            List<Tags> tags = tagsFacade._findActiveByCompanyAndMachine(
-                    Integer.valueOf(Settings.read(Settings.CONFIG,
-                            Settings.COMPANY).toString()),
-                    machine.getId());
+            List<Tags> tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
             if (tags.isEmpty()) {
                 wait = true;
                 // Inform liteners about number off collection count and error
                 tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
                     tagsCollectorThreadListener.onCollectionCount(this, 0);
-                    tagsCollectorThreadListener.onErrorCollection(this, "No tags to read, process cannot start !");
+                    tagsCollectorThreadListener.onErrorCollection(this, DateUtil.localDTFFZoneId(gmtIndex) + " : No tags to read, will run in \"wait\" mode !");
                 });
             }
 
@@ -200,12 +201,16 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                 if (!mc.getConnected()) {
                     tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
                         tagCollectorThreadListener.onSubProcessActivityState(this, false);
-                        tagCollectorThreadListener.onErrorCollection(this, "Not connected will try - " + Instant.now().toString());
+                        tagCollectorThreadListener.onErrorCollection(this,
+                                DateUtil.localDTFFZoneId(gmtIndex)
+                                + " : Not connected, start connection...");
                     });
                     if (mc.doConnect()) { // demande la connexion
                         tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
                             tagCollectorThreadListener.onSubProcessActivityState(this, true);
-                            tagCollectorThreadListener.onErrorCollection(this, "Now connected - " + Instant.now().toString());
+                            tagCollectorThreadListener.onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : Connected !");
                         });
                     } else {// Inform why not able to connect
 
@@ -221,10 +226,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                     subProcessCycleStamp = Instant.now().toEpochMilli(); // allow firstime play
 
                     // Get all tags list active and available for recovery
-                    tags = tagsFacade._findActiveByCompanyAndMachine(
-                            Integer.valueOf(Settings.read(Settings.CONFIG,
-                                    Settings.COMPANY).toString()),
-                            machine.getId());
+                    tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
                     int tagSize = tags.size();
                     // Inform liteners about number off collection count
                     tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
@@ -239,20 +241,20 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                         tags.stream().forEach((tag) -> {
                             // Collect only if cyle time is reached since last change
                             long cycleTime = tag.getCycle() * 1000; // msec
-
-                            long savedEpoch = Instant.now().toEpochMilli();
+                            long savedEpoch = DateUtil.epochMilliOf(gmtIndex);
                             if (tag.getVStamp() != null) {
-                                savedEpoch = tag.getVStamp().toInstant().toEpochMilli();
+                                savedEpoch = DateUtil.epochMilliOf(gmtIndex, tag.getVStamp());//tag.getVStamp().toInstant().toEpochMilli();
                             } else {
-                                savedEpoch = Instant.now().toEpochMilli() - cycleTime - 1;
+                                savedEpoch = DateUtil.epochMilliOf(gmtIndex) - cycleTime - 1;
                             }
-
-                            if ((Instant.now().toEpochMilli() - savedEpoch) > cycleTime) {
+                            Long nowEpoch = DateUtil.epochMilliOf(gmtIndex);
+                            Long deltaEpoch = (nowEpoch - savedEpoch);
+                            if (deltaEpoch > cycleTime) {
                                 // Init. default value
                                 tag.setVBool(false);
                                 tag.setVFloat(0.0);
                                 tag.setVInt(0);
-                                tag.setVStamp(Date.from(Instant.now()));
+                                tag.setVStamp(DateUtil.now(gmtIndex));
 
                                 //TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
                                 if (tag.getType() != null) {

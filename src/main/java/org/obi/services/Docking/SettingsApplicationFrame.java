@@ -18,6 +18,7 @@ import org.ini4j.Wini;
 import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.listener.DatabaseFrameListener;
 import org.obi.services.model.DatabaseModel;
+import org.obi.services.util.DateUtil;
 import org.obi.services.util.Ico;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
@@ -501,133 +502,10 @@ public class SettingsApplicationFrame extends javax.swing.JPanel implements Data
     }
 
     private void fillGMT() {
-        List<String> l = orderTimeZones();
+        List<String> l = DateUtil.orderTimeZones();
         for (String s : l) {
             cbGMT.addItem(s);
         }
-    }
-
-    private static List<String> orderTimeZones() {
-        List<String> tzs = timeZones();
-        Collections.sort(tzs);
-        return tzs;
-    }
-
-    private static List<String> timeZones() {
-        List<String> tzs = new ArrayList<>();
-        String[] ids = TimeZone.getAvailableIDs();
-        for (String id : ids) {
-            tzs.add(displayTimeZone(TimeZone.getTimeZone(id)));
-        }
-        return tzs;
-    }
-
-    private static String displayTimeZone(TimeZone tz) {
-
-        long hours = TimeUnit.MILLISECONDS.toHours(tz.getRawOffset());
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(tz.getRawOffset()) - TimeUnit.HOURS.toMinutes(hours);
-        // avoid -4:-30 issue
-        minutes = Math.abs(minutes);
-
-        String result = "";
-        if (hours >= 0) {
-            result = String.format("[GMT]+[%02d:%02d] \t %s", hours, minutes, tz.getID());
-        } else {
-            result = String.format("[GMT]-[%02d:%02d] \t %s", hours, minutes, tz.getID());
-        }
-
-        return result;
-
-    }
-
-    /**
-     * Get part hour from a display time zone
-     *
-     * @param timeZone is like [GMT]+[%02d:%02d] \t %s or like [GMT]-[%02d:%02d]
-     * \t %s
-     * @return
-     */
-    public static Integer hourFromDisplayTimeZone(String timeZone) {
-        if (timeZone == null) {
-            return 0;
-        }
-        if (timeZone.isEmpty()) {
-            return 0;
-        }
-        String clean = timeZone.replace("[GMT]", "").split("\t")[0].replace("+", "").replace("-", "").replace("[", "").replace("]", "");
-        String[] a = clean.split(":");
-        if (a.length >= 1) {
-            return Integer.valueOf(a[0]);
-        }
-        return 0;
-    }
-
-    /**
-     * Get part hour from a display time zone
-     *
-     * @param timeZone is like [GMT]+[%02d:%02d] \t %s or like [GMT]-[%02d:%02d]
-     * \t %s
-     * @return
-     */
-    public static Integer minFromDisplayTimeZone(String timeZone) {
-        if (timeZone == null) {
-            return 0;
-        }
-        if (timeZone.isEmpty()) {
-            return 0;
-        }
-        String clean = timeZone.replace("[GMT]", "").split("\t")[0].replace("+", "").replace("-", "").replace("[", "").replace("]", "").replace(" ", "");
-        String[] a = clean.split(":");
-        if (a.length >= 2) {
-            return Integer.valueOf(a[1]);
-        }
-        return 0;
-    }
-
-    public static Integer hourAtOrderTimeZonePosition(Integer position) {
-        return hourFromDisplayTimeZone(orderTimeZones().get(position));
-    }
-
-    public static Integer minAtOrderTimeZonePosition(Integer position) {
-        return minFromDisplayTimeZone(orderTimeZones().get(position));
-    }
-
-    /**
-     * HTZ hours of time zone saved
-     *
-     * @return hours of time zone save in config
-     */
-    public static Integer hTZ() {
-        Object o = Settings.read(Settings.CONFIG, Settings.GMT);
-        Integer gmt = 0;
-        if (o != null) {
-            gmt = Integer.valueOf(o.toString());
-        }
-        return hourAtOrderTimeZonePosition(gmt);
-    }
-
-    /**
-     * MTZ minute of time zone saved
-     *
-     * @return minute of time zone saved in config
-     */
-    public static Integer mTZ() {
-        Object o = Settings.read(Settings.CONFIG, Settings.GMT);
-        Integer gmt = 0;
-        if (o != null) {
-            gmt = Integer.valueOf(o.toString());
-        }
-        return minAtOrderTimeZonePosition(gmt);
-    }
-
-    /**
-     * STZ secode corresponding of time zone saved mean combination of hour and
-     * minute
-     *
-     * @return
-     */
-    public static Integer sTZ() {
-        return (hTZ() * 3600) + (mTZ() * 60);
     }
 
 }

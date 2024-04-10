@@ -19,7 +19,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.sessions.alarms.AlarmsFacade;
@@ -29,6 +33,8 @@ import org.obi.services.sessions.measures.MeasUnitsFacade;
 import org.obi.services.sessions.tags.TagsMemoriesFacade;
 import org.obi.services.sessions.tags.TagsTablesFacade;
 import org.obi.services.sessions.tags.TagsTypesFacade;
+import org.obi.services.util.DateUtil;
+import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
@@ -114,7 +120,7 @@ public class Tags implements Serializable {
     private Boolean vBool;
     private String vStr;
     private Date vDateTime;
-    private Date vStamp;
+    private LocalDateTime vStamp;
     private Boolean vDefault;
     private Double vFloatDefault;
     private Integer vIntDefault;
@@ -329,11 +335,11 @@ public class Tags implements Serializable {
         this.vDateTime = vDateTime;
     }
 
-    public Date getVStamp() {
+    public LocalDateTime getVStamp() {
         return vStamp;
     }
 
-    public void setVStamp(Date vStamp) {
+    public void setVStamp(LocalDateTime vStamp) {
         this.vStamp = vStamp;
     }
 
@@ -802,8 +808,9 @@ public class Tags implements Serializable {
                 }
             } else if (c.matches("vStamp")) {
                 Timestamp timestamp = rs.getTimestamp(c);
-                if (timestamp != null) {
-                    this.vStamp = new java.util.Date(timestamp.getTime());
+                LocalDateTime dt = timestamp.toLocalDateTime();
+                if (dt != null) {
+                    this.vStamp = dt;
                 } else {
                     this.vStamp = null;
                 }
@@ -1041,30 +1048,18 @@ public class Tags implements Serializable {
     }
 
     public static String queryUpdateOn(String column, Tags tag) {
+        String vStamp = DateUtil.sqlDTConvert(tag.getVStamp());
         if (column.matches("vFloat")) {
-            // Ajuste le nombre de détail en milliseconde
-            String timestampstr = Instant.now().toString();
-            if (timestampstr.contains(".")) {
-                timestampstr = timestampstr.substring(0, 19);
-            }
+//            return "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
+//                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
             return "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
-                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
+                    + ", vStamp = '" + vStamp + "' WHERE id = " + tag.getId();
         } else if (column.matches("vInt")) {
-            // Ajuste le nombre de détail en milliseconde
-            String timestampstr = Instant.now().toString();
-            if (timestampstr.contains(".")) {
-                timestampstr = timestampstr.substring(0, 19);
-            }
             return "UPDATE dbo.tags set [vInt] = " + tag.getVInt()
-                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
+                    + ", vStamp = '" + vStamp + "' WHERE id = " + tag.getId();
         } else if (column.matches("vBool")) {
-            // Ajuste le nombre de détail en milliseconde
-            String timestampstr = Instant.now().toString();
-            if (timestampstr.contains(".")) {
-                timestampstr = timestampstr.substring(0, 19);
-            }
             return "UPDATE dbo.tags set [vBool] = " + tag.getVBool()
-                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
+                    + ", vStamp = '" + vStamp + "' WHERE id = " + tag.getId();
         } else {
             Util.out(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
             System.out.println(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
