@@ -368,7 +368,7 @@ public class DatabaseFrame extends javax.swing.JDialog {
         return isConnectable(toModel());
     }
 
-    void setSchemaReceiver(JTextField receiver) {
+    public void setSchemaReceiver(JTextField receiver) {
         schemaReceiver = receiver;
     }
 

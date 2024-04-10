@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    <!-- Parent POM -->
     <parent>
         <groupId>org.obi</groupId>
         <artifactId>OBI</artifactId>
         <version>0.0.0</version>
     </parent>
     
+    <!-- Active POM -->
     <artifactId>obi-services</artifactId>
+    <name>obi-services</name>
     <packaging>jar</packaging>
+    <version>0.1.0</version>
     <description>
-        Application imoka-service.
+        Application obi-services
         Allow to get tag value defined. 
         Thus collect data in time
     </description>
     
-    
-        
+
+    <!-- Execution -->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -32,8 +37,16 @@
             <version>4.2</version>
         </dependency>
 
+    
+        <dependency>
+            <groupId>org.dockingframes</groupId>
+            <artifactId>docking-frames-common</artifactId>
+            <version>1.1.2-SNAPSHOT</version>
+        </dependency>
+ 
+
         <!-- https://mvnrepository.com/artifact/org.glassfish.main.extras/appserv-rt -->
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>org.glassfish.main.extras</groupId>
             <artifactId>appserv-rt</artifactId>
             <version>4.1.2</version>
@@ -42,10 +55,17 @@
         <dependency>
             <groupId>org.obi</groupId>
             <artifactId>obi-core</artifactId>
-            <version>0.0.0</version>
+            <version>0.1.0</version>
+            
         </dependency>
         
-<!--        <dependency>
+        
+        <dependency>
+            <groupId>net</groupId>
+            <artifactId>infonode</artifactId>
+            <version>0.0.0</version>
+        </dependency>
+        <!--        <dependency>
             <groupId>com.github.cogman</groupId>
             <artifactId>javadocking</artifactId>
             <version>1.7.1</version>
@@ -83,13 +103,29 @@
             <artifactId>flatlaf-intellij-themes</artifactId>
             <version>3.2.5</version>
         </dependency>
-        
-
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE180</version>
+        </dependency>
     </dependencies>
    
     
     
-    
+    <repositories>
+        <repository>
+            <id>sonatype-oss-snapshots</id>
+            <name>Sonatype OSS Maven Repository for Staging Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
     
     
     
@@ -118,12 +154,15 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <!-- USED FOR DOCUMENTATION JAVADOC -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.2</version>
                 <configuration>
-                    
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

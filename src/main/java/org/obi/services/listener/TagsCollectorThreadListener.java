@@ -5,7 +5,6 @@
 package org.obi.services.listener;
 
 import org.obi.services.app.TagsCollectorThread;
-import org.obi.services.entities.Machines;
 
 /**
  *
@@ -13,32 +12,88 @@ import org.obi.services.entities.Machines;
  */
 public interface TagsCollectorThreadListener {
 
-    Boolean running = false;
-
     /**
      * onProcessingThread
      *
      * <p>
-     * Main process is on going in the run loop
-     * </p>
+     * Main process is running without indicate if sub process is running
+     * {@link TagsCollectorThreadListener#onProcessingSubThread(java.lang.Thread)}.
+     * In order to know if process is stopped use
+     * {@link TagsCollectorThreadListener#onProcessingStopThread(java.lang.Thread)}
+     *
+     * @param thread the concern thread
      */
-    void onProcessingThread();
+    void onProcessingThread(Thread thread);
 
     /**
-     * onOldingThread
+     * onProcessingSubThread
+     * <p>
+     * Sub thread is on going in the run loop
+     *
+     * @param thread the concern thread
+     */
+    void onProcessingSubThread(Thread thread);
+
+    /**
+     * onProcessingSubStopThread
      *
      * <p>
-     * On olding thread, main loop still processing waiting for restart. In this
-     * case the thread is still alive (check existing method).
-     * </p>
+     * On sub processing stop thread, main loop still processing waiting for
+     * restart. In this case the thread is still alive (check existing method).
+     *
+     * @param thread the concern thread
      */
-    void onOldingThread();
-    
+    void onProcessingSubStopThread(Thread thread);
+
     /**
      * onKillProcessThread
-     * 
+     *
      * <p>
-     * 
+     *
+     * @param tagsCollectorThread the concern thread
      */
-    void onKillProcessThread(TagsCollectorThread m);
+    void onProcessingStopThread(Thread thread);
+
+    /**
+     *
+     * @param thread the value of thread
+     * @param ms the value of ms
+     */
+    void onProcessingSubCycleTime(Thread thread, Long ms);
+
+    /**
+     * Emit thread Cylcle time for the process thread
+     *
+     * @param thread the value of thread
+     * @param ms the value of ms
+     */
+    void onProcessingCycleTime(Thread thread, Long ms);
+
+    /**
+     * Emit thread error message for the specify thread
+     *
+     * @param thread value of the current thread emitter
+     * @param message message delivered
+     */
+    void onErrorCollection(Thread thread, String message);
+
+    /**
+     * Check if main activity is properly processing
+     *
+     * @param thread the value of thread concern
+     * @param activity true if the main purpose activity is on
+     */
+    void onSubProcessActivityState(Thread thread, Boolean activity);
+
+
+    /**
+     * Emit collection counter 
+     * 
+     * Indicate number of collection
+     * 
+     * @param thread the value of emitter
+     * @param count  the value count of collection
+     */
+    void onCollectionCount(Thread thread, int count);
+
 }

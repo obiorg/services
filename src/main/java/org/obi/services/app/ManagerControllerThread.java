@@ -8,17 +8,15 @@ import org.obi.services.listener.TagsCollectorThreadListener;
 import java.awt.TrayIcon;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.obi.services.entities.Machines;
-import org.obi.services.entities.Tags;
-import org.obi.services.entities.TagsTypes;
-import org.obi.services.sessions.MachinesFacade;
-import org.obi.services.sessions.TagsFacade;
-import org.obi.services.sessions.TagsTypesFacade;
+import org.obi.services.Docking.ManagerControllerFrame;
+import org.obi.services.entities.machines.Machines;
+import org.obi.services.listener.MachinesControllerEvent;
+import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
+import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 
 /**
@@ -71,7 +69,36 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
     }
 
     /**
+     * Array List which contain all the Machines controller event that should
+     * receive even from the server
+     */
+    private ArrayList<MachinesControllerEvent> machinesControllerEvents = new ArrayList<>();
+
+    /**
+     * Allow to add event to the list of events
+     *
+     * @param _machinesControllerEvents a class which will listen to service
+     * event
+     */
+    public void addMachinesEvent(MachinesControllerEvent _machinesControllerEvents) {
+        this.machinesControllerEvents.add(_machinesControllerEvents);
+    }
+
+    /**
+     * Allow to remove listener to the list of event listener
+     *
+     * @param _machinesControllerEvents a class which will listen to service
+     * event
+     */
+    public void removeMachinesEvent(MachinesControllerEvent _machinesControllerEvents) {
+        this.machinesControllerEvents.remove(_machinesControllerEvents);
+    }
+
+    /**
      * Creates new form
+     *
+     *
+     *
      */
     public ManagerControllerThread() {
         trayIcon = new TrayIcon(Ico.i16(APP_ICO, this).getImage());
@@ -107,152 +134,291 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
     }
 
     /**
+     * Delay Method
+     *
+     * Delay allow to compute the delay between an old epoch compare to actual
+     * epoch (now - oldEpoch) = delay
+     *
+     * @param oldEpoch an epoch value of previous time
+     *
+     * @return delay in ms from oldEpoch to now
+     */
+    public static Long delay(Long oldEpoch) {
+        return (Instant.now().toEpochMilli() - oldEpoch);
+    }
+
+    /**
      * Main loop of the thread data collector
      */
     @Override
     public void run() {
-        super.run(); //To change body of generated methods, choose Tools | Templates.
         String methodName = getClass().getSimpleName() + " : run() >> ";
 
         // Récupération des facades de communication bdd
-        MachinesFacade machinesFacade = new MachinesFacade(Machines.class);
-        TagsFacade tagsFacade = TagsFacade.getInstance();
-        TagsTypesFacade tagsTypesFacade = new TagsTypesFacade(TagsTypes.class);
+        MachinesFacade machinesFacade = MachinesFacade.getInstance();
 
-        // Int Main Loop 
-        Integer mainLoop = 0;
-        boolean onceOnMain = false; // only display once
-        boolean onceOnStop = false; // only display once
+        // Start parent thread
+        super.run();
+        Util.out(Util.errLine() + methodName + " state of machine connection are review each 5s");
+
+        // Thread tools
+        boolean firstTimeInProcessing = true;   //< Inidcate run loop go back at first in main processing loop
+
+        /**
+         * Start running sub process
+         */
         while (!requestKill) {
-            long requestEpoch = 0; // allow firstime play
-            // Main loop
+            /**
+             * processCycleStamp allow to reduce processing analysis over olding
+             * time waiting
+             */
+            long processCycleStamp = Instant.now().toEpochMilli(); // allow firstime play
+
+            // Inform main thread only once it reach this point after execution of subproces
+            if (firstTimeInProcessing) {
+                tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
+                    tagCollectorThreadListener.onProcessingThread(this);
+                });
+                firstTimeInProcessing = false;
+            }
+
+            // SUB PROCESS LOOP
             while (!requestStop) {
+                /**
+                 * subProcessCycleStamp allow to reduce processing analysis over
+                 * machines in database.
+                 */
+                long subProcessCycleStamp = Instant.now().toEpochMilli(); // allow firstime play
+
+                // Inform sub thread only once it reach this after exuction of subprocess 
                 if (running == false) {
                     tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
-                        tagCollectorThreadListener.onProcessingThread();
+                        tagCollectorThreadListener.onProcessingSubThread(this);
+                    });
+                    running = true;
+                }
+
+                // Refresh list of available machine in the company 
+                String societeStr = Settings.read(Settings.CONFIG, Settings.COMPANY).toString();
+                Integer societe = Integer.valueOf(societeStr);
+                List<Machines> machines = machinesFacade.findByCompanyId(societe);
+                machinesControllerEvents.stream().forEach((machinesControllerEvent) -> {
+                    machinesControllerEvent.countEvent(machines.size());
+                });
+
+                // Actualize machine managed list
+                // 1. Remove deleted connection from managed list
+                // 2. Check for une connection to be initiated
+                if (!machines.isEmpty() || !tagsCollectorManaged.isEmpty()) {
+
+                    // 1. REMOVE DELETED CONNECTION IN DATABASE FROM MANAGED LIST
+                    // 1.1. Recover machine to remove
+                    tagsCollectorManaged.stream().forEach((tagsCollector) -> {
+                        // > Check in database if still existing : if true do not remove otherwise remove
+                        if (!machines.contains(tagsCollector.getMachine())) {
+                            // Indicate to all events machines have been remove
+                            machinesControllerEvents.stream().forEach((machinesControllerEvent) -> {
+                                machinesControllerEvent.removeEvent(tagsCollector.getMachine());
+                            });
+                            // 1.2. Request to kill this thread collector 
+                            // @see void onProcessingStopThread(Machines m)
+                            tagsCollector.kill();
+                        }
+                    });
+
+                    // 2 CHECK FOR NEW CONNECTION TO BE INITIATED
+                    // 2.1. Recreate list of existing machine
+                    List<Machines> machinesManaged = new ArrayList<>();
+                    tagsCollectorManaged.stream().forEach((tagsCollector) -> {
+                        machinesManaged.add(tagsCollector.getMachine());
+                    });
+
+                    // 2.2. Create new machine
+                    machines.stream().forEach((machine) -> {
+                        // Create not existing connection and start them
+                        if (!machinesManaged.contains(machine)) {
+                            // Create a new machine connection and start execution
+                            TagsCollectorThread t = new TagsCollectorThread(machine);
+                            t.doRelease();
+                            if (!t.isAlive()) {
+                                t.start();
+                            }
+                            t.addClientListener(this);
+                            // add the new collection to the tags collector manager
+                            tagsCollectorManaged.add(t);
+
+                            // Update list of machine to lister
+                            machinesControllerEvents.stream().forEach((machinesControllerEvent) -> {
+                                machinesControllerEvent.addEvent(machine);
+                            });
+                            tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
+                                if (tagsCollectorThreadListener instanceof ManagerControllerFrame) {
+                                    t.addClientListener(tagsCollectorThreadListener);
+                                }
+                            });
+                        }
                     });
                 }
-                // Set processus in run mode
-                running = true;
-                onceOnMain = true;
-                int requestEpochCnt = 0;
-                // Minimum One second between request
-                long now = Instant.now().toEpochMilli();
-                long delay = (now - requestEpoch);
-                if (delay < 1000) {
-                    long d = 1000 - delay;
+
+                /**
+                 * Manage testing time of new machine insert or remove. Default
+                 * preset time is 5s
+                 */
+                long defaultDelay = 5000;
+                long delay = delay(subProcessCycleStamp);
+                // Inform on execution delay
+                tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
+                    tagsCollectorThreadListener.onProcessingSubCycleTime(this, delay);
+                });
+                // Sleep remaining time
+                if (delay < defaultDelay) {
+                    long d = defaultDelay - delay;
                     try {
                         sleep(d);
                     } catch (InterruptedException ex) {
-                        Util.out(methodName + " > Unable to sleep for minimum dealy time !" + ex.getLocalizedMessage());
+                        Util.out(Util.errLine() + methodName + " >> \"Sub Processing Loop\" unable to proced minimum delay !\n" + ex.getLocalizedMessage());
                         Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                long now2 = Instant.now().toEpochMilli();
 
-                // Process only if minimum time is respected
-                if ((now2 - requestEpoch) >= 3000) {
-                    onceOnStop = true;
-
-                    // change epoch reference
-                    requestEpoch = Instant.now().toEpochMilli();
-                    requestEpochCnt = 0;
-
-                    // Refresh list of available machine
-                    List<Machines> machines = machinesFacade.findAll();
-
-                    // Actualize machine managed list
-                    // 1. Remove deleted connection from managed list
-                    // 2. Check for une connection to be initiated
-                    if (!machines.isEmpty() || !tagsCollectorManaged.isEmpty()) {
-
-                        // 1. REMOVE DELETED CONNECTION IN DATABASE FROM MANAGED LIST
-                        // 1.1. Recover machine to remove
-                        tagsCollectorManaged.stream().forEach((tagsCollector) -> {
-                            // > Check in database if still existing : if true do not remove otherwise remove
-                            if (!machines.contains(tagsCollector.getMachine())) {
-                                // 1.2. Request to kill this thread collector 
-                                // @see void onKillProcessThread(Machines m)
-                                tagsCollector.kill();
-                            }
-                        });
-
-                        // 2 CHECK FOR NEW CONNECTION TO BE INITIATED
-                        // 2.1. Recreate list of existing machine
-                        List<Machines> machinesManaged = new ArrayList<>();
-                        tagsCollectorManaged.stream().forEach((tagsCollector) -> {
-                            machinesManaged.add(tagsCollector.getMachine());
-                        });
-
-                        // 2.2. Create new machine
-                        machines.stream().forEach((machine) -> {
-                            // Create not existing connection and start them
-                            if (!machinesManaged.contains(machine)) {
-                                // Create a new machine connection and start execution
-                                TagsCollectorThread t = new TagsCollectorThread(machine);
-                                t.doRelease();
-                                if (!t.isAlive()) {
-                                    t.start();
-                                }
-                                t.addClientListener(this);
-                                // add the new collection to the tags collector manager
-                                tagsCollectorManaged.add(t);
-                                tagsCollectorThreadListeners.add(t);
-                            }
-                        });
-                    }
-
-                } else {
-                    requestEpochCnt++;
-                    if (requestEpochCnt >= 2) {
-                        Util.out(methodName + "Epoch not reach more than 2 times : " + requestEpochCnt
-                                + " time : " + now + " - " + requestEpoch + " = " + (now - requestEpoch));
-                    } else {
-                        Util.out(methodName + "Epoch not reached ! "
-                                + now + " - " + requestEpoch + " = " + (now - requestEpoch));
-                    }
-                }
-                if (onceOnStop) {
-                    onceOnStop = false;
-                }
             }
-            running = false; //!< indicate end of processus running
-            if (onceOnMain) {
-                Util.out("TagCollectorThread >> run >> back to mainLoop");
-                onceOnMain = false;
-                tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
-                    tagCollectorThreadListener.onOldingThread();
+
+            if (running) {
+                // Inform register listeners that sub process is terminate in should indicate olding
+                tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
+                    Util.out(Util.errLine() + methodName + " : run >> Manager Controller will go on old position !");
+
+                    tagsCollectorManaged.stream().forEach((tagsCollectorThread) -> {
+                        // Stop and kill the thread
+                        tagsCollectorThread.doStop();
+                        tagsCollectorThread.kill();
+                        // Inform to all events machines have been remove
+                        machinesControllerEvents.stream().forEach((machinesControllerEvent) -> {
+                            machinesControllerEvent.removeEvent(tagsCollectorThread.getMachine());
+                        });
+                    });
+                    tagsCollectorManaged.clear();
+                    // Go on olding state
+                    tagsCollectorThreadListener.onProcessingSubStopThread(this);
+                    Util.out(Util.errLine() + methodName + " : run >> Manager Controller now on pause position !");
                 });
             }
 
-            try {
-                sleep(500);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
+            // sub process stop running
+            running = false; //!< indicate end of processus running
+
+            /**
+             * Manage testing time of new machine insert or remove. Default
+             * preset time is 5s
+             */
+            long processDelay = 5000;
+            long delay = delay(processCycleStamp);
+            // Inform on execution delay
+            tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
+                tagsCollectorThreadListener.onProcessingCycleTime(this, delay);
+            });
+            // Sleep remaining delay
+            if (delay < processDelay) {
+                long d = processDelay - delay;
+                try {
+                    sleep(d);
+                } catch (InterruptedException ex) {
+                    Util.out(Util.errLine() + methodName + " >> \"Processing Loop\" unable to proced minimum delay !\n" + ex.getLocalizedMessage());
+                    Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
+
+        /**
+         * Will kill manager controller : inform all client
+         */
+        tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
+            tagCollectorThreadListener.onProcessingStopThread(this);
+        });
+        Util.out(Util.errLine() + methodName + " Terminate Manager Controller Thread");
     }
 
+    /**
+     * On Processing Thread
+     *
+     * This will act when processing child action is received
+     */
     @Override
-    public void onProcessingThread() {
-
+    public void onProcessingThread(Thread thread) {
+        String methodName = getClass().getSimpleName() + " : onProcessingThread() >> ";
+//        Util.out(methodName + " not yet implemented !");
     }
 
+    /**
+     * On Olding Thread
+     *
+     * This will act when olding child action is received
+     */
     @Override
-    public void onOldingThread() {
-
+    public void onProcessingSubStopThread(Thread thread) {
+        String methodName = getClass().getSimpleName() + " : onOldingThread() >> ";
+//        Util.out(methodName + " not yet implemented !");
     }
 
+    /**
+     * On Kill Process Thread
+     *
+     * This will act when a killing process of child is emit with specified
+     * child
+     *
+     * @param t the thread to be kill that was killed
+     */
     @Override
-    public void onKillProcessThread(TagsCollectorThread t) {
-        String methodName = getClass().getSimpleName() + " : onKillProcessThread(Machines m) >> ";
+    public void onProcessingStopThread(Thread thread) {
+        String methodName = getClass().getSimpleName() + " : onKilledProcessThread(Thread thread) >> ";
+        TagsCollectorThread t = (TagsCollectorThread) thread;
         Util.out(methodName + "Machine connection " + t.getMachine().getAddress() + " remove done !");
         tagsCollectorManaged.remove(t);
-        tagsCollectorThreadListeners.remove(t);
+//        tagsCollectorThreadListeners.remove(t);
 
         // 1 ! Remove listener !!!!
-        Util.out(methodName + " You didn't  remove listener !!!!!! ");
+//        Util.out(methodName + " You didn't  remove listener !!!!!! ");
+    }
 
+    /**
+     *
+     * @param thread the value of thread
+     * @param ms the value of ms
+     */
+    @Override
+    public void onProcessingSubCycleTime(Thread thread, Long ms) {
+//        String methodName = getClass().getSimpleName() + " : onThreadCycleTime(Long ms) >> ";
+//        Util.out(methodName + " not yet implemented !");
+    }
+
+    @Override
+    public void onProcessingSubThread(Thread thread) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    /**
+     *
+     * @param thread the value of thread
+     * @param ms the value of ms
+     */
+    @Override
+    public void onProcessingCycleTime(Thread thread, Long ms) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onErrorCollection(Thread thread, String message) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onSubProcessActivityState(Thread thread, Boolean activity) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onCollectionCount(Thread thread, int count) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

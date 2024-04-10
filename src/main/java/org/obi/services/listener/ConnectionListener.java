@@ -10,8 +10,7 @@ import org.obi.services.core.moka7.S7CpInfo;
 import org.obi.services.core.moka7.S7CpuInfo;
 import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
-import org.obi.services.entities.Machines;
-import org.obi.services.moka.OrderCode;
+import org.obi.services.entities.machines.Machines;
 
 /**
  *
