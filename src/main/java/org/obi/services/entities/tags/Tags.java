@@ -1049,22 +1049,23 @@ public class Tags implements Serializable {
 
     public static String queryUpdateOn(String column, Tags tag) {
         String vStamp = DateUtil.sqlDTConvert(tag.getVStamp());
+        String query = null;
         if (column.matches("vFloat")) {
 //            return "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
 //                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
-            return "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
-                    + ", vStamp = '" + vStamp + "' WHERE id = " + tag.getId();
+            query = "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
+                    + ", vStamp = " + vStamp + " WHERE id = " + tag.getId();
         } else if (column.matches("vInt")) {
-            return "UPDATE dbo.tags set [vInt] = " + tag.getVInt()
-                    + ", vStamp = '" + vStamp + "' WHERE id = " + tag.getId();
+            query = "UPDATE dbo.tags set [vInt] = " + tag.getVInt()
+                    + ", vStamp =" + vStamp + " WHERE id = " + tag.getId();
         } else if (column.matches("vBool")) {
-            return "UPDATE dbo.tags set [vBool] = " + tag.getVBool()
-                    + ", vStamp = '" + vStamp + "' WHERE id = " + tag.getId();
+            query = "UPDATE dbo.tags set [vBool] = " + tag.getVBool()
+                    + ", vStamp = " + vStamp + " WHERE id = " + tag.getId();
         } else {
             Util.out(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
             System.out.println(Tags.class + " >> queryUpdateOn >> unknown column name " + column);
         }
-        return null;
+        return query;
     }
 
     public String prepareStatementUpdateOn() {

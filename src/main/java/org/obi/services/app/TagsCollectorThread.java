@@ -4,6 +4,7 @@ import org.obi.services.listener.TagsCollectorThreadListener;
 import java.awt.TrayIcon;
 import static java.lang.Thread.sleep;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -254,7 +255,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                                 tag.setVBool(false);
                                 tag.setVFloat(0.0);
                                 tag.setVInt(0);
-                                tag.setVStamp(DateUtil.now(gmtIndex));
+                                tag.setVStamp(LocalDateTime.now());
 
                                 //TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
                                 if (tag.getType() != null) {
