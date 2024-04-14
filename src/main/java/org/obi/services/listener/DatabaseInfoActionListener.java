@@ -2,13 +2,11 @@
 
 package org.obi.services.listener;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

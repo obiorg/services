@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
+import org.obi.services.app.MachineConnection;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.sessions.AbstractFacade;
@@ -56,7 +57,8 @@ public final class TagsFacade {
                 conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
             }
         } catch (SQLException ex) {
-            Util.out("TagsFacade >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
+            Util.out(Util.errLine() + TagsFacade.class.getSimpleName()
+                    + " >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
             Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
@@ -72,38 +74,36 @@ public final class TagsFacade {
                 if (pstmt != null) {
                     updateCount = pstmt.executeUpdate();
                 } else {
-                    Util.out("TagsFacade >> updateOnValue on getConnectionManager() >> null prepared statement !");
+                    Util.out(Util.errLine() + TagsFacade.class.getSimpleName()
+                            + " >> updateOnValue on getConnectionManager() >> null prepared statement !"
+                            + " Query = " + updateQuery);
                 }
 //                conn.close();
             } else {
-                Util.out("TagsFacade >> updateOnValue on getConnectionManager() >> conn is null !");
+                Util.out(Util.errLine() + TagsFacade.class.getSimpleName()
+                        + " >> updateOnValue on getConnectionManager() >> conn is null !");
             }
             return updateCount;
         } catch (SQLException ex) {
-            Util.out("TagsFacade >> updateOnValue on getConnectionManager() >> " + ex.getLocalizedMessage());
+            Util.out(Util.errLine() + TagsFacade.class.getSimpleName()
+                    + " >> updateOnValue on getConnectionManager() >> " + ex.getLocalizedMessage());
             Logger.getLogger(AbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
 
     public int updateOnValueFloat(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("vFloat",
-                tag
-        );
+        String Q_Update = Tags.queryUpdateOn("vFloat", tag);
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueInt(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("vInt",
-                tag
-        );
+        String Q_Update = Tags.queryUpdateOn("vInt", tag);
         return updateOnValue(Q_Update);
     }
 
     public int updateOnValueBool(Tags tag) {
-        String Q_Update = Tags.queryUpdateOn("vBool",
-                tag
-        );
+        String Q_Update = Tags.queryUpdateOn("vBool", tag);
         return updateOnValue(Q_Update);
     }
 
@@ -128,23 +128,49 @@ public final class TagsFacade {
 
     /**
      * Use if type of tag is fully defined. Function will check type matchin,
-     * Bool, Int, Real.
+     * Bool, Int, Real,
+     * {@link MachineConnection#readValue(org.obi.services.entities.tags.Tags)}
      *
      * @param tag tag containing value and fully type tag.
      * @return 0 if unknow type or, error, otherwise return number of row
      * affected
      */
     public int updateOnValue(Tags tag) {
-        if (tag.getType().getId() == 1) { // 1 : Bool
-            return updateOnValueBool(tag);
-        } // INT
-        else if (tag.getType().getId() == 4) { // 4 : Int
-            return updateOnValueInt(tag);
-        } // REAL
-        else if (tag.getType().getId() == 6) { // 6 : Real
-            return updateOnValueFloat(tag);
+        int e = -1;
+        switch (tag.getType().getId()) {
+            case 1: // Bool
+                e = updateOnValueBool(tag);
+                break;
+            case 20: // 2 : DateTime
+                break;
+            case 30: // DInt
+                break;
+            case 4:// 4 : Int
+                e = updateOnValueInt(tag);
+                break;
+            case 50: // 5 : LReal
+                break;
+            case 6: // 6 : Real
+                e = updateOnValueFloat(tag);
+                break;
+            case 70: // 7 : SInt
+                break;
+            case 80: // 8 : UDInt
+                break;
+            case 9: // 9 : UInt
+                // Integrate as Int
+                e = updateOnValueInt(tag);
+                break;
+            case 100: //10: USInt
+                break;
+            case 110: //11: Wide String
+                break;
+            default:
+                Util.out(Util.errLine() + TagsFacade.class.getSimpleName()
+                        + " : " + tag.getType().getId() + " is not implemented !");
+                break;
         }
-        return 0;
+        return e;
     }
 
     /**
@@ -168,14 +194,20 @@ public final class TagsFacade {
             }
         } catch (SQLException ex) {
             Util.out("TagsFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
-            Logger.getLogger(AbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
+            Logger
+                    .getLogger(AbstractFacade.class
+                            .getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
             try {
-                stmt.close();
+                if (stmt != null) {
+                    stmt.close();
+                };
             } catch (SQLException ex) {
                 Util.out("TagsFacade >> find on close statement : " + ex.getLocalizedMessage());
-                Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
+                Logger
+                        .getLogger(TagsFacade.class
+                                .getName()).log(Level.SEVERE, null, ex);
             }
         }
         return lst;

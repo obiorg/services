@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.entities.tags.TagsTypes;
+import org.obi.services.entities.tags.TagsLists;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.sessions.AbstractFacade;
 import org.obi.services.util.Util;
@@ -18,24 +18,22 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class TagsTypesFacade {
+public class TagsListsFacade {
 
-    private static TagsTypesFacade INSTANCE;
+    private static TagsListsFacade INSTANCE;
 
-    public static TagsTypesFacade getInstance() {
+    public static TagsListsFacade getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new TagsTypesFacade();
+            INSTANCE = new TagsListsFacade();
         }
         return INSTANCE;
     }
 
-    public TagsTypesFacade() {
+    public TagsListsFacade() {
     }
 
-    
     Connection conn = null;
 
-    
     protected Connection getConnectionMannager() {
         if (conn == null) {
             conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
@@ -44,7 +42,7 @@ public class TagsTypesFacade {
                 conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
             }
         } catch (SQLException ex) {
-            Util.out("TagsTypesFacade >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
+            Util.out("TagsListsFacade >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
             Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
@@ -56,21 +54,21 @@ public class TagsTypesFacade {
      * @param findQuery existing query in string format
      * @return list of result found
      */
-    private List<TagsTypes> find(String findQuery) {
+    private List<TagsLists> find(String findQuery, Boolean easy) {
         String Q_find = findQuery;
 
-        List<TagsTypes> lst = new ArrayList<>();
+        List<TagsLists> lst = new ArrayList<>();
         Statement stmt = null;
         try {
             stmt = getConnectionMannager().createStatement();
             ResultSet rs = stmt.executeQuery(Q_find);
             while (rs.next()) {
-                TagsTypes m = new TagsTypes();
-                m.update(rs);
+                TagsLists m = new TagsLists();
+                m.update(rs, easy);
                 lst.add(m);
             }
         } catch (SQLException ex) {
-            Util.out("TagsTypesFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
+            Util.out("TagsListsFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
             Logger.getLogger(AbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
@@ -79,7 +77,7 @@ public class TagsTypesFacade {
                     stmt.close();
                 }
             } catch (SQLException ex) {
-                Util.out("TagsTypesFacade >> find on close statement : " + ex.getLocalizedMessage());
+                Util.out("TagsListsFacade >> find on close statement : " + ex.getLocalizedMessage());
                 Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -89,26 +87,26 @@ public class TagsTypesFacade {
     /**
      * Find All elment in table
      *
-     * Use request : "SELECT * FROM dbo.tags_types"
+     * Use request : "SELECT * FROM dbo.tags_lists";
      *
      * @return List of tags tabels
      */
-    public List<TagsTypes> findAll() {
-        String Q_findAll = "SELECT * FROM dbo.tags_types";
-        return find(Q_findAll);
+    public List<TagsLists> findAll() {
+        String Q_findAll = "SELECT * FROM dbo.tags_lists";
+        return find(Q_findAll, false);
 
     }
 
     /**
      * Find an element specified by id
      *
-     * Use request : "SELECT * FROM dbo.tags_types WHERE id = " + id;
+     * Use request : "SELECT * FROM dbo.tags_lists WHERE id = " + id;
      *
      * @return tags tables or null if empty
      */
-    public TagsTypes findById(int id) {
-        String Q_finBy = "SELECT * FROM dbo.tags_types WHERE id = " + id;
-        List<TagsTypes> lst = find(Q_finBy);
+    public TagsLists findById(int id) {
+        String Q_finBy = "SELECT * FROM dbo.tags_lists WHERE id = " + id;
+        List<TagsLists> lst = find(Q_finBy, false);
         if (lst.isEmpty()) {
             return null;
         }

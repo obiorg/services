@@ -553,6 +553,20 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     }
 
     /**
+     * Convenien method to display window manager Controller
+     *
+     * @param evt display manager controller
+     */
+    private void managerControllerWindowDisplayActionPerformed(ActionEvent evt) {
+        if (views[4].getRootWindow() != null) {
+            views[4].restoreFocus();
+            managerControllerMenuItem.setEnabled(false);
+        } else {
+            DockingUtil.addWindow(views[4], rootWindow);
+        }
+    }
+
+    /**
      * Start Tag Collector
      *
      * Allow to start the main thread for data collection
@@ -582,6 +596,9 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         }
         startTagCollectorMenuItem.setEnabled(false);
         stopTagCollectorMenuItem.setEnabled(true);
+
+        tbBtnToolsTagsControllerStart.setEnabled(false);
+        tbBtnToolsTagsControllerStop.setEnabled(true);
     }
 
     /**
@@ -608,6 +625,9 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
 
         startTagCollectorMenuItem.setEnabled(true);
         stopTagCollectorMenuItem.setEnabled(false);
+
+        tbBtnToolsTagsControllerStart.setEnabled(true);
+        tbBtnToolsTagsControllerStop.setEnabled(false);
     }
 
     /**
@@ -825,6 +845,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     private JMenu helpMenu;
     private JPopupMenu.Separator jSeparator1;
     private JToolBar mainToolBar;
+    private JToolBar toolsToolBar;
     private JMenuBar menuBar;
     private JMenuItem metalMenuItem;
     private JMenuItem nimbusMenuItem;
@@ -833,6 +854,9 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     private JMenuItem managerControllerMenuItem;
     private JButton tbBtnHide;
     private JButton tbBtnExit;
+    private JButton tbBtnToolsManagerController;
+    private JButton tbBtnToolsTagsControllerStart;
+    private JButton tbBtnToolsTagsControllerStop;
     private JMenu themeMenu;
     private JPopupMenu.Separator themeSeparator;
     private JMenu toolsMenu;
@@ -1083,6 +1107,66 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         mainToolBar.setRollover(true);
         mainToolBar.add(tbBtnHide);
         mainToolBar.add(tbBtnExit);
+        mainToolBar.setAlignmentX(0);
+
+        /**
+         * Toolbar TOOLS
+         */
+        // Toolbar - Tools - Button ManagerController
+        tbBtnToolsManagerController = new JButton();
+        tbBtnToolsManagerController.setIcon(Ico.i48("/img/std/Tree.png", this));
+        tbBtnToolsManagerController.setText(bundle.getString("MenuItemControllerManager"));
+        tbBtnToolsManagerController.setFocusable(false);
+        tbBtnToolsManagerController.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tbBtnToolsManagerController.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tbBtnToolsManagerController.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                managerControllerWindowDisplayActionPerformed(evt);
+            }
+        });
+        tbBtnToolsManagerController.setEnabled(true);
+
+        // Toolbar - Tools - Button tbBtnToolsTagsControllerStart
+        tbBtnToolsTagsControllerStart = new JButton();
+        tbBtnToolsTagsControllerStart.setIcon(Ico.i48("/img/std/onOff/start.png", this));
+        tbBtnToolsTagsControllerStart.setText(bundle.getString("toolsStartTagsCollector"));
+        tbBtnToolsTagsControllerStart.setFocusable(false);
+        tbBtnToolsTagsControllerStart.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tbBtnToolsTagsControllerStart.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tbBtnToolsTagsControllerStart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                startTagCollectorMenuItemActionPerformed(evt);
+            }
+        });
+        tbBtnToolsTagsControllerStart.setEnabled(true);
+
+        // Toolbar - Tools - Button tbBtnToolsTagsControllerStart
+        tbBtnToolsTagsControllerStop = new JButton();
+        tbBtnToolsTagsControllerStop.setIcon(Ico.i48("/img/std/onOff/stop.png", this));
+        tbBtnToolsTagsControllerStop.setText(bundle.getString("toolsStopTagsCollector"));
+        tbBtnToolsTagsControllerStop.setFocusable(false);
+        tbBtnToolsTagsControllerStop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tbBtnToolsTagsControllerStop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tbBtnToolsTagsControllerStop.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                stopTagCollectorMenuItemActionPerformed(evt);
+            }
+        });
+        tbBtnToolsTagsControllerStop.setEnabled(false);
+
+        // Manage toolbar Tools start/Stop
+        toolsToolBar = new JToolBar();
+        toolsToolBar.setRollover(true);
+        toolsToolBar.add(tbBtnToolsManagerController);
+        toolsToolBar.add(new JToolBar.Separator());
+        toolsToolBar.add(tbBtnToolsTagsControllerStart);
+        toolsToolBar.add(tbBtnToolsTagsControllerStop);
+        toolsToolBar.setAlignmentX(0);
+
+        JPanel toolBarPanel = new JPanel();
+        toolBarPanel.setLayout(new BoxLayout(toolBarPanel, FlowLayout.LEFT));
+        toolBarPanel.add(mainToolBar);
+        toolBarPanel.add(toolsToolBar);
 
         /**
          * Managing main frame
@@ -1095,7 +1179,9 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         frame.setSize(new java.awt.Dimension(1024, 680));
 
         frame.getContentPane().add(createToolBar(), BorderLayout.NORTH);
-        frame.getContentPane().add(mainToolBar, BorderLayout.NORTH);
+//        frame.getContentPane().add(mainToolBar, BorderLayout.NORTH);
+//        frame.getContentPane().add(toolsToolBar, BorderLayout.NORTH);
+        frame.getContentPane().add(toolBarPanel, BorderLayout.NORTH);
         frame.getContentPane().add(rootWindow, BorderLayout.CENTER);
         frame.setJMenuBar(menuBar);
         frame.setSize(900, 700);
@@ -1152,6 +1238,8 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             final View view = views[i];
             if (view != null) {
                 System.out.println("View :" + view.getTitle());
+                Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName()
+                        + " >> createFocusViewMenu >> " + view.getTitle());
                 viewsMenu.add("Focus " + view.getTitle()).addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         SwingUtilities.invokeLater(new Runnable() {
@@ -1166,8 +1254,8 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
                     }
                 });
             } else {
-                Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : createFocusViewMenu >> CreateFocusViewMenu : "
-                        + "views[" + i + "] is null !");
+                Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName()
+                        + " >> createFocusViewMenu >> " + "views[" + i + "] is null !");
             }
         }
 

@@ -5,6 +5,7 @@ import java.awt.TrayIcon;
 import static java.lang.Thread.sleep;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -139,7 +140,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
 
         // Start parent thread
         super.run();//
-        Util.out(Util.errLine() + methodName + "Thead machine : " + machine + " started with review of connection each 5s");
+        Util.out(Util.errLine() + methodName + "Thead machine : " + machine.getName() + " started with review of connection each 5s");
 
         // Prepare working element
         TagsFacade tagsFacade = TagsFacade.getInstance();
@@ -163,6 +164,11 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
             if (firstTimeInProcessing) {
                 tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
                     tagCollectorThreadListener.onProcessingThread(this);
+                    tagCollectorThreadListener.onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : " + machine.getName() + " Start processing...");
+                    Util.out(Util.errLine() + methodName + " Machine " + machine.getName()
+                            + " Start processing...");
                 });
                 firstTimeInProcessing = false;
             }
@@ -175,7 +181,9 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                 // Inform liteners about number off collection count and error
                 tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
                     tagsCollectorThreadListener.onCollectionCount(this, 0);
-                    tagsCollectorThreadListener.onErrorCollection(this, DateUtil.localDTFFZoneId(gmtIndex) + " : No tags to read, will run in \"wait\" mode !");
+                    tagsCollectorThreadListener.onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : No tags to read, will run in \"wait\" mode !");
                 });
             }
 
@@ -214,7 +222,12 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                                     + " : Connected !");
                         });
                     } else {// Inform why not able to connect
-
+                        tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
+                            tagCollectorThreadListener.onSubProcessActivityState(this, false);
+                            tagCollectorThreadListener.onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : Not connected !" + mc.getErrorText());
+                        });
                     }
                 }
 
@@ -255,7 +268,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                                 tag.setVBool(false);
                                 tag.setVFloat(0.0);
                                 tag.setVInt(0);
-                                tag.setVStamp(LocalDateTime.now());
+                                tag.setVStamp(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
 
                                 //TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
                                 if (tag.getType() != null) {
@@ -281,7 +294,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                      * than 1s
                      */
                     long defaultDelay = 1000;
-                    long delay = delay(subProcessCycleStamp);
+                    long delay = Instant.now().toEpochMilli() - subProcessCycleStamp;
                     // Inform on execution delay
                     tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
                         tagsCollectorThreadListener.onProcessingSubCycleTime(this, delay);
@@ -320,7 +333,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                  * is 5s
                  */
                 long processDelay = 5000;
-                long delay = delay(processCycleStamp);
+                long delay = Instant.now().toEpochMilli() - processCycleStamp;
                 // Inform on execution delay
                 tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
                     tagsCollectorThreadListener.onProcessingCycleTime(this, delay);
@@ -334,6 +347,26 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                         Util.out(Util.errLine() + methodName + " >> \"Processing Loop\" unable to proced minimum delay !\n" + ex.getLocalizedMessage());
                         Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                }
+            }
+            /**
+             * Manage initiation of new request reading Default preset time is
+             * 5s
+             */
+            long processDelay = 5000;
+            long delay = Instant.now().toEpochMilli() - processCycleStamp;
+            // Inform on execution delay
+            tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
+                tagsCollectorThreadListener.onProcessingCycleTime(this, delay);
+            });
+            // Sleep remaining delay
+            if (delay < processDelay) {
+                long d = processDelay - delay;
+                try {
+                    sleep(d);
+                } catch (InterruptedException ex) {
+                    Util.out(Util.errLine() + methodName + " >> \"Processing Loop\" unable to proced minimum delay !\n" + ex.getLocalizedMessage());
+                    Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

@@ -219,6 +219,8 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                             // Indicate to all events machines have been remove
                             machinesControllerEvents.stream().forEach((machinesControllerEvent) -> {
                                 machinesControllerEvent.removeEvent(tagsCollector.getMachine());
+                                Util.out(Util.errLine() + ManagerControllerThread.class.getSimpleName()
+                                        + " : run >> machine to be kill " + tagsCollector.getMachine());
                             });
                             // 1.2. Request to kill this thread collector 
                             // @see void onProcessingStopThread(Machines m)
@@ -231,6 +233,8 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                     List<Machines> machinesManaged = new ArrayList<>();
                     tagsCollectorManaged.stream().forEach((tagsCollector) -> {
                         machinesManaged.add(tagsCollector.getMachine());
+//                        Util.out(Util.errLine() + ManagerControllerThread.class.getSimpleName()
+//                                + " : run >> new machine to be instantiate " + tagsCollector.getMachine());
                     });
 
                     // 2.2. Create new machine
@@ -242,6 +246,8 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                             t.doRelease();
                             if (!t.isAlive()) {
                                 t.start();
+                                Util.out(Util.errLine() + ManagerControllerThread.class.getSimpleName()
+                                        + " : run >> Start thread " + machine.getName());
                             }
                             t.addClientListener(this);
                             // add the new collection to the tags collector manager

@@ -402,36 +402,101 @@ public class MachineConnection extends Thread implements ConnectionListener {
             });
         }
         end(Result);
+
     }
 
     /**
      * Read value specified by tag parameter
+     * <p>
+     * <span color=red>/ ! \ Actualy only data bloc area is processing by this
+     * function see below table to do not expect use all other
+     * </span>
+     * <table border="1">
+     * <tr><th>&nbsp;</th><th>Value</th><th>Mean</th></tr>
+     * <tr><td>S7Consts.S7AreaPE</td><td>0x81</td><td>Process Inputs.</td></tr>
+     * <tr><td>S7Consts.S7AreaPA</td><td>0x82</td><td>Process Outputs.</td></tr>
+     * <tr><td>S7Consts.S7AreaMK</td><td>0x83</td><td>Merkers</td></tr>
+     * <tr><td>S7Consts.S7AreaDB</td><td>0x84</td><td>DB</td></tr>
+     * <tr><td>S7Consts.S7AreaCT</td><td>0x85</td><td>Counters</td></tr>
+     * <tr><td>S7Consts.S7AreaTM</td><td>0x86</td><td>Timers</td></tr>
+     * </table>
      *
-     * / ! \ only read value in database right now
+     * <p>
+     * The following table display the available table use to adapt siemens to
+     * Java
      *
      * <p>
-     * 1 Bool	Boolean	1	0	0 * siemens
-     * <p>
-     * 2 DateTime	Date Time	64	8	4
-     * <p>
-     * 3 DInt Double Int	32 4	0
-     * <p>
-     * 4 Int	Integer	16	2	1 siemens
-     * <p>
-     * 5 LReal	Long Real 0	0	0 siemens
-     * <p>
-     * 6 Real	Real	64	8 4	siemens
-     * <p>
-     * 7 SInt	Small Int	8	1	0
-     * <p>
-     * 8 UDInt	Unsigned Double Integer	16 2	1	siemens
-     * <p>
-     * 9	UInt	Unsigned Integer	0	0 0	siemens
-     * <p>
-     * 10 USInt Unsigned Small Integer	0	0	0	siemens
-     * <p>
-     * 11 Wide String	0	0 0	siemens
+     * <table border="1">
+     * <tr><th>N°</th><th>Code</th><th>Name</th><th>Bit</th><th>Byte</th><th>Word</th><th>Brand</th></tr>
+     * <tr><td>1</td><td>Bool</td><td>Boolean</td><td>1</td><td>0</td><td>0</td><td>Siemens</td></tr>
+     * <tr><td>2</td><td>DateTime</td><td>Date
+     * Time</td><td>64</td><td>8</td><td>4</td><td>Siemens</td></tr>
+     * <tr><td>3</td><td>DInt</td><td>Double
+     * Int</td><td>32</td><td>4</td><td>2</td><td>Siemens</td></tr>
+     * <tr><td>4</td><td>Int</td><td>Integer</td><td>16</td><td>2</td><td>1</td><td>Siemens</td></tr>
+     * <tr><td>5</td><td>LReal</td><td>Long
+     * Read</td><td>?</td><td>?</td><td>?</td><td>Siemens</td></tr>
+     * <tr><td>6</td><td>Real</td><td>Real</td><td>64</td><td>8</td><td>4</td><td>Siemens</td></tr>
+     * <tr><td>7</td><td>SInt</td><td>Small
+     * Int</td><td>8</td><td>1</td><td>0</td><td>Siemens</td></tr>
+     * <tr><td>8</td><td>UDInt</td><td>Unsigned Double
+     * Integer</td><td>16</td><td>2</td><td>1</td><td>Siemens</td></tr>
+     * <tr><td>9</td><td>UInt</td><td>Unsigned
+     * Integer</td><td>0</td><td>0</td><td>0</td><td>Siemens</td></tr>
+     * <tr><td>10</td><td>USInt</td><td>Unsigned Small
+     * Integer</td><td>0</td><td>0</td><td>0</td><td>Siemens</td></tr>
+     * <tr><td>11</td><td>Wide
+     * String</td><td>0</td><td>0</td><td>0</td><td>0</td><td>Siemens</td></tr>
+     * </table>
      *
+     *
+     *
+     * <p>
+     * <h3>Following is list of moka7 data type :</h3>
+     * <ul>
+     * <li>BITS
+     * <li>WORD (unsigned 16 bit integer
+     * <li>INT (signed 16 bit integer)
+     * <li>DWORD (unsigned 32 bit integer
+     * <li>DINT (signed 32 bit integer) <br /> This will fetch a 32 bits signed
+     * value : from 0 to 4294967295 (2^32-1). {@link S7#GetDIntAt(byte[], int)}
+     * which will read 4 bytes from pos.
+     * <li>REAL (32 bit floating point number
+     * <li>S7 Strings
+     * <li>S7 Array of char
+     * </ul>
+     *
+     *
+     * <p>
+     * <h3>Following is list of java data type specification : </h3>
+     * <table border="1">
+     * <tr><th>Type</th><th>Taille<br/>(octets)</th><th>Valeur
+     * minimale</th><th>Valeur maximale</th></tr>
+     * <tr><td>byte</td><td>1</td><td>-128<br/>(Byte.MIN_VALUE)</td><td>127
+     * (Byte.MAX_VALUE)</td></tr>
+     * <tr><td>short</td><td>2</td><td>-32 768 (Short.MIN_VALUE)</td><td>32 767
+     * (Short.MAX_VALUE) </td></tr>
+     * <tr><td>int</td><td>4</td><td>-2 147 483
+     * 648<br/>(Integer.MIN_VALUE)</td><td>2 147 483
+     * 647<br/>(Integer.MAX_VALUE)</td></tr>
+     * <tr><td>long</td><td>8</td><td>-9 223 372 036 854 775
+     * 808<br/>(Long.MIN_VALUE)</td><td>9 223 372 036 854 775
+     * 807<br/>(Long.MAX_VALUE)</td></tr>
+     * </table>
+     *
+     *
+     * <p>
+     * <h3>The same table exist for data type precision : </h3>
+     * <table border="1">
+     * <tr><th>Type</th><th>Taille (octets )</th><th>Précision (chiffres
+     * significatifs)</th><th>Valeur absolue minimale</th><th>Valeur absolue
+     * maximale</th></tr>
+     * <tr><td>float</td><td>4</td><td>7</td><td>1.40239846E-45
+     * (Float.MIN_VALUE)</td><td>3.40282347E38 (Float.MAX_VALUE)</td></tr>
+     * <tr><td>double</td><td>8</td><td>15</td><td>4.9406564584124654E-324
+     * (Double.MIN_VALUE)</td><td>1.797693134862316E308
+     * (Double.MAX_VALUE)</td></tr>
+     * </table>
      *
      * @param tag object containing address and type of value to be read
      * @return Object value Double, Integer, Boolean or null in case of error
@@ -475,12 +540,36 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 }
 
                 // Reading succed process conversion and storage
+                boolean bv = S7.GetBitAt(Buffer, 0, tag.getBit());
+                tag.setVBool(bv);
+                obj = bv;
                 break;
             case 2: // Date Time
 
                 break;
             case 3: // Double Int
+                Buffer = new byte[4];
+                word = 2;
 
+                // Process reading
+                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                        tag.getByte1(),
+                        word, Buffer);
+
+                // Process reading
+                if (Result != 0) {
+                    Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                            + " : readValue >> Double Integer tag id : "
+                            + tag.getId() + " >> value = " + tag.getName()
+                            + " bad request on reading DB " + tag.getDb()
+                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                    return null;
+                }
+
+                // Reading succed process conversion and storage
+                Integer dv = S7.GetDIntAt(Buffer, 0);
+                tag.setVInt(dv);
+                obj = dv;
                 break;
             case 4: // Integer
                 Buffer = new byte[2];
@@ -538,13 +627,57 @@ public class MachineConnection extends Thread implements ConnectionListener {
 
                 break;
             case 8: // Unsigned Double Integer
+                Buffer = new byte[4]; // Number of byte
+                word = 2;
 
+                // Process reading
+                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                        tag.getByte1(),
+                        word, Buffer); // nombre de mot
+
+                // Process reading
+                if (Result != 0) {
+                    Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                            + " : readValue >> Unsigned double Integer tag id : "
+                            + tag.getId() + " >> value = " + tag.getName()
+                            + " bad request on reading DB " + tag.getDb()
+                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                    return null;
+                }
+
+                // Reading succed process conversion and storage
+                Util.out(Util.errLine() + MachineConnection.class.getSimpleName() 
+                        + " : Usigned Double Integer never tested convertion to DWord may give overload limit of integer !");
+                long udi = S7.GetWordAt(Buffer, 0); 
+                tag.setVInt((int)udi);
+                obj = udi;
                 break;
             case 9: // Unsigned Integer
+                Buffer = new byte[2]; // Number of byte
+                word = 1;
 
+                // Process reading
+                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                        tag.getByte1(),
+                        word, Buffer); // nombre de mot
+
+                // Process reading
+                if (Result != 0) {
+                    Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
+                            + " : readValue >> Unsigned Integer tag id : "
+                            + tag.getId() + " >> value = " + tag.getName()
+                            + " bad request on reading DB " + tag.getDb()
+                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                    return null;
+                }
+
+                // Reading succed process conversion and storage
+                int ui = S7.GetWordAt(Buffer, 0);
+                tag.setVInt(ui);
+                obj = ui;
                 break;
-            case 10: // Unsigned Small Integer
-
+            case 10: // Unsigned Small Integer => DBW
+                
                 break;
             case 11: // Wide string
 

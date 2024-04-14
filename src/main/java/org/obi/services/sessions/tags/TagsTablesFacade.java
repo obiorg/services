@@ -34,7 +34,6 @@ public class TagsTablesFacade {
 
     Connection conn = null;
 
-    
     protected Connection getConnectionMannager() {
         if (conn == null) {
             conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
@@ -74,7 +73,9 @@ public class TagsTablesFacade {
             return null;
         } finally {
             try {
-                stmt.close();
+                if (stmt != null) {
+                    stmt.close();
+                }
             } catch (SQLException ex) {
                 Util.out("TagsTablesFacade >> find on close statement : " + ex.getLocalizedMessage());
                 Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);

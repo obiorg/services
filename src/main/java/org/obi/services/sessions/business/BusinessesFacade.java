@@ -75,7 +75,9 @@ public class BusinessesFacade {
             return null;
         } finally {
             try {
-                stmt.close();
+                if (stmt != null) {
+                    stmt.close();
+                }
             } catch (SQLException ex) {
                 Util.out("BusinessesFacade >> find on close statement : " + ex.getLocalizedMessage());
                 Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);

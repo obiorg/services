@@ -75,7 +75,9 @@ public class MachinesFacade {
             return null;
         } finally {
             try {
-                stmt.close();
+                if (stmt != null) {
+                    stmt.close();
+                }
             } catch (SQLException ex) {
                 Util.out("MachineFacade >> find on close statement : " + ex.getLocalizedMessage());
                 Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);

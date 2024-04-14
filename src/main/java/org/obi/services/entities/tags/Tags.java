@@ -30,6 +30,7 @@ import org.obi.services.sessions.alarms.AlarmsFacade;
 import org.obi.services.sessions.business.CompaniesFacade;
 import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.sessions.measures.MeasUnitsFacade;
+import org.obi.services.sessions.tags.TagsListsFacade;
 import org.obi.services.sessions.tags.TagsMemoriesFacade;
 import org.obi.services.sessions.tags.TagsTablesFacade;
 import org.obi.services.sessions.tags.TagsTypesFacade;
@@ -162,6 +163,7 @@ public class Tags implements Serializable {
     private TagsTables table;
     private TagsTypes type;
     private Collection<Persistence> persistenceCollection;
+    private TagsLists list;
 
     public Tags() {
     }
@@ -663,6 +665,14 @@ public class Tags implements Serializable {
         this.type = type;
     }
 
+    public TagsLists getList() {
+        return list;
+    }
+
+    public void setList(TagsLists list) {
+        this.list = list;
+    }
+
     public Collection<Persistence> getPersistenceCollection() {
         return persistenceCollection;
     }
@@ -722,14 +732,14 @@ public class Tags implements Serializable {
                 if (easy) {
                     company = new Companies(rs.getInt(c));
                 } else {
-                    CompaniesFacade cf = new CompaniesFacade();
+                    CompaniesFacade cf = CompaniesFacade.getInstance();
                     company = cf.findById(rs.getInt(c));
                 }
             } else if (c.matches("table")) {
                 if (easy) {
                     table = new TagsTables(rs.getInt(c));
                 } else {
-                    TagsTablesFacade ttf = new TagsTablesFacade();
+                    TagsTablesFacade ttf = TagsTablesFacade.getInstance();
                     table = ttf.findById(rs.getInt(c));
                 }
             } /**
@@ -742,21 +752,21 @@ public class Tags implements Serializable {
                 if (easy) {
                     machine = new Machines(rs.getInt(c));
                 } else {
-                    MachinesFacade mf = new MachinesFacade();
+                    MachinesFacade mf = MachinesFacade.getInstance();
                     machine = mf.findById(rs.getInt(c));
                 }
             } else if (c.matches("type")) {
                 if (easy) {
                     type = new TagsTypes(rs.getInt(c));
                 } else {
-                    TagsTypesFacade ttf = new TagsTypesFacade();
+                    TagsTypesFacade ttf = TagsTypesFacade.getInstance();
                     type = ttf.findById(rs.getInt(c));
                 }
             } else if (c.matches("memory")) {
                 if (easy) {
                     memory = new TagsMemories(rs.getInt(c));
                 } else {
-                    TagsMemoriesFacade tmf = new TagsMemoriesFacade();
+                    TagsMemoriesFacade tmf = TagsMemoriesFacade.getInstance();
                     memory = tmf.findById(rs.getInt(c));
                 }
             } else if (c.matches("db")) {
@@ -795,12 +805,22 @@ public class Tags implements Serializable {
                 this.vFloat = rs.getDouble(c);
             } else if (c.matches("vInt")) {
                 this.vInt = rs.getInt(c);
+            } else if (c.matches("list")) {
+                if (easy) {
+                    list = new TagsLists(rs.getInt(c));
+                } else {
+                    TagsListsFacade ttf = TagsListsFacade.getInstance();
+                    list = ttf.findById(rs.getInt(c));
+                }
             } else if (c.matches("vBool")) {
                 this.vBool = rs.getBoolean(c);
             } else if (c.matches("vStr")) {
                 this.vStr = rs.getString(c);
             } else if (c.matches("vDateTime")) {
                 Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp == null) {
+                    timestamp = Timestamp.valueOf(LocalDateTime.now());
+                }
                 if (timestamp != null) {
                     this.vDateTime = new java.util.Date(timestamp.getTime());
                 } else {
@@ -808,6 +828,9 @@ public class Tags implements Serializable {
                 }
             } else if (c.matches("vStamp")) {
                 Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp == null) {
+                    timestamp = Timestamp.valueOf(LocalDateTime.now());
+                }
                 LocalDateTime dt = timestamp.toLocalDateTime();
                 if (dt != null) {
                     this.vStamp = dt;
@@ -1051,8 +1074,6 @@ public class Tags implements Serializable {
         String vStamp = DateUtil.sqlDTConvert(tag.getVStamp());
         String query = null;
         if (column.matches("vFloat")) {
-//            return "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
-//                    + ", vStamp = '" + timestampstr + "' WHERE id = " + tag.getId();
             query = "UPDATE dbo.tags set [vFloat] = " + tag.getVFloat()
                     + ", vStamp = " + vStamp + " WHERE id = " + tag.getId();
         } else if (column.matches("vInt")) {

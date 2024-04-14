@@ -74,7 +74,9 @@ public class AlarmGroupsFacade {
             return null;
         } finally {
             try {
-                stmt.close();
+                if (stmt != null) {
+                    stmt.close();
+                }
             } catch (SQLException ex) {
                 Util.out("AlarmGroupsFacade >> find on close statement : " + ex.getLocalizedMessage());
                 Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
