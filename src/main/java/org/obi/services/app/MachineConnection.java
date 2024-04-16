@@ -569,6 +569,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 // Reading succed process conversion and storage
                 Integer dv = S7.GetDIntAt(Buffer, 0);
                 tag.setVInt(dv);
+                tag.setVFloat(dv.doubleValue());
                 obj = dv;
                 break;
             case 4: // Integer
@@ -593,6 +594,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 // Reading succed process conversion and storage
                 Integer v = S7.GetShortAt(Buffer, 0);
                 tag.setVInt(v);
+                tag.setVFloat(v.doubleValue());
                 obj = v;
                 break;
             case 5: // Long Real
@@ -619,6 +621,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
 
                 // Reading succed process conversion and storage
                 Float f = S7.GetFloatAt(Buffer, 0);
+                tag.setVInt(f.intValue());
                 tag.setVFloat(f.doubleValue());
                 obj = f;
 
@@ -646,10 +649,11 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 }
 
                 // Reading succed process conversion and storage
-                Util.out(Util.errLine() + MachineConnection.class.getSimpleName() 
+                Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
                         + " : Usigned Double Integer never tested convertion to DWord may give overload limit of integer !");
-                long udi = S7.GetWordAt(Buffer, 0); 
-                tag.setVInt((int)udi);
+                long udi = S7.GetWordAt(Buffer, 0);
+                tag.setVInt((int) udi);
+                tag.setVFloat((double) udi);
                 obj = udi;
                 break;
             case 9: // Unsigned Integer
@@ -674,10 +678,11 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 // Reading succed process conversion and storage
                 int ui = S7.GetWordAt(Buffer, 0);
                 tag.setVInt(ui);
+                tag.setVFloat((double) ui);
                 obj = ui;
                 break;
             case 10: // Unsigned Small Integer => DBW
-                
+
                 break;
             case 11: // Wide string
 
