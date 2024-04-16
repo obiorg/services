@@ -120,7 +120,7 @@ public class Tags implements Serializable {
     private Integer vInt;
     private Boolean vBool;
     private String vStr;
-    private Date vDateTime;
+    private LocalDateTime vDateTime;
     private LocalDateTime vStamp;
     private Boolean vDefault;
     private Double vFloatDefault;
@@ -329,11 +329,11 @@ public class Tags implements Serializable {
         this.vStr = vStr;
     }
 
-    public Date getVDateTime() {
+    public LocalDateTime getVDateTime() {
         return vDateTime;
     }
 
-    public void setVDateTime(Date vDateTime) {
+    public void setVDateTime(LocalDateTime vDateTime) {
         this.vDateTime = vDateTime;
     }
 
@@ -821,8 +821,9 @@ public class Tags implements Serializable {
                 if (timestamp == null) {
                     timestamp = Timestamp.valueOf(LocalDateTime.now());
                 }
-                if (timestamp != null) {
-                    this.vDateTime = new java.util.Date(timestamp.getTime());
+                LocalDateTime dt = timestamp.toLocalDateTime();
+                if (dt != null) {
+                    this.vDateTime = dt;
                 } else {
                     this.vDateTime = null;
                 }

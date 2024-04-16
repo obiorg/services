@@ -148,6 +148,15 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
         Integer companyId = Integer.valueOf(Settings.read(Settings.CONFIG, Settings.COMPANY).toString());
 
         /**
+         * Create Sub process to write in database
+         */
+        TagsFacadeThread tagsFacadeThread = TagsFacadeThread.getInstance();
+        tagsFacadeThread.doRelease();
+        if (!tagsFacadeThread.isAlive()) {
+            tagsFacadeThread.start();
+        }
+
+        /**
          * START MAIN THREAD LOOP will stop when requestKill is receive by
          * {@link TagsCollectorThread#kill()} or straight requestKill = true.
          */
@@ -254,12 +263,12 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                     if (!tags.isEmpty()) {
 
                         for (int i = 0; i < tags.size(); i++) {
-                            Tags tag = tags.get(i);
+//                            Tags tag = tags.get(i);
                             // Collect only if cyle time is reached since last change
-                            long cycleTime = tag.getCycle() * 1000; // msec
+                            long cycleTime = tags.get(i).getCycle() * 1000; // msec
                             long savedEpoch = DateUtil.epochMilliOf(gmtIndex);
-                            if (tag.getVStamp() != null) {
-                                savedEpoch = DateUtil.epochMilliOf(gmtIndex, tag.getVStamp());//tag.getVStamp().toInstant().toEpochMilli();
+                            if (tags.get(i).getVStamp() != null) {
+                                savedEpoch = DateUtil.epochMilliOf(gmtIndex, tags.get(i).getVStamp());//tag.getVStamp().toInstant().toEpochMilli();
                             } else {
                                 savedEpoch = DateUtil.epochMilliOf(gmtIndex) - cycleTime - 1;
                             }
@@ -267,24 +276,29 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                             Long deltaEpoch = (nowEpoch - savedEpoch);
                             if (deltaEpoch > cycleTime) {
                                 // Init. default value
-                                tag.setVBool(false);
-                                tag.setVFloat(0.0);
-                                tag.setVInt(0);
-                                tag.setVStamp(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
+                                tags.get(i).setVFloat(0.0);
+                                tags.get(i).setVInt(0);
+                                tags.get(i).setVBool(false);
+                                tags.get(i).setVStr("");
+                                tags.get(i).setVDateTime(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
+                                tags.get(i).setVStamp(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
 
                                 //TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
-                                if (tag.getType() != null) {
+                                if (tags.get(i).getType() != null) {
                                     //tag.setType(tagsType);
-                                    mc.readValue(tag);
-                                    tagsFacade.updateOnValue(tag);
+                                    mc.readValue(tags.get(i));
+                                    //tagsFacade.updateOnValue(tags.get(i));
                                 } else {
                                     // Inform liteners about number off collection count and error
-                                    for (int j = 0; i < tagsCollectorThreadListeners.size(); i++) {
-                                        tagsCollectorThreadListeners.get(i).onErrorCollection(this, Util.errLine() + methodName + " Unable to find type " + tag.getType() + " for tag " + tag);
+                                    for (int j = 0; j < tagsCollectorThreadListeners.size(); j++) {
+                                        tagsCollectorThreadListeners.get(j).onErrorCollection(this, Util.errLine() + methodName + " Unable to find type " + tags.get(i).getType() + " for tag " + tags.get(i));
                                     }
                                 }
                             }
                         }
+
+                        // Now puh data
+                        tagsFacadeThread.addUpdateTags(tags);
                     } else {
                         Util.out(Util.errLine() + methodName + " empty list tag found for machine = " + machine);
                         requestStop = true;
@@ -371,6 +385,12 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                     Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        }
+
+        // Release TagsFacadeThread
+        if (!tagsFacadeThread.isAlive()) {
+            tagsFacadeThread.doStop();
+            tagsFacadeThread.kill();
         }
 
         /**

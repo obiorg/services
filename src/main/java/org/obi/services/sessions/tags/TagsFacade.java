@@ -14,6 +14,7 @@ import org.obi.services.app.MachineConnection;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.sessions.AbstractFacade;
+import org.obi.services.util.DateUtil;
 import org.obi.services.util.Util;
 
 /**
@@ -62,6 +63,15 @@ public final class TagsFacade {
             Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
+    }
+
+    /**
+     * Allow to initialize conenction or use it if not exist
+     *
+     * @return
+     */
+    public Boolean isConnectionOn() {
+        return getConnectionMannager() != null;
     }
 
     private int updateOnValue(String updateQuery) {
@@ -277,4 +287,33 @@ public final class TagsFacade {
         return find(Q_find, true);
     }
 
+    /**
+     * This method allow to update many tags on main parameter : "UPDATE
+     * dbo.tags SET [vFloat] = ? ,[vInt] = ? ,[vBool] = ? ,[vStr] = ?
+     * ,[vDateTime] = ? ,[vStamp] = ? WHERE id = ? ";
+     *
+     * @param tagsUpdating list of tags to update
+     */
+    public void pushTagsUpdate(List<Tags> tagsUpdating) throws SQLException {
+        // Will request prepare statement and push all at once
+        String queryUpdate = "UPDATE dbo.tags SET"
+                + " [vFloat] = ? "
+                + " ,[vInt] = ? "
+                + " ,[vBool] = ? "
+                + " ,[vStr] = ? "
+                + " ,[vDateTime] = ? "
+                + " ,[vStamp] = ? "
+                + "WHERE id = ? ";
+
+        PreparedStatement ps = getConnectionMannager().prepareStatement(queryUpdate);
+        for (Tags tag : tagsUpdating) {
+            ps.setDouble(1, tag.getVFloat());
+            ps.setInt(2, tag.getVInt());
+            ps.setBoolean(3, tag.getVBool());
+            ps.setString(4, tag.getVStr());
+            ps.setString(5, DateUtil.sqlDTConvert(tag.getVDateTime()));
+            ps.setString(6, DateUtil.sqlDTConvert(tag.getVStamp()));
+        }
+        ps.execute();
+    }
 }
