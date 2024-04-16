@@ -139,10 +139,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
         String err = S7Client.ErrorText(errorCode);
         errors.put(errorCode, err);
 
-        connectionListeners.stream().forEach((connectionMachine) -> {
-            connectionMachine.onNewError(errorCode, err);
-        });
-
+        for (int i = 0; i < connectionListeners.size(); i++) {
+            connectionListeners.get(i).onNewError(errorCode, err);
+        }
         return err;
     }
 
@@ -223,20 +222,20 @@ public class MachineConnection extends Thread implements ConnectionListener {
 
                 PDULength = client.PDULength();
 
-                connectionListeners.stream().forEach((connectionMachine) -> {
-                    connectionMachine.onConnectionSucced(machine);
-                    connectionMachine.onConnectionSucced((int) end(errorCode));
-                    connectionMachine.onPDUUpdate(client.PDULength());
-                });
+                for (int i = 0; i < connectionListeners.size(); i++) {
+                    connectionListeners.get(i).onConnectionSucced(machine);
+                    connectionListeners.get(i).onConnectionSucced((int) end(errorCode));
+                    connectionListeners.get(i).onPDUUpdate(client.PDULength());
+                }
                 connected = true;
             } else {
 //                Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
 //                        + " : doConnect >> Error " + errorCode + " : "
 //                        + getErrorText());
-                connectionListeners.stream().forEach((connectionMachine) -> {
-                    connectionMachine.onConnectionError((int) end(errorCode));
-                    connectionMachine.onNewError(errorCode, getErrorText());
-                });
+                for (int i = 0; i < connectionListeners.size(); i++) {
+                    connectionListeners.get(i).onConnectionError((int) end(errorCode));
+                    connectionListeners.get(i).onNewError(errorCode, getErrorText());
+                }
                 return connected;
             }
         }
@@ -258,11 +257,11 @@ public class MachineConnection extends Thread implements ConnectionListener {
         Util.out("MachineConnection : doConnect >> PDU negotiated : "
                 + PDULength + " bytes");
 
-        connectionListeners.stream().forEach((connectionMachine) -> {
-            connectionMachine.onConnectionSucced(machine);
-            connectionMachine.onConnectionSucced(0);
-            connectionMachine.onPDUUpdate(PDULength);
-        });
+        for (int i = 0; i < connectionListeners.size(); i++) {
+            connectionListeners.get(i).onConnectionSucced(machine);
+            connectionListeners.get(i).onConnectionSucced(0);
+            connectionListeners.get(i).onPDUUpdate(PDULength);
+        }
 
     }
 
@@ -278,9 +277,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
             if (errorCode == 0) {
                 Util.out("MachineConnection : doGetDateAndTime >> CPU Date/Time : "
                         + PlcDateTime);
-                connectionListeners.stream().forEach((connectionMachine) -> {
-                    connectionMachine.onDateTimeResponse(PlcDateTime);
-                });
+                for (int i = 0; i < connectionListeners.size(); i++) {
+                    connectionListeners.get(i).onDateTimeResponse(PlcDateTime);
+                }
             }
         } else {
             Util.out("MachineConnection : doGetDateAndTime >> Please connect first !");
@@ -301,9 +300,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
             if (errorCode == 0) {
                 System.out.println("Order Code        : " + orderCode.Code());
                 System.out.println("Firmware version  : " + orderCode.V1 + "." + orderCode.V2 + "." + orderCode.V3);
-                connectionListeners.stream().forEach((connectionMachine) -> {
-                    connectionMachine.onOrderCodeResponse(orderCode);
-                });
+                for (int i = 0; i < connectionListeners.size(); i++) {
+                    connectionListeners.get(i).onOrderCodeResponse(orderCode);
+                }
             } else {
                 System.out.println("Error " + errorCode + " : " + getErrorText());
 
@@ -338,9 +337,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 default:
                     System.out.println("Unknown (" + PlcStatus.Value + ")");
             }
-            connectionListeners.stream().forEach((connectionMachine) -> {
-                connectionMachine.onPLCStatusResponse(PlcStatus);
-            });
+            for (int i = 0; i < connectionListeners.size(); i++) {
+                connectionListeners.get(i).onPLCStatusResponse(PlcStatus);
+            }
         }
         currentPLCStatus = PlcStatus.Value;
         end(Result);
@@ -359,9 +358,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
             System.out.println("AS Name           : " + CpuInfo.ASName());
             System.out.println("CopyRight         : " + CpuInfo.Copyright());
             System.out.println("Module Name       : " + CpuInfo.ModuleName());
-            connectionListeners.stream().forEach((connectionMachine) -> {
-                connectionMachine.onPLCInfoResponse(CpuInfo);
-            });
+            for (int i = 0; i < connectionListeners.size(); i++) {
+                connectionListeners.get(i).onPLCInfoResponse(CpuInfo);
+            }
         }
         end(Result);
     }
@@ -378,9 +377,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
             System.out.println("Max connections   : " + CpInfo.MaxConnections);
             System.out.println("Max MPI rate (bps): " + CpInfo.MaxMpiRate);
             System.out.println("Max Bus rate (bps): " + CpInfo.MaxBusRate);
-            connectionListeners.stream().forEach((connectionMachine) -> {
-                connectionMachine.onCpInfoResponse(CpInfo);
-            });
+            for (int i = 0; i < connectionListeners.size(); i++) {
+                connectionListeners.get(i).onCpInfoResponse(CpInfo);
+            }
         }
         end(Result);
     }
@@ -397,9 +396,9 @@ public class MachineConnection extends Thread implements ConnectionListener {
             System.out.println("N_DR    : " + SZL.N_DR);
             System.out.println("Size    : " + SZL.DataSize);
             HexDump(SZL.Data, SZL.DataSize);
-            connectionListeners.stream().forEach((connectionMachine) -> {
-                connectionMachine.onReadSzlResponse(SZL);
-            });
+            for (int i = 0; i < connectionListeners.size(); i++) {
+                connectionListeners.get(i).onReadSzlResponse(SZL);
+            }
         }
         end(Result);
 
