@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -294,7 +295,7 @@ public final class TagsFacade {
      *
      * @param tagsUpdating list of tags to update
      */
-    public void pushTagsUpdate(List<Tags> tagsUpdating) throws SQLException {
+    public boolean pushTagsUpdate(List<Tags> tagsUpdating) throws SQLException {
         // Will request prepare statement and push all at once
         String queryUpdate = "UPDATE dbo.tags SET"
                 + " [vFloat] = ? "
@@ -311,9 +312,12 @@ public final class TagsFacade {
             ps.setInt(2, tag.getVInt());
             ps.setBoolean(3, tag.getVBool());
             ps.setString(4, tag.getVStr());
-            ps.setString(5, DateUtil.sqlDTConvert(tag.getVDateTime()));
-            ps.setString(6, DateUtil.sqlDTConvert(tag.getVStamp()));
+            ps.setTimestamp(5, Timestamp.valueOf(tag.getVDateTime()));
+            ps.setTimestamp(6, Timestamp.valueOf(tag.getVStamp()));
+            ps.setInt(7, tag.getId());
+            ps.addBatch();
         }
-        ps.execute();
+        int[] result = ps.executeBatch();
+        return result.length >= 0;
     }
 }

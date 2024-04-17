@@ -242,6 +242,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                 }
 
                 //2- create S7 connection to PLC
+                Long processTagsCycle = 0l; // 
                 while (mc.getConnected() & !requestStop & !requestKill) {
                     /**
                      * subProcessCycleStamp allow to reduce processing analysis
@@ -249,8 +250,15 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                      */
                     subProcessCycleStamp = Instant.now().toEpochMilli(); // allow firstime play
 
+                    /**
+                     * Cyclical update tags list
+                     */
+                    if(subProcessCycleStamp - processTagsCycle >= 10000){
+                        tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
+                        processTagsCycle = Instant.now().toEpochMilli();
+                    }
+                    
                     // Get all tags list active and available for recovery
-                    tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
                     int tagSize = tags.size();
                     // Inform liteners about number off collection count
                     for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
