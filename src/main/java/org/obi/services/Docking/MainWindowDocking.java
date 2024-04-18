@@ -37,6 +37,7 @@ import org.obi.services.Form.output.CapturePane;
 import org.obi.services.Form.output.StreamCapturer;
 import org.obi.services.OBIServiceTrayIcon;
 import org.obi.services.app.ManagerControllerThread;
+import org.obi.services.entities.tags.Tags;
 import org.obi.services.listener.TagsCollectorThreadListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.util.Ico;
@@ -180,16 +181,6 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
      * Main Windows Pane
      */
     private DockingWindow mainTabWindow = new TabWindow();
-
-    @Override
-    public void onSubProcessActivityState(Thread thread, Boolean activity) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void onCollectionCount(Thread thread, int count) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     /**
      * A dynamically created view containing an id.
@@ -854,6 +845,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
     private JMenuItem managerControllerMenuItem;
     private JButton tbBtnHide;
     private JButton tbBtnExit;
+    private JButton tbBtnToolsS7Connexion;
     private JButton tbBtnToolsManagerController;
     private JButton tbBtnToolsTagsControllerStart;
     private JButton tbBtnToolsTagsControllerStop;
@@ -1112,6 +1104,24 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         /**
          * Toolbar TOOLS
          */
+        // Toolbar - Tools - Button S7 Connection
+        tbBtnToolsS7Connexion = new JButton();
+        tbBtnToolsS7Connexion.setIcon(Ico.i48("/img/std/Refresh.png", this));
+        tbBtnToolsS7Connexion.setText(bundle.getString("toolsS7Connections"));
+        tbBtnToolsS7Connexion.setFocusable(false);
+        tbBtnToolsS7Connexion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tbBtnToolsS7Connexion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tbBtnToolsS7Connexion.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (views[2].getRootWindow() != null) {
+                    views[2].restoreFocus();
+                } else {
+                    DockingUtil.addWindow(views[2], rootWindow);
+                }
+            }
+        });
+        tbBtnToolsS7Connexion.setEnabled(true);
+
         // Toolbar - Tools - Button ManagerController
         tbBtnToolsManagerController = new JButton();
         tbBtnToolsManagerController.setIcon(Ico.i48("/img/std/Tree.png", this));
@@ -1140,7 +1150,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         });
         tbBtnToolsTagsControllerStart.setEnabled(true);
 
-        // Toolbar - Tools - Button tbBtnToolsTagsControllerStart
+        // Toolbar - Tools - Button tbBtnToolsTagsControllerStop
         tbBtnToolsTagsControllerStop = new JButton();
         tbBtnToolsTagsControllerStop.setIcon(Ico.i48("/img/std/onOff/stop.png", this));
         tbBtnToolsTagsControllerStop.setText(bundle.getString("toolsStopTagsCollector"));
@@ -1157,6 +1167,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         // Manage toolbar Tools start/Stop
         toolsToolBar = new JToolBar();
         toolsToolBar.setRollover(true);
+        toolsToolBar.add(tbBtnToolsS7Connexion);
         toolsToolBar.add(tbBtnToolsManagerController);
         toolsToolBar.add(new JToolBar.Separator());
         toolsToolBar.add(tbBtnToolsTagsControllerStart);
@@ -1636,6 +1647,21 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
         trayIcon.displayMessage("OBI",
                 "Main Tag collector system has stop !",
                 TrayIcon.MessageType.ERROR);
+    }
+
+    @Override
+    public void onSubProcessActivityState(Thread thread, Boolean activity) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onCollectionCount(Thread thread, int count) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void onDuration(Thread t, int i, long toEpochMilli) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**

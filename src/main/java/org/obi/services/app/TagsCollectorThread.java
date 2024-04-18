@@ -19,6 +19,7 @@ import org.obi.services.core.moka7.S7Szl;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.listener.ConnectionListener;
+import org.obi.services.listener.TagsFacadeFetchThreadListener;
 import org.obi.services.sessions.tags.TagsFacade;
 import org.obi.services.util.DateUtil;
 import org.obi.services.util.Ico;
@@ -44,7 +45,7 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class TagsCollectorThread extends Thread implements ConnectionListener {
+public class TagsCollectorThread extends Thread implements ConnectionListener, TagsFacadeFetchThreadListener {
 
     // Allow to display message on processing
     private TrayIcon trayIcon;
@@ -57,6 +58,11 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
 
     //!< Machine on which we collecting data
     private Machines machine;
+
+    /**
+     * Specify available tags in the machine
+     */
+    List<Tags> tags = new ArrayList<>();
 
     /**
      * Array list which contain all the TagsCollectorThreadListener listeners
@@ -141,7 +147,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
         Util.out(Util.errLine() + methodName + "Thead machine : " + machine.getName() + " started with review of connection each 5s");
 
         // Prepare working element
-        TagsFacade tagsFacade = TagsFacade.getInstance();
+        TagsFacade tagsFacade = new TagsFacade();//TagsFacade.getInstance();
         MachineConnection mc = new MachineConnection(machine);
         boolean firstTimeInProcessing = true;   //< Inidcate run loop go back at first in main processing loop
         Integer gmtIndex = Integer.valueOf(Settings.read(Settings.CONFIG, Settings.GMT).toString());
@@ -150,10 +156,19 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
         /**
          * Create Sub process to write in database
          */
-        TagsFacadeThread tagsFacadeThread = TagsFacadeThread.getInstance();
+        TagsFacadeThread tagsFacadeThread = new TagsFacadeThread(); //TagsFacadeThread.getInstance();
         tagsFacadeThread.doRelease();
         if (!tagsFacadeThread.isAlive()) {
             tagsFacadeThread.start();
+        }
+
+        /**
+         * Create Sub process to write in database
+         */
+        TagsFacadeFetchThread tagsFacadeFetchThread = new TagsFacadeFetchThread(machine); //TagsFacadeThread.getInstance();
+        tagsFacadeFetchThread.doRelease();
+        if (!tagsFacadeFetchThread.isAlive()) {
+            tagsFacadeFetchThread.start();
         }
 
         /**
@@ -182,7 +197,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
 
             // Check available tags for processing
             Boolean wait = false;
-            List<Tags> tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
+            tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
             if (tags.isEmpty()) {
                 wait = true;
                 // Inform liteners about number off collection count and error
@@ -223,12 +238,14 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                                 + " : Not connected, start connection...");
                     }
                     // Try to connect
+                    Long t_doConnectEpoch = Instant.now().toEpochMilli();
                     if (mc.doConnect()) {
                         for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
                             tagsCollectorThreadListeners.get(i).onSubProcessActivityState(this, true);
                             tagsCollectorThreadListeners.get(i).onErrorCollection(this,
                                     DateUtil.localDTFFZoneId(gmtIndex)
                                     + " : Connected !");
+                            tagsCollectorThreadListeners.get(i).onDuration(this, 1, Instant.now().toEpochMilli() - t_doConnectEpoch);
                         }
                     } else {// Inform why not able to connect
                         for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
@@ -236,7 +253,7 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                             tagsCollectorThreadListeners.get(i).onErrorCollection(this,
                                     DateUtil.localDTFFZoneId(gmtIndex)
                                     + " : Not connected !" + mc.getErrorText());
-
+                            tagsCollectorThreadListeners.get(i).onDuration(this, 1, Instant.now().toEpochMilli() - t_doConnectEpoch);
                         }
                     }
                 }
@@ -253,16 +270,17 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                     /**
                      * Cyclical update tags list
                      */
-                    if(subProcessCycleStamp - processTagsCycle >= 10000){
-                        tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
-                        processTagsCycle = Instant.now().toEpochMilli();
-                    }
-                    
-                    // Get all tags list active and available for recovery
-                    int tagSize = tags.size();
+//                    if (subProcessCycleStamp - processTagsCycle >= 60000) {
+//                        Long t_doConnectEpoch = Instant.now().toEpochMilli();
+//                        tags = tagsFacade._findActiveByCompanyAndMachine(companyId, machine.getId());
+//                        for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
+//                            tagsCollectorThreadListeners.get(i).onDuration(this, 2, Instant.now().toEpochMilli() - t_doConnectEpoch);
+//                        }
+//                        processTagsCycle = Instant.now().toEpochMilli();
+//                    }
                     // Inform liteners about number off collection count
                     for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
-                        tagsCollectorThreadListeners.get(i).onCollectionCount(this, tagSize);
+                        tagsCollectorThreadListeners.get(i).onCollectionCount(this, Integer.valueOf(tags.size()));
                     }
 
                     /**
@@ -270,13 +288,14 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                      */
                     if (!tags.isEmpty()) {
 
-                        for (int i = 0; i < tags.size(); i++) {
+                        for (Tags tag : tags) {
 //                            Tags tag = tags.get(i);
                             // Collect only if cyle time is reached since last change
-                            long cycleTime = tags.get(i).getCycle() * 1000; // msec
+
+                            long cycleTime = tag.getCycle() * 1000; // msec
                             long savedEpoch = DateUtil.epochMilliOf(gmtIndex);
-                            if (tags.get(i).getVStamp() != null) {
-                                savedEpoch = DateUtil.epochMilliOf(gmtIndex, tags.get(i).getVStamp());//tag.getVStamp().toInstant().toEpochMilli();
+                            if (tag.getVStamp() != null) {
+                                savedEpoch = DateUtil.epochMilliOf(gmtIndex, tag.getVStamp());//tag.getVStamp().toInstant().toEpochMilli();
                             } else {
                                 savedEpoch = DateUtil.epochMilliOf(gmtIndex) - cycleTime - 1;
                             }
@@ -284,22 +303,26 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
                             Long deltaEpoch = (nowEpoch - savedEpoch);
                             if (deltaEpoch > cycleTime) {
                                 // Init. default value
-                                tags.get(i).setVFloat(0.0);
-                                tags.get(i).setVInt(0);
-                                tags.get(i).setVBool(false);
-                                tags.get(i).setVStr("");
-                                tags.get(i).setVDateTime(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
-                                tags.get(i).setVStamp(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
+                                tag.setVFloat(0.0);
+                                tag.setVInt(0);
+                                tag.setVBool(false);
+                                tag.setVStr("");
+                                tag.setVDateTime(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
+                                tag.setVStamp(LocalDateTime.now(ZoneId.of(DateUtil.zoneIdOf(gmtIndex))));
 
                                 //TagsTypes tagsType = tagsTypesFacade.findById(tag.getType().getId());
-                                if (tags.get(i).getType() != null) {
+                                if (tag.getType() != null) {
                                     //tag.setType(tagsType);
-                                    mc.readValue(tags.get(i));
-                                    //tagsFacade.updateOnValue(tags.get(i));
+                                    Long t_doConnectEpoch = Instant.now().toEpochMilli();
+                                    mc.readValue(tag);
+                                    for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
+                                        tagsCollectorThreadListeners.get(i).onDuration(this, 3, Instant.now().toEpochMilli() - t_doConnectEpoch);
+                                    }
+                                    //tagsFacade.updateOnValue(tag);
                                 } else {
                                     // Inform liteners about number off collection count and error
                                     for (int j = 0; j < tagsCollectorThreadListeners.size(); j++) {
-                                        tagsCollectorThreadListeners.get(j).onErrorCollection(this, Util.errLine() + methodName + " Unable to find type " + tags.get(i).getType() + " for tag " + tags.get(i));
+                                        tagsCollectorThreadListeners.get(j).onErrorCollection(this, Util.errLine() + methodName + " Unable to find type " + tag.getType() + " for tag " + tag);
                                     }
                                 }
                             }
@@ -427,58 +450,64 @@ public class TagsCollectorThread extends Thread implements ConnectionListener {
     }
 
     @Override
-    public void onConnectionSucced(Integer duration) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void onConnectionSucced(Machines machine, Integer errorCode, String err) {
+        for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
+            tagsCollectorThreadListeners.get(i).onErrorCollection(this,
+                    "[" + errorCode + "] - " + err + " for machine " + machine.getName() + " " + machine.getAddress());
+        }
     }
 
     @Override
-    public void onConnectionError(Integer duration) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void onConnectionError(Machines machine, Integer errorCode, String err) {
+        for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
+            tagsCollectorThreadListeners.get(i).onErrorCollection(this,
+                    "[" + errorCode + "] - " + err + " for machine " + machine.getName() + " " + machine.getAddress());
+        }
     }
 
     @Override
     public void onPDUUpdate(Integer PDUNegotiationByte) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onDateTimeResponse(Date plcDateTime) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void isProcessing() {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onOrderCodeResponse(S7OrderCode orderCode) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onPLCStatusResponse(IntByRef status) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onPLCInfoResponse(S7CpuInfo CpuInfo) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onCpInfoResponse(S7CpInfo CpInfo) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onReadSzlResponse(S7Szl SZL) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void onConnectionSucced(Machines machine) {
-
+    public void onUpdateTags(List<Tags> tagsActive) {
+        /**
+         * Cyclical update tags list
+         */
+        Long t_doConnectEpoch = Instant.now().toEpochMilli();
+        tags.clear();
+        tags.addAll(tagsActive);
+        for (int i = 0; i < tagsCollectorThreadListeners.size(); i++) {
+            tagsCollectorThreadListeners.get(i).onDuration(this, 2, Instant.now().toEpochMilli() - t_doConnectEpoch);
+        }
     }
 
 }

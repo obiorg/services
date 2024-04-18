@@ -6,11 +6,13 @@ package org.obi.services.Docking;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.app.TagsCollectorThread;
 import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.tags.Tags;
 import org.obi.services.listener.MachinesControllerEvent;
 import org.obi.services.listener.TagsCollectorThreadListener;
 import org.obi.services.util.Util;
@@ -22,7 +24,7 @@ import org.obi.services.util.Util;
 public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCollectorThreadListener, MachinesControllerEvent {
 
     private DefaultTableModel modelMachines;
-    private DefaultTableModel modelTagsOfMachines;
+//    private DefaultTableModel modelTagsOfMachines;
 
     /**
      * Creates new form ManagerControllerFrame
@@ -30,7 +32,7 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
     public ManagerControllerFrame() {
         initComponents();
         modelMachines = (DefaultTableModel) tableMachines.getModel();
-        modelTagsOfMachines = (DefaultTableModel) tableTagsCollector.getModel();
+//        modelTagsOfMachines = (DefaultTableModel) tableTagsCollector.getModel();
         Util.out(Util.errLine() + ManagerControllerFrame.class.getSimpleName()
                 + " : constructor >> create successfully !");
     }
@@ -62,13 +64,9 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
         labFieldSubProcessCycleTimeUnit = new javax.swing.JLabel();
         scrollTableMachines = new javax.swing.JScrollPane();
         tableMachines = new javax.swing.JTable();
-        tagsCollectorPanel = new javax.swing.JPanel();
-        scrollTableTagsCollector = new javax.swing.JScrollPane();
-        tableTagsCollector = new javax.swing.JTable();
-
-        setLayout(new java.awt.GridLayout(2, 0));
 
         managerControlerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Manager controller"));
+        managerControlerPanel.setPreferredSize(new java.awt.Dimension(698, 150000));
         managerControlerPanel.setLayout(new javax.swing.BoxLayout(managerControlerPanel, javax.swing.BoxLayout.Y_AXIS));
 
         managerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
@@ -205,25 +203,27 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
                             .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(labFieldAvailableMachines)
                                 .addComponent(labAvailableMachinesCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 1, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         managerControlerPanel.add(managerPanel);
+
+        scrollTableMachines.setPreferredSize(new java.awt.Dimension(452, 15000));
 
         tableMachines.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "N°", "ID", "Machine", "Link", "Connected", "Process State", "Main Cyle  [ms]", "Sub Process", "Sub Cyle [ms]", "Message", "Tags"
+                "N°", "ID", "Machine", "Link", "Connected", "Process State", "Main Cyle  [ms]", "Sub Process", "Sub Cyle [ms]", "Message", "Tags", "T_Conn", "T Tags Find", "T Tags Read"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Long.class, java.lang.Boolean.class, java.lang.Long.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Long.class, java.lang.Boolean.class, java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.Long.class, java.lang.Long.class, java.lang.Long.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -252,36 +252,28 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
             tableMachines.getColumnModel().getColumn(8).setMaxWidth(128);
             tableMachines.getColumnModel().getColumn(10).setPreferredWidth(64);
             tableMachines.getColumnModel().getColumn(10).setMaxWidth(128);
+            tableMachines.getColumnModel().getColumn(11).setPreferredWidth(64);
+            tableMachines.getColumnModel().getColumn(11).setMaxWidth(128);
+            tableMachines.getColumnModel().getColumn(12).setPreferredWidth(64);
+            tableMachines.getColumnModel().getColumn(12).setMaxWidth(128);
+            tableMachines.getColumnModel().getColumn(13).setPreferredWidth(64);
+            tableMachines.getColumnModel().getColumn(13).setMaxWidth(128);
         }
 
         managerControlerPanel.add(scrollTableMachines);
 
-        add(managerControlerPanel);
-
-        tagsCollectorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tags Collector"));
-
-        tableTagsCollector.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        scrollTableTagsCollector.setViewportView(tableTagsCollector);
-
-        javax.swing.GroupLayout tagsCollectorPanelLayout = new javax.swing.GroupLayout(tagsCollectorPanel);
-        tagsCollectorPanel.setLayout(tagsCollectorPanelLayout);
-        tagsCollectorPanelLayout.setHorizontalGroup(
-            tagsCollectorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollTableTagsCollector, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(managerControlerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
         );
-        tagsCollectorPanelLayout.setVerticalGroup(
-            tagsCollectorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollTableTagsCollector, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(managerControlerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        add(tagsCollectorPanel);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -301,12 +293,9 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
     private javax.swing.JPanel managerControlerPanel;
     private javax.swing.JPanel managerPanel;
     private javax.swing.JScrollPane scrollTableMachines;
-    private javax.swing.JScrollPane scrollTableTagsCollector;
     private javax.swing.JSeparator separator01;
     private javax.swing.JSeparator separator_02;
     private javax.swing.JTable tableMachines;
-    private javax.swing.JTable tableTagsCollector;
-    private javax.swing.JPanel tagsCollectorPanel;
     // End of variables declaration//GEN-END:variables
 
     public static final int N = 0;
@@ -320,6 +309,10 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
     public static final int SUBPROCESSINGCYLE = 8;
     public static final int MESSAGE = 9;
     public static final int COLLECTION_COUNT = 10;
+
+    public static final int T_TOCONNECT = 11;
+    public static final int T_TAGS_FIND = 12;
+    public static final int T_TAGS_READING = 13;
 
     @Override
     public void onProcessingThread(Thread thread) {
@@ -337,9 +330,13 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
             // Look after model to change update state
             DefaultTableModel m = (DefaultTableModel) tableMachines.getModel();
             for (int row = 0; row < m.getRowCount(); row++) {
+                Util.out(Util.errLine() + getClass().getSimpleName()
+                        + " onProcessingThread with machine id : " + machine.getId() + " >> " + machine.getName());
                 if (m.getValueAt(row, 1) == machine.getId()) {
                     //m.setValueAt(true, row, 5);
                     tableMachines.setValueAt(true, row, PROCESSING);
+                    Util.out(Util.errLine() + getClass().getSimpleName()
+                            + " onProcessingThread id found >> " + machine.getId());
                 }
             }
         }
@@ -530,7 +527,10 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
             false,
             0,
             "Aucun",
-            0
+            0, // Tags
+            0, // T to connect
+            0, // T to find tags of machine
+            0 // T to read tags 
         };
         modelMachines.addRow(rowData);
         tableMachines.setModel(m);
@@ -596,5 +596,29 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCo
         }
 
     }
+
+    @Override
+    public void onDuration(Thread thread, int type, long duration) {
+        // Check which Thread is Concern
+        if (thread instanceof ManagerControllerThread) {
+
+        } else if (thread instanceof TagsCollectorThread) {
+            // Recovery Thread
+            TagsCollectorThread tags = (TagsCollectorThread) thread;
+            // Get back machine
+            Machines machine = tags.getMachine();
+
+            // Look after model to change update state
+            DefaultTableModel m = (DefaultTableModel) tableMachines.getModel();
+            for (int row = 0; row < m.getRowCount(); row++) {
+                if (m.getValueAt(row, 1) == machine.getId()) {
+                    //m.setValueAt(true, row, 5);
+                    tableMachines.setValueAt(duration, row, COLLECTION_COUNT + type);
+                }
+            }
+        }
+    }
+
+    
 
 }

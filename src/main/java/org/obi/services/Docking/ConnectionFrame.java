@@ -962,8 +962,16 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
         Util.out("ConnexionForm : onNewError >>" + errorCode + " : " + err);
     }
 
+
+
     @Override
-    public void onConnectionSucced(Integer duration) {
+    public void onConnectionSucced(Machines machine, Integer duration, String err) {
+        // Machine
+        address.setText(machine.getAddress());
+        rack.setValue(machine.getRack());
+        slot.setValue(machine.getSlot());
+        
+        // PLC State
         plcSetConnectionState.setBackground(Color.GREEN);
         plcSetConnectionState.setText("ON");
         plcSetConnectionDuration.setText(duration.toString());
@@ -972,18 +980,11 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
                 + ", Slot=" + slot.getValue() + ")");
         btnTest.setEnabled(true);
         Util.out("ConnexionForm : onConnectionSucced :" + duration + "ms");
-    }
-
-    @Override
-    public void onConnectionSucced(Machines machine) {
-        address.setText(machine.getAddress());
-        rack.setValue(machine.getRack());
-        slot.setValue(machine.getSlot());
 
     }
 
     @Override
-    public void onConnectionError(Integer duration) {
+    public void onConnectionError(Machines machine, Integer duration, String err) {
         plcSetConnectionState.setBackground(Color.RED);
         plcSetConnectionState.setText("OFF");
         plcSetConnectionDuration.setText(duration.toString());

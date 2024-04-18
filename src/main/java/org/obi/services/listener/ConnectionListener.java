@@ -21,9 +21,10 @@ public interface ConnectionListener {
 // EVENT
     void onNewError(int errorCode, String err);
 
-    void onConnectionSucced(Integer duration);
+    
+    void onConnectionSucced(Machines machine, Integer duration, String err);
 
-    void onConnectionError(Integer duration);
+    void onConnectionError(Machines machine, Integer duration, String err);
 
     void onPDUUpdate(Integer PDUNegotiationByte);
 
@@ -41,5 +42,4 @@ public interface ConnectionListener {
 
     void onReadSzlResponse(S7Szl SZL);
 
-    void onConnectionSucced(Machines machine);
 }

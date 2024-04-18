@@ -213,27 +213,16 @@ public class MachineConnection extends Thread implements ConnectionListener {
                     machine.getSlot());
 
             if (errorCode == 0) {
-//            Util.out("MachineConnection : doConnect >> Connected to   : "
-//                    + machine.getAddress() + " (Rack="
-//                    + machine.getRack() + ", Slot="
-//                    + machine.getSlot() + ")");
-//            Util.out("MachineConnection : doConnect >> PDU negotiated : "
-//                    + client.PDULength() + " bytes");
-
                 PDULength = client.PDULength();
 
                 for (int i = 0; i < connectionListeners.size(); i++) {
-                    connectionListeners.get(i).onConnectionSucced(machine);
-                    connectionListeners.get(i).onConnectionSucced((int) end(errorCode));
+                    connectionListeners.get(i).onConnectionSucced(machine, (int) end(errorCode), getErrorText());
                     connectionListeners.get(i).onPDUUpdate(client.PDULength());
                 }
                 connected = true;
-            } else {
-//                Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
-//                        + " : doConnect >> Error " + errorCode + " : "
-//                        + getErrorText());
+            } else { // Error on connection !
                 for (int i = 0; i < connectionListeners.size(); i++) {
-                    connectionListeners.get(i).onConnectionError((int) end(errorCode));
+                    connectionListeners.get(i).onConnectionError(machine, (int) end(errorCode), getErrorText());
                     connectionListeners.get(i).onNewError(errorCode, getErrorText());
                 }
                 return connected;
@@ -258,8 +247,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
                 + PDULength + " bytes");
 
         for (int i = 0; i < connectionListeners.size(); i++) {
-            connectionListeners.get(i).onConnectionSucced(machine);
-            connectionListeners.get(i).onConnectionSucced(0);
+            connectionListeners.get(i).onConnectionSucced(machine, (int) errorCode, getErrorText());
             connectionListeners.get(i).onPDUUpdate(PDULength);
         }
 
@@ -858,90 +846,67 @@ public class MachineConnection extends Thread implements ConnectionListener {
         this.machine = machine;
     }
 
-    @Override
-    public void onNewError(int errorCode, String err) {
-        Util.out("MachineConnection >> onNewError >>" + errorCode + " : " + err);
-    }
-
-    @Override
-    public void onConnectionSucced(Integer duration) {
-        Util.out("MachineConnection : onConnectionSucced >>" + duration + "ms");
-    }
-
-    @Override
-    public void onConnectionError(Integer duration) {
-        Util.out("MachineConnection : onConnectionError >>" + duration + "ms");
-    }
-
-    @Override
-    public void onPDUUpdate(Integer PDUNegotiationByte) {
-        Util.out("MachineConnection : onPDUUpdate >>" + PDUNegotiationByte + " bytes");
-    }
-
-    @Override
-    public void onDateTimeResponse(Date plcDateTime) {
-        Util.out("MachineConnection : onDateTimeResponse >> CPU Date/Time " + plcDateTime.toString());
-    }
-
-    @Override
-    public void onOrderCodeResponse(S7OrderCode orderCode) {
-        if (orderCode != null) {
-            Util.out("MachineConnection : onOrderCodeResponse >> Order code ["
-                    + orderCode.Code() + "] Firmware version ["
-                    + orderCode.V1 + "." + orderCode.V2 + "." + orderCode.V3 + "]");
-        } else {
-            Util.out("MachineConnection : onOrderCodeResponse >> Order code is null !");
-        }
-    }
-
-    @Override
-    public void isProcessing() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void onPLCStatusResponse(IntByRef status) {
-        if (status != null) {
-            String r = status.Value == S7.S7CpuStatusRun ? "y" : "n";
-            String s = status.Value == S7.S7CpuStatusStop ? "y" : "n";
-            String u = r.matches("n") && s.matches("n") ? "y" : "-";
-
-            Util.out("MachineConnection : onPLCStatus >> status "
-                    + "RUN[" + r + "] "
-                    + "STOP[" + s + "] "
-                    + "Indefini[" + s + "] = "
-                    + status.Value);
-        } else {
-            Util.out("MachineConnection : onPLCStatus >> status is null !");
-        }
-    }
-
-    @Override
-    public void onPLCInfoResponse(S7CpuInfo CpuInfo) {
-
-    }
-
-    @Override
-    public void onCpInfoResponse(S7CpInfo CpInfo) {
-
-    }
-
-    @Override
-    public void onReadSzlResponse(S7Szl SZL) {
-
-    }
-
-    @Override
-    public void onConnectionSucced(Machines machine) {
-
-    }
-
     /**
      * Allow to stop main loop if running and close S7 client connection
      */
     void close() {
         requestStop = true;
         client.Disconnect();
+    }
+
+    @Override
+    public void onNewError(int errorCode, String err) {
+        
+    }
+
+    @Override
+    public void onConnectionSucced(Machines machine, Integer errorCode, String err) {
+        
+    }
+
+    @Override
+    public void onConnectionError(Machines machine, Integer errorCode, String err) {
+        
+    }
+
+    @Override
+    public void onPDUUpdate(Integer PDUNegotiationByte) {
+        
+    }
+
+    @Override
+    public void onDateTimeResponse(Date plcDateTime) {
+        
+    }
+
+    @Override
+    public void isProcessing() {
+        
+    }
+
+    @Override
+    public void onOrderCodeResponse(S7OrderCode orderCode) {
+        
+    }
+
+    @Override
+    public void onPLCStatusResponse(IntByRef status) {
+        
+    }
+
+    @Override
+    public void onPLCInfoResponse(S7CpuInfo CpuInfo) {
+        
+    }
+
+    @Override
+    public void onCpInfoResponse(S7CpInfo CpInfo) {
+        
+    }
+
+    @Override
+    public void onReadSzlResponse(S7Szl SZL) {
+        
     }
 
 }

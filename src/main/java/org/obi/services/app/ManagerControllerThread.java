@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Docking.ManagerControllerFrame;
 import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.tags.Tags;
 import org.obi.services.listener.MachinesControllerEvent;
 import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
@@ -176,9 +177,9 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
 
             // Inform main thread only once it reach this point after execution of subproces
             if (firstTimeInProcessing) {
-                tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
+                for (TagsCollectorThreadListener tagCollectorThreadListener : tagsCollectorThreadListeners) {
                     tagCollectorThreadListener.onProcessingThread(this);
-                });
+                }
                 firstTimeInProcessing = false;
             }
 
@@ -192,9 +193,9 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
 
                 // Inform sub thread only once it reach this after exuction of subprocess 
                 if (running == false) {
-                    tagsCollectorThreadListeners.stream().forEach((tagCollectorThreadListener) -> {
+                    for (TagsCollectorThreadListener tagCollectorThreadListener : tagsCollectorThreadListeners) {
                         tagCollectorThreadListener.onProcessingSubThread(this);
-                    });
+                    }
                     running = true;
                 }
 
@@ -202,9 +203,9 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                 String societeStr = Settings.read(Settings.CONFIG, Settings.COMPANY).toString();
                 Integer societe = Integer.valueOf(societeStr);
                 List<Machines> machines = machinesFacade.findByCompanyId(societe);
-                machinesControllerEvents.stream().forEach((machinesControllerEvent) -> {
+                for (MachinesControllerEvent machinesControllerEvent : machinesControllerEvents) {
                     machinesControllerEvent.countEvent(machines.size());
-                });
+                }
 
                 // Actualize machine managed list
                 // 1. Remove deleted connection from managed list
@@ -213,7 +214,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
 
                     // 1. REMOVE DELETED CONNECTION IN DATABASE FROM MANAGED LIST
                     // 1.1. Recover machine to remove
-                    tagsCollectorManaged.stream().forEach((tagsCollector) -> {
+                    for (TagsCollectorThread tagsCollector : tagsCollectorManaged) {
                         // > Check in database if still existing : if true do not remove otherwise remove
                         if (!machines.contains(tagsCollector.getMachine())) {
                             // Indicate to all events machines have been remove
@@ -226,19 +227,17 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                             // @see void onProcessingStopThread(Machines m)
                             tagsCollector.kill();
                         }
-                    });
+                    }
 
                     // 2 CHECK FOR NEW CONNECTION TO BE INITIATED
                     // 2.1. Recreate list of existing machine
                     List<Machines> machinesManaged = new ArrayList<>();
-                    tagsCollectorManaged.stream().forEach((tagsCollector) -> {
+                    for (TagsCollectorThread tagsCollector : tagsCollectorManaged) {
                         machinesManaged.add(tagsCollector.getMachine());
-//                        Util.out(Util.errLine() + ManagerControllerThread.class.getSimpleName()
-//                                + " : run >> new machine to be instantiate " + tagsCollector.getMachine());
-                    });
+                    }
 
                     // 2.2. Create new machine
-                    machines.stream().forEach((machine) -> {
+                    for (Machines machine : machines) {
                         // Create not existing connection and start them
                         if (!machinesManaged.contains(machine)) {
                             // Create a new machine connection and start execution
@@ -246,7 +245,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                             t.doRelease();
                             if (!t.isAlive()) {
                                 t.start();
-                                Util.out(Util.errLine() + ManagerControllerThread.class.getSimpleName()
+                                Util.out(Util.errLine() + getClass().getSimpleName()
                                         + " : run >> Start thread " + machine.getName());
                             }
                             t.addClientListener(this);
@@ -254,16 +253,16 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                             tagsCollectorManaged.add(t);
 
                             // Update list of machine to lister
-                            machinesControllerEvents.stream().forEach((machinesControllerEvent) -> {
+                            for (MachinesControllerEvent machinesControllerEvent : machinesControllerEvents) {
                                 machinesControllerEvent.addEvent(machine);
-                            });
-                            tagsCollectorThreadListeners.stream().forEach((tagsCollectorThreadListener) -> {
+                            }
+                            for (TagsCollectorThreadListener tagsCollectorThreadListener : tagsCollectorThreadListeners) {
                                 if (tagsCollectorThreadListener instanceof ManagerControllerFrame) {
                                     t.addClientListener(tagsCollectorThreadListener);
                                 }
-                            });
+                            }
                         }
-                    });
+                    }
                 }
 
                 /**
@@ -393,13 +392,10 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
      */
     @Override
     public void onProcessingSubCycleTime(Thread thread, Long ms) {
-//        String methodName = getClass().getSimpleName() + " : onThreadCycleTime(Long ms) >> ";
-//        Util.out(methodName + " not yet implemented !");
     }
 
     @Override
     public void onProcessingSubThread(Thread thread) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -409,22 +405,23 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
      */
     @Override
     public void onProcessingCycleTime(Thread thread, Long ms) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onErrorCollection(Thread thread, String message) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onSubProcessActivityState(Thread thread, Boolean activity) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void onCollectionCount(Thread thread, int count) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public void onDuration(Thread thread, int i, long toEpochMilli) {
+    }
+
 
 }

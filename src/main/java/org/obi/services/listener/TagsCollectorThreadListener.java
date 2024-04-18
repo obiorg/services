@@ -4,7 +4,9 @@
  */
 package org.obi.services.listener;
 
+import java.util.List;
 import org.obi.services.app.TagsCollectorThread;
+import org.obi.services.entities.tags.Tags;
 
 /**
  *
@@ -95,5 +97,19 @@ public interface TagsCollectorThreadListener {
      * @param count  the value count of collection
      */
     void onCollectionCount(Thread thread, int count);
+
+    /**
+     * Emit duraction for sequence i
+     * 
+     * 1- Duration to try to connect !
+     * 2- Duration to execute facade findActiveByCompanyAndMachine
+     * 3- Duration to read on data
+     * 
+     * @param thread the value of emitter
+     * @param i value of sequence
+     * @param toEpochMilli 
+     */
+    public void onDuration(Thread thread, int i, long toEpochMilli);
+
 
 }

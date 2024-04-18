@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.listener.TagsCollectorThreadListener;
+import org.obi.services.listener.TagsFacadeFetchThreadListener;
 import org.obi.services.sessions.tags.TagsFacade;
 import org.obi.services.util.DateUtil;
 import org.obi.services.util.Settings;
@@ -35,7 +36,7 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class TagsFacadeThread extends Thread {
+public class TagsFacadeFetchThread extends Thread {
 
     // Allow to stop process run
     private Boolean requestStop = false;
@@ -43,22 +44,18 @@ public class TagsFacadeThread extends Thread {
     private boolean running = false;
 
     /**
+     * Main machine
+     */
+    private Machines machine;
+
+    /**
      * Collection of tags to process for update
      */
-    private List<Tags> tagsUpdating = new ArrayList<>();
+    private List<Tags> tagsActive = new ArrayList<>();
     /**
      * Collection of tags to receive for updating
      */
-    private List<Tags> tagsPendingForUpdate = new ArrayList<>();
-
-    /**
-     * Allow to add tags to list stack to be update in the system
-     *
-     * @param tagsToUpdate
-     */
-    public void addUpdateTags(List<Tags> tagsToUpdate) {
-        tagsPendingForUpdate.addAll(tagsToUpdate);
-    }
+    private List<Tags> tagsCollect = new ArrayList<>();
 
     /**
      * Array list which contain all the TagsFacadeThreadListener listeners that
@@ -66,6 +63,8 @@ public class TagsFacadeThread extends Thread {
      */
     private ArrayList<TagsCollectorThreadListener> tagsFacadeThreadListeners = new ArrayList<>();
 
+    private ArrayList<TagsFacadeFetchThreadListener> tagsFacadeFetchThreadListeners = new ArrayList<>();
+    
     /**
      * Allow to add listener to the list of event listener
      *
@@ -86,6 +85,26 @@ public class TagsFacadeThread extends Thread {
         this.tagsFacadeThreadListeners.remove(_tagsFacadeThreadListeners);
     }
 
+        
+    /**
+     * Allow to add listener to the list of event listener
+     *
+     * @param _tagsCollectorThreadListeners a class which will listen to service
+     * event
+     */
+    public void addClientListener(TagsFacadeFetchThreadListener _tagsFacadeFetchThreadListener) {
+        this.tagsFacadeFetchThreadListeners.add(_tagsFacadeFetchThreadListener);
+    }
+
+    /**
+     * Allow to remove listener to the list of event listener
+     *
+     * @param _tagsCollectorThreadListeners a class which will listen to service
+     * event
+     */
+    public void removeClientListener(TagsFacadeFetchThreadListener _tagsFacadeFetchThreadListener) {
+        this.tagsFacadeFetchThreadListeners.remove(_tagsFacadeFetchThreadListener);
+    }
 //    private static TagsFacadeThread INSTANCE;
 //
 //    public static TagsFacadeThread getInstance() {
@@ -97,8 +116,8 @@ public class TagsFacadeThread extends Thread {
     /**
      * Creates new form
      */
-    public TagsFacadeThread() {
-
+    public TagsFacadeFetchThread(Machines machine) {
+        this.machine = machine;
     }
 
     /**
@@ -167,27 +186,8 @@ public class TagsFacadeThread extends Thread {
                 firstTimeInProcessing = false;
             }
 
-            // Check available tags pending for updating
-            Boolean wait = false;
-
-            if (tagsPendingForUpdate.isEmpty()) {
-                wait = true;
-                // Inform liteners about number off collection count and error
-                for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                    tagsFacadeThreadListeners.get(i).onCollectionCount(this, 0);
-                    tagsFacadeThreadListeners.get(i).onErrorCollection(this,
-                            DateUtil.localDTFFZoneId(gmtIndex)
-                            + " : No tags to update, will run in \"wait\" mode !");
-                }
-            } else {
-                tagsUpdating.addAll(tagsPendingForUpdate);
-                tagsPendingForUpdate.clear();
-            }
-            
-
-
             // SUB PROCESS LOOP
-            while (!requestStop & !requestKill & !wait & !tagsUpdating.isEmpty()) {
+            while (!requestStop & !requestKill) {
                 /**
                  * subProcessCycleStamp allow to reduce processing analysis over
                  * connection mistakes and database access
@@ -214,13 +214,13 @@ public class TagsFacadeThread extends Thread {
                                 + " : sql connection ok !");
                     }
 
-                    try {
-                        tagsFacade.pushTagsUpdate(tagsUpdating);
-                        tagsUpdating.clear();
-                    } catch (SQLException ex) {
-                        Util.out(Util.errLine() + getClass().getSimpleName()
-                                + " >> on pushTagsUpdate >> " + ex.getLocalizedMessage());
-                        Logger.getLogger(TagsFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                    tagsCollect = tagsFacade.findActiveByCompanyAndMachine(companyId, machine.getId());
+                    if (!tagsCollect.equals(tagsActive)) {
+                        tagsActive.clear();
+                        tagsActive.addAll(tagsCollect);
+                        for (TagsFacadeFetchThreadListener tagsFacadeFetchThreadListener : tagsFacadeFetchThreadListeners) {
+                            tagsFacadeFetchThreadListener.onUpdateTags(tagsActive);
+                        }
                     }
 
                 } else { // Error on connection sql
