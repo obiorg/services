@@ -1,15 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.obi.services.entities.persistence;
 
 import org.obi.services.entities.measures.MeasLimitsGroups;
 import org.obi.services.entities.measures.MeasComparators;
 import org.obi.services.entities.business.Companies;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Date;
 import org.obi.services.entities.tags.Tags;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.sessions.measures.MeasComparatorsFacade;
+import org.obi.services.sessions.measures.MeasLimitsGroupsFacade;
+import org.obi.services.sessions.persistence.PersStandardFacade;
+import org.obi.services.sessions.tags.TagsFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -208,7 +213,93 @@ public class PersStandardLimits implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.PersStandardLimits[ id=" + id + " ]";
+        return name + " >> " + value + " (" + comparator + ") [" + id + "]";
+    }
+
+    /**
+     * Allow to affect result object
+     *
+     * @param rs set of data
+     * @param easy indicate no class is required
+     * @throws SQLException
+     */
+    public void update(ResultSet rs, Boolean easy) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                if (easy) {
+                    company = new Companies(rs.getInt(c));
+                } else {
+                    CompaniesFacade cf = CompaniesFacade.getInstance();
+                    company = cf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("tag")) {
+                if (easy) {
+                    tag = new Tags(rs.getInt(c));
+                } else {
+                    TagsFacade ttf = TagsFacade.getInstance();
+                    tag = ttf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("pers_standard")) {
+                if (easy) {
+                    persStandard = new PersStandard(rs.getInt(c));
+                } else {
+                    PersStandardFacade ttf = PersStandardFacade.getInstance();
+                    persStandard = ttf.findById(rs.getInt(c));
+                }
+            } /**
+             *
+             * PARAMETER
+             */
+            else if (c.matches("name")) {
+                this.name = rs.getString(c);
+            } else if (c.matches("value")) {
+                this.value = rs.getDouble(c);
+            } else if (c.matches("comparator")) {
+                if (easy) {
+                    comparator = new MeasComparators(rs.getInt(c));
+                } else {
+                    MeasComparatorsFacade ttf = MeasComparatorsFacade.getInstance();
+                    comparator = ttf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("delay")) {
+                this.delay = rs.getInt(c);
+            } else if (c.matches("hysteresis")) {
+                this.hysteresis = rs.getDouble(c);
+            } else if (c.matches("group")) {
+                if (easy) {
+                    group1 = new MeasLimitsGroups(rs.getInt(c));
+                } else {
+                    MeasLimitsGroupsFacade ttf = MeasLimitsGroupsFacade.getInstance();
+                    group1 = ttf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("sort")) {
+                this.sort = rs.getInt(c);
+            } else if (c.matches("hit")) {
+                this.hit = rs.getBoolean(c);
+            } else if (c.matches("reached")) {
+                this.reached = rs.getBoolean(c);
+            } /**
+             *
+             * informations
+             */
+            else {
+                Util.out(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+                System.out.println(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+            }
+
+        }
     }
 
 }

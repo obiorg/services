@@ -12,7 +12,7 @@ import javax.swing.*;
 import org.obi.services.Docking.MainWindowDocking;
 import org.obi.services.Docking.SettingsApplicationFrame;
 import org.obi.services.app.ManagerControllerThread;
-import org.obi.services.listener.DatabaseInfoActionListener;
+import org.obi.services.listener.bdd.DatabaseInfoActionListener;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 

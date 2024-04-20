@@ -10,16 +10,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.entities.tags.TagsListsTypes;
-import org.obi.services.entities.tags.TagsListsTypes;
-import org.obi.services.entities.tags.TagsListsTypes;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.sessions.AbstractFacade;
 import org.obi.services.util.Util;
+
 /**
  *
  * @author r.hendrick
- */ 
-public class TagsListsTypesFacade  {
+ */
+public class TagsListsTypesFacade {
 
     private static TagsListsTypesFacade INSTANCE;
 
@@ -32,10 +31,9 @@ public class TagsListsTypesFacade  {
 
     public TagsListsTypesFacade() {
     }
-    
+
     Connection conn = null;
 
- 
     protected Connection getConnectionMannager() {
         if (conn == null) {
             conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
@@ -48,6 +46,18 @@ public class TagsListsTypesFacade  {
             Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
+    }
+
+    /**
+     * Allow to initialize conenction or use it if not exist
+     *
+     * @return
+     */
+    public Boolean isConnectionOn() throws SQLException {
+        if (conn == null) {
+            getConnectionMannager();
+        }
+        return conn.isValid(10);
     }
 
     /**

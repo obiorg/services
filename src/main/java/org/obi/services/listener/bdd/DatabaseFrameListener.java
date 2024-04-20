@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.obi.services.listener;
+package org.obi.services.listener.bdd;
 
 import org.obi.services.model.DatabaseModel;
 

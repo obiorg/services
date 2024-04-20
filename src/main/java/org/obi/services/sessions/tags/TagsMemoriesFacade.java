@@ -18,7 +18,7 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class TagsMemoriesFacade  {
+public class TagsMemoriesFacade {
 
     private static TagsMemoriesFacade INSTANCE;
 
@@ -34,7 +34,6 @@ public class TagsMemoriesFacade  {
 
     Connection conn = null;
 
- 
     protected Connection getConnectionMannager() {
         if (conn == null) {
             conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
@@ -47,6 +46,18 @@ public class TagsMemoriesFacade  {
             Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
+    }
+
+    /**
+     * Allow to initialize conenction or use it if not exist
+     *
+     * @return
+     */
+    public Boolean isConnectionOn() throws SQLException {
+        if (conn == null) {
+            getConnectionMannager();
+        }
+        return conn.isValid(10);
     }
 
     /**

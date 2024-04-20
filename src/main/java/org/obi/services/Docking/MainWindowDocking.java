@@ -38,10 +38,10 @@ import org.obi.services.Form.output.StreamCapturer;
 import org.obi.services.OBIServiceTrayIcon;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.entities.tags.Tags;
-import org.obi.services.listener.TagsCollectorThreadListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.util.Ico;
 import org.obi.services.util.Util;
+import org.obi.services.listener.thread.SystemThreadListener;
 
 /**
  * Future TrayIcon
@@ -49,7 +49,7 @@ import org.obi.services.util.Util;
  * @author r.hendrick
  * @version 1.0
  */
-public class MainWindowDocking implements TagsCollectorThreadListener {
+public class MainWindowDocking implements SystemThreadListener {
 
     private static final int ICON_SIZE = 8;
 
@@ -575,7 +575,7 @@ public class MainWindowDocking implements TagsCollectorThreadListener {
             } else {
 //                managerCtrlThread.doRelease();
             }
-            // Done in TagsCollectorThreadListener
+            // Done in SystemThreadListener
 //            trayIcon.displayMessage("OBI",
 //                    bundle.getString("TagsCollector_Msg_Start"),
 //                    TrayIcon.MessageType.INFO);

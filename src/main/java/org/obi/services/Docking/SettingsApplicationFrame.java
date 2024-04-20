@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.ini4j.Wini;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.listener.DatabaseFrameListener;
+import org.obi.services.listener.bdd.DatabaseFrameListener;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.util.DateUtil;
 import org.obi.services.util.Ico;

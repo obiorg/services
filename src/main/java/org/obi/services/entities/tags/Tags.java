@@ -817,22 +817,14 @@ public class Tags implements Serializable {
             } else if (c.matches("vStr")) {
                 this.vStr = rs.getString(c);
             } else if (c.matches("vDateTime")) {
-                Timestamp timestamp = rs.getTimestamp(c);
-                if (timestamp == null) {
-                    timestamp = Timestamp.valueOf(LocalDateTime.now());
-                }
-                LocalDateTime dt = timestamp.toLocalDateTime();
+                LocalDateTime dt = DateUtil.toLocalDateTime(rs.getTimestamp(c));
                 if (dt != null) {
                     this.vDateTime = dt;
                 } else {
                     this.vDateTime = null;
                 }
             } else if (c.matches("vStamp")) {
-                Timestamp timestamp = rs.getTimestamp(c);
-                if (timestamp == null) {
-                    timestamp = Timestamp.valueOf(LocalDateTime.now());
-                }
-                LocalDateTime dt = timestamp.toLocalDateTime();
+                LocalDateTime dt = DateUtil.toLocalDateTime(rs.getTimestamp(c));
                 if (dt != null) {
                     this.vStamp = dt;
                 } else {

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
 import org.obi.services.app.MachineConnection;
+import org.obi.services.entities.business.Companies;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.sessions.AbstractFacade;
@@ -71,8 +72,11 @@ public final class TagsFacade {
      *
      * @return
      */
-    public Boolean isConnectionOn() {
-        return getConnectionMannager() != null;
+    public Boolean isConnectionOn() throws SQLException {
+        if (conn == null) {
+            getConnectionMannager();
+        }
+        return conn.isValid(10);
     }
 
     private int updateOnValue(String updateQuery) {
@@ -208,6 +212,7 @@ public final class TagsFacade {
             Logger
                     .getLogger(AbstractFacade.class
                             .getName()).log(Level.SEVERE, null, ex);
+
             return null;
         } finally {
             try {
@@ -261,6 +266,20 @@ public final class TagsFacade {
     }
 
     /**
+     * Find By Id - an element
+     *
+     * Using request : "SELECT * FROM dbo.Tags WHERE id = " + id allow to find
+     * specifc element
+     *
+     * @param id element to find definie by id
+     * @return the element specifiy by id
+     */
+    public Tags findById(int id) {
+        String Q_finBy = "SELECT * FROM dbo.Tags WHERE id = " + id;
+        return find(Q_finBy, true).get(0);
+    }
+
+    /**
      * Convenient method to find tags only by activated machine
      *
      * @param machine specied code to reduce amound of data
@@ -295,7 +314,7 @@ public final class TagsFacade {
      *
      * @param tagsUpdating list of tags to update
      */
-    public boolean pushTagsUpdate(List<Tags> tagsUpdating) throws SQLException {
+    public boolean updateValue(List<Tags> tagsUpdating) throws SQLException {
         // Will request prepare statement and push all at once
         String queryUpdate = "UPDATE dbo.tags SET"
                 + " [vFloat] = ? "

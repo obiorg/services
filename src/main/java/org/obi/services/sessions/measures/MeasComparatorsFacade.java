@@ -1,4 +1,4 @@
-package org.obi.services.sessions.tags;
+package org.obi.services.sessions.measures;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
-import org.obi.services.entities.tags.TagsTypes;
+import org.obi.services.entities.measures.MeasComparators;
 import org.obi.services.model.DatabaseModel;
 import org.obi.services.sessions.AbstractFacade;
 import org.obi.services.util.Util;
@@ -18,18 +18,18 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class TagsTypesFacade {
+public class MeasComparatorsFacade {
 
-    private static TagsTypesFacade INSTANCE;
+    private static MeasComparatorsFacade INSTANCE;
 
-    public static TagsTypesFacade getInstance() {
+    public static MeasComparatorsFacade getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new TagsTypesFacade();
+            INSTANCE = new MeasComparatorsFacade();
         }
         return INSTANCE;
     }
 
-    public TagsTypesFacade() {
+    public MeasComparatorsFacade() {
     }
 
     Connection conn = null;
@@ -42,8 +42,9 @@ public class TagsTypesFacade {
                 conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
             }
         } catch (SQLException ex) {
-            Util.out("TagsTypesFacade >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
-            Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
+            Util.out(Util.errLine() + MeasComparatorsFacade.class.getSimpleName()
+                    + " >> getConnectionMannager on DatabaseFrame.toConnection : " + ex.getLocalizedMessage());
+            Logger.getLogger(MeasComparatorsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
     }
@@ -66,62 +67,52 @@ public class TagsTypesFacade {
      * @param findQuery existing query in string format
      * @return list of result found
      */
-    private List<TagsTypes> find(String findQuery) {
+    private List<MeasComparators> find(String findQuery, Boolean easy) {
         String Q_find = findQuery;
 
-        List<TagsTypes> lst = new ArrayList<>();
+        List<MeasComparators> lst = new ArrayList<>();
         Statement stmt = null;
         try {
             stmt = getConnectionMannager().createStatement();
             ResultSet rs = stmt.executeQuery(Q_find);
             while (rs.next()) {
-                TagsTypes m = new TagsTypes();
-                m.update(rs);
+                MeasComparators m = new MeasComparators();
+                m.update(rs, easy);
                 lst.add(m);
             }
         } catch (SQLException ex) {
-            Util.out("TagsTypesFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
-            Logger.getLogger(AbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
+            Util.out("MeasComparatorsFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
+            Logger
+                    .getLogger(AbstractFacade.class
+                            .getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
             try {
                 if (stmt != null) {
                     stmt.close();
-                }
+                };
             } catch (SQLException ex) {
-                Util.out("TagsTypesFacade >> find on close statement : " + ex.getLocalizedMessage());
-                Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
+                Util.out("MeasComparatorsFacade >> find on close statement : " + ex.getLocalizedMessage());
+                Logger
+                        .getLogger(MeasComparatorsFacade.class
+                                .getName()).log(Level.SEVERE, null, ex);
             }
         }
         return lst;
     }
 
     /**
-     * Find All elment in table
+     * Find By Id - an element
      *
-     * Use request : "SELECT * FROM dbo.tags_types"
+     * Using request : "SELECT * FROM dbo.meas_comparators WHERE id = " + id
+     * allow to find specifc element
      *
-     * @return List of tags tabels
+     * @param id element to find definie by id
+     * @return the element specifiy by id
      */
-    public List<TagsTypes> findAll() {
-        String Q_findAll = "SELECT * FROM dbo.tags_types";
-        return find(Q_findAll);
-
+    public MeasComparators findById(int id) {
+        String Q_finBy = "SELECT * FROM dbo.meas_comparators WHERE id = " + id;
+        return find(Q_finBy, true).get(0);
     }
 
-    /**
-     * Find an element specified by id
-     *
-     * Use request : "SELECT * FROM dbo.tags_types WHERE id = " + id;
-     *
-     * @return tags tables or null if empty
-     */
-    public TagsTypes findById(int id) {
-        String Q_finBy = "SELECT * FROM dbo.tags_types WHERE id = " + id;
-        List<TagsTypes> lst = find(Q_finBy);
-        if (lst.isEmpty()) {
-            return null;
-        }
-        return lst.get(0);
-    }
 }

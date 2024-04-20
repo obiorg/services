@@ -13,15 +13,15 @@ import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.app.TagsCollectorThread;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
-import org.obi.services.listener.MachinesControllerEvent;
-import org.obi.services.listener.TagsCollectorThreadListener;
 import org.obi.services.util.Util;
+import org.obi.services.listener.thread.SystemThreadListener;
+import org.obi.services.listener.machines.MachinesEvent;
 
 /**
  *
  * @author r.hendrick
  */
-public class ManagerControllerFrame extends javax.swing.JPanel implements TagsCollectorThreadListener, MachinesControllerEvent {
+public class ManagerControllerFrame extends javax.swing.JPanel implements SystemThreadListener, MachinesEvent {
 
     private DefaultTableModel modelMachines;
 //    private DefaultTableModel modelTagsOfMachines;

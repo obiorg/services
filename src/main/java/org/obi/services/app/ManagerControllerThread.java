@@ -4,7 +4,6 @@
  */
 package org.obi.services.app;
 
-import org.obi.services.listener.TagsCollectorThreadListener;
 import java.awt.TrayIcon;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -14,11 +13,12 @@ import java.util.logging.Logger;
 import org.obi.services.Docking.ManagerControllerFrame;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
-import org.obi.services.listener.MachinesControllerEvent;
 import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
+import org.obi.services.listener.thread.SystemThreadListener;
+import org.obi.services.listener.machines.MachinesEvent;
 
 /**
  * Manage list of connection over an existing list ????? and the database actual
@@ -29,7 +29,7 @@ import org.obi.services.util.Util;
  *
  * @author r.hendrick
  */
-public class ManagerControllerThread extends Thread implements TagsCollectorThreadListener {
+public class ManagerControllerThread extends Thread implements SystemThreadListener {
 
     // Allow to display message on processing
     private TrayIcon trayIcon;
@@ -44,10 +44,10 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
     List<TagsCollectorThread> tagsCollectorManaged = new ArrayList<>();
 
     /**
-     * Array list which contain all the TagsCollectorThreadListener listeners
-     * that should receive event from client class
+     * Array list which contain all the SystemThreadListener listeners
+ that should receive event from client class
      */
-    private ArrayList<TagsCollectorThreadListener> tagsCollectorThreadListeners = new ArrayList<>();
+    private ArrayList<SystemThreadListener> tagsCollectorThreadListeners = new ArrayList<>();
 
     /**
      * Allow to add listener to the list of event listener
@@ -55,7 +55,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(TagsCollectorThreadListener _tagsCollectorThreadListeners) {
+    public void addClientListener(SystemThreadListener _tagsCollectorThreadListeners) {
         this.tagsCollectorThreadListeners.add(_tagsCollectorThreadListeners);
     }
 
@@ -65,7 +65,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void removeClientListener(TagsCollectorThreadListener _tagsCollectorThreadListeners) {
+    public void removeClientListener(SystemThreadListener _tagsCollectorThreadListeners) {
         this.tagsCollectorThreadListeners.remove(_tagsCollectorThreadListeners);
     }
 
@@ -73,7 +73,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
      * Array List which contain all the Machines controller event that should
      * receive even from the server
      */
-    private ArrayList<MachinesControllerEvent> machinesControllerEvents = new ArrayList<>();
+    private ArrayList<MachinesEvent> machinesControllerEvents = new ArrayList<>();
 
     /**
      * Allow to add event to the list of events
@@ -81,7 +81,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
      * @param _machinesControllerEvents a class which will listen to service
      * event
      */
-    public void addMachinesEvent(MachinesControllerEvent _machinesControllerEvents) {
+    public void addMachinesEvent(MachinesEvent _machinesControllerEvents) {
         this.machinesControllerEvents.add(_machinesControllerEvents);
     }
 
@@ -91,7 +91,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
      * @param _machinesControllerEvents a class which will listen to service
      * event
      */
-    public void removeMachinesEvent(MachinesControllerEvent _machinesControllerEvents) {
+    public void removeMachinesEvent(MachinesEvent _machinesControllerEvents) {
         this.machinesControllerEvents.remove(_machinesControllerEvents);
     }
 
@@ -177,7 +177,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
 
             // Inform main thread only once it reach this point after execution of subproces
             if (firstTimeInProcessing) {
-                for (TagsCollectorThreadListener tagCollectorThreadListener : tagsCollectorThreadListeners) {
+                for (SystemThreadListener tagCollectorThreadListener : tagsCollectorThreadListeners) {
                     tagCollectorThreadListener.onProcessingThread(this);
                 }
                 firstTimeInProcessing = false;
@@ -193,7 +193,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
 
                 // Inform sub thread only once it reach this after exuction of subprocess 
                 if (running == false) {
-                    for (TagsCollectorThreadListener tagCollectorThreadListener : tagsCollectorThreadListeners) {
+                    for (SystemThreadListener tagCollectorThreadListener : tagsCollectorThreadListeners) {
                         tagCollectorThreadListener.onProcessingSubThread(this);
                     }
                     running = true;
@@ -203,7 +203,7 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                 String societeStr = Settings.read(Settings.CONFIG, Settings.COMPANY).toString();
                 Integer societe = Integer.valueOf(societeStr);
                 List<Machines> machines = machinesFacade.findByCompanyId(societe);
-                for (MachinesControllerEvent machinesControllerEvent : machinesControllerEvents) {
+                for (MachinesEvent machinesControllerEvent : machinesControllerEvents) {
                     machinesControllerEvent.countEvent(machines.size());
                 }
 
@@ -253,10 +253,10 @@ public class ManagerControllerThread extends Thread implements TagsCollectorThre
                             tagsCollectorManaged.add(t);
 
                             // Update list of machine to lister
-                            for (MachinesControllerEvent machinesControllerEvent : machinesControllerEvents) {
+                            for (MachinesEvent machinesControllerEvent : machinesControllerEvents) {
                                 machinesControllerEvent.addEvent(machine);
                             }
-                            for (TagsCollectorThreadListener tagsCollectorThreadListener : tagsCollectorThreadListeners) {
+                            for (SystemThreadListener tagsCollectorThreadListener : tagsCollectorThreadListeners) {
                                 if (tagsCollectorThreadListener instanceof ManagerControllerFrame) {
                                     t.addClientListener(tagsCollectorThreadListener);
                                 }

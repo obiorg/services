@@ -1,6 +1,6 @@
 
 
-package org.obi.services.listener;
+package org.obi.services.listener.bdd;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;

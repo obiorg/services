@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package org.obi.services.listener;
+package org.obi.services.listener.machines;
 
 import java.util.Date;
 import org.obi.services.core.moka7.IntByRef;
@@ -16,7 +16,7 @@ import org.obi.services.entities.machines.Machines;
  *
  * @author r.hendrick
  */
-public interface ConnectionListener {
+public interface MachinesListener {
 
 // EVENT
     void onNewError(int errorCode, String err);

@@ -10,12 +10,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.persistence.Persistence;
 import org.obi.services.entities.tags.Tags;
-import org.obi.services.listener.TagsCollectorThreadListener;
 import org.obi.services.sessions.tags.TagsFacade;
 import org.obi.services.util.DateUtil;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
+import org.obi.services.listener.thread.SystemThreadListener;
+import org.obi.services.sessions.persistence.PersStandardFacade;
+import org.obi.services.sessions.persistence.PersistenceFacade;
 
 /**
  * Tags Facade Thread :
@@ -52,19 +55,42 @@ public class TagsFacadeThread extends Thread {
     private List<Tags> tagsPendingForUpdate = new ArrayList<>();
 
     /**
+     * Tags thtat will be analyse for persistence
+     */
+    private List<Tags> tagsPersistence = new ArrayList<>();
+
+    /**
      * Allow to add tags to list stack to be update in the system
      *
      * @param tagsToUpdate
      */
-    public void addUpdateTags(List<Tags> tagsToUpdate) {
+    public void addNewTags(List<Tags> tagsToUpdate) {
         tagsPendingForUpdate.addAll(tagsToUpdate);
+    }
+
+    /**
+     * Collection of tags to process for update
+     */
+    private List<Persistence> persistenceUpdating = new ArrayList<>();
+    /**
+     * Collection of tags to receive for updating
+     */
+    private List<Persistence> persistencePendingForUpdate = new ArrayList<>();
+
+    /**
+     * Allow to add tags to list stack to be update in the system
+     *
+     * @param tagsToUpdate
+     */
+    public void addNewPersistence(List<Persistence> persistenceToUpdate) {
+        persistencePendingForUpdate.addAll(persistenceToUpdate);
     }
 
     /**
      * Array list which contain all the TagsFacadeThreadListener listeners that
      * should receive event from client class
      */
-    private ArrayList<TagsCollectorThreadListener> tagsFacadeThreadListeners = new ArrayList<>();
+    private ArrayList<SystemThreadListener> systemThreadListeners = new ArrayList<>();
 
     /**
      * Allow to add listener to the list of event listener
@@ -72,8 +98,8 @@ public class TagsFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(TagsCollectorThreadListener _tagsFacadeThreadListeners) {
-        this.tagsFacadeThreadListeners.add(_tagsFacadeThreadListeners);
+    public void addClientListener(SystemThreadListener _tagsFacadeThreadListeners) {
+        this.systemThreadListeners.add(_tagsFacadeThreadListeners);
     }
 
     /**
@@ -82,8 +108,8 @@ public class TagsFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void removeClientListener(TagsCollectorThreadListener _tagsFacadeThreadListeners) {
-        this.tagsFacadeThreadListeners.remove(_tagsFacadeThreadListeners);
+    public void removeClientListener(SystemThreadListener _tagsFacadeThreadListeners) {
+        this.systemThreadListeners.remove(_tagsFacadeThreadListeners);
     }
 
 //    private static TagsFacadeThread INSTANCE;
@@ -142,6 +168,9 @@ public class TagsFacadeThread extends Thread {
         Integer gmtIndex = Integer.valueOf(Settings.read(Settings.CONFIG, Settings.GMT).toString());
         Integer companyId = Integer.valueOf(Settings.read(Settings.CONFIG, Settings.COMPANY).toString());
 
+        // Prepare persistence pusher
+        PersStandardFacade persStandardFacade = new PersStandardFacade();
+
         /**
          * START MAIN THREAD LOOP will stop when requestKill is receive by
          * {@link TagsCollectorThread#kill()} or straight requestKill = true.
@@ -156,9 +185,9 @@ public class TagsFacadeThread extends Thread {
 
             // Inform main thread only once it reach this point after execution of subproces
             if (firstTimeInProcessing) {
-                for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                    tagsFacadeThreadListeners.get(i).onProcessingThread(this);
-                    tagsFacadeThreadListeners.get(i).onErrorCollection(this,
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onProcessingThread(this);
+                    systemThreadListeners.get(i).onErrorCollection(this,
                             DateUtil.localDTFFZoneId(gmtIndex)
                             + " : Start processing TagsFacadeThread...");
                     Util.out(Util.errLine() + methodName + DateUtil.localDTFFZoneId(gmtIndex)
@@ -173,9 +202,9 @@ public class TagsFacadeThread extends Thread {
             if (tagsPendingForUpdate.isEmpty()) {
                 wait = true;
                 // Inform liteners about number off collection count and error
-                for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                    tagsFacadeThreadListeners.get(i).onCollectionCount(this, 0);
-                    tagsFacadeThreadListeners.get(i).onErrorCollection(this,
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onCollectionCount(this, 0);
+                    systemThreadListeners.get(i).onErrorCollection(this,
                             DateUtil.localDTFFZoneId(gmtIndex)
                             + " : No tags to update, will run in \"wait\" mode !");
                 }
@@ -183,8 +212,6 @@ public class TagsFacadeThread extends Thread {
                 tagsUpdating.addAll(tagsPendingForUpdate);
                 tagsPendingForUpdate.clear();
             }
-            
-
 
             // SUB PROCESS LOOP
             while (!requestStop & !requestKill & !wait & !tagsUpdating.isEmpty()) {
@@ -196,8 +223,8 @@ public class TagsFacadeThread extends Thread {
 
                 // Inform sub thread only once it reach this after exuction of subprocess 
                 if (running == false) {
-                    for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                        tagsFacadeThreadListeners.get(i).onProcessingSubThread(this);
+                    for (int i = 0; i < systemThreadListeners.size(); i++) {
+                        systemThreadListeners.get(i).onProcessingSubThread(this);
                     }
                     running = true;
                 }
@@ -206,31 +233,79 @@ public class TagsFacadeThread extends Thread {
                  * Check if connection for the façade exist or try to
                  * instanciate
                  */
-                if (tagsFacade.isConnectionOn()) {
-                    for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                        tagsFacadeThreadListeners.get(i).onSubProcessActivityState(this, true);
-                        tagsFacadeThreadListeners.get(i).onErrorCollection(this,
-                                DateUtil.localDTFFZoneId(gmtIndex)
-                                + " : sql connection ok !");
-                    }
+                try {
+                    if (tagsFacade.isConnectionOn()) {
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : sql connection ok !");
+                        }
 
-                    try {
-                        tagsFacade.pushTagsUpdate(tagsUpdating);
-                        tagsUpdating.clear();
-                    } catch (SQLException ex) {
-                        Util.out(Util.errLine() + getClass().getSimpleName()
-                                + " >> on pushTagsUpdate >> " + ex.getLocalizedMessage());
-                        Logger.getLogger(TagsFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                        try {
+                            tagsFacade.updateValue(tagsUpdating);
+                            tagsPersistence.addAll(tagsUpdating);
+                            tagsUpdating.clear();
+                        } catch (SQLException ex) {
+                            Util.out(Util.errLine() + getClass().getSimpleName()
+                                    + " >> on updateValue >> " + ex.getLocalizedMessage());
+                            Logger.getLogger(TagsFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
 
-                } else { // Error on connection sql
-                    for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                        tagsFacadeThreadListeners.get(i).onSubProcessActivityState(this, false);
-                        tagsFacadeThreadListeners.get(i).onErrorCollection(this,
-                                DateUtil.localDTFFZoneId(gmtIndex)
-                                + " : connection to sql produce error !");
+                    } else { // Error on connection sql
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : connection to sql produce error !");
 
+                        }
                     }
+                } catch (SQLException ex) {
+                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                    Util.out(Util.errLine() + getClass().getSimpleName()
+                            + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
+                }
+
+                /**
+                 * Check if connection for the persistenceFacade still existor
+                 * instanciate it
+                 */
+                try {
+                    if (persStandardFacade.isConnectionOn()) {
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : sql connection ok for " + persStandardFacade.getClass().getSimpleName() + " !");
+                        }
+
+                        try {
+                            if (!persistenceUpdating.equals(persistencePendingForUpdate)) {
+                                persistenceUpdating.clear();
+                                persistenceUpdating.addAll(persistencePendingForUpdate);
+                            }
+                            persStandardFacade.pushValue(persistenceUpdating, tagsPersistence);
+
+                        } catch (SQLException ex) {
+                            Util.out(Util.errLine() + getClass().getSimpleName()
+                                    + " >> on persStandard pushValue >> " + ex.getLocalizedMessage());
+                            Logger.getLogger(TagsFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    } else { // Error on connection sql
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : connection to sql " + persStandardFacade.getClass().getSimpleName() + " produce error !");
+
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                    Util.out(Util.errLine() + getClass().getSimpleName()
+                            + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
                 }
 
                 /**
@@ -240,8 +315,8 @@ public class TagsFacadeThread extends Thread {
                 long defaultDelay = 1000;
                 long delay = Instant.now().toEpochMilli() - subProcessCycleStamp;
                 // Inform on execution delay
-                for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                    tagsFacadeThreadListeners.get(i).onProcessingSubCycleTime(this, delay);
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onProcessingSubCycleTime(this, delay);
                 }
                 // Sleep remaining time
                 if (delay < defaultDelay) {
@@ -266,8 +341,8 @@ public class TagsFacadeThread extends Thread {
             long processDelay = 1000;
             long delay = Instant.now().toEpochMilli() - processCycleStamp;
             // Inform on execution delay
-            for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                tagsFacadeThreadListeners.get(i).onProcessingCycleTime(this, delay);
+            for (int i = 0; i < systemThreadListeners.size(); i++) {
+                systemThreadListeners.get(i).onProcessingCycleTime(this, delay);
             }
             // Sleep remaining delay
             if (delay < processDelay) {
@@ -284,8 +359,8 @@ public class TagsFacadeThread extends Thread {
         /**
          * Will kill tags collector controller : inform all client
          */
-        for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-            tagsFacadeThreadListeners.get(i).onProcessingStopThread(this);
+        for (int i = 0; i < systemThreadListeners.size(); i++) {
+            systemThreadListeners.get(i).onProcessingStopThread(this);
         }
 
         Util.out(Util.errLine() + methodName + " Terminate tag collector Controller Thread");

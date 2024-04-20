@@ -1,27 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
-package org.obi.services.listener;
-
-import java.util.List;
-import org.obi.services.app.TagsCollectorThread;
-import org.obi.services.entities.tags.Tags;
+package org.obi.services.listener.thread;
 
 /**
  *
  * @author r.hendrick
  */
-public interface TagsCollectorThreadListener {
+public interface SystemThreadListener {
 
     /**
      * onProcessingThread
      *
      * <p>
      * Main process is running without indicate if sub process is running
-     * {@link TagsCollectorThreadListener#onProcessingSubThread(java.lang.Thread)}.
-     * In order to know if process is stopped use
-     * {@link TagsCollectorThreadListener#onProcessingStopThread(java.lang.Thread)}
+     * {@link SystemThreadListener#onProcessingSubThread(java.lang.Thread)}. In
+     * order to know if process is stopped use
+     * {@link SystemThreadListener#onProcessingStopThread(java.lang.Thread)}
      *
      * @param thread the concern thread
      */
@@ -87,29 +79,27 @@ public interface TagsCollectorThreadListener {
      */
     void onSubProcessActivityState(Thread thread, Boolean activity);
 
-
     /**
-     * Emit collection counter 
-     * 
+     * Emit collection counter
+     *
      * Indicate number of collection
-     * 
+     *
      * @param thread the value of emitter
-     * @param count  the value count of collection
+     * @param count the value count of collection
      */
     void onCollectionCount(Thread thread, int count);
 
     /**
      * Emit duraction for sequence i
-     * 
-     * 1- Duration to try to connect !
-     * 2- Duration to execute facade findActiveByCompanyAndMachine
-     * 3- Duration to read on data
-     * 
+     *
+     * 1- Duration to try to connect ! 2- Duration to execute facade
+     * findActiveByCompanyAndMachine 3- Duration to read on data
+     * 4- Duratioin for collecting persistence
+     *
      * @param thread the value of emitter
      * @param i value of sequence
-     * @param toEpochMilli 
+     * @param toEpochMilli
      */
     public void onDuration(Thread thread, int i, long toEpochMilli);
-
 
 }

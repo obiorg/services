@@ -16,17 +16,17 @@ import org.obi.services.core.moka7.S7CpuInfo;
 import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
 import org.obi.services.entities.machines.Machines;
-import org.obi.services.listener.ConnectionListener;
 import org.obi.services.moka.OrderCode;
 import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
 import org.obi.services.util.Util;
+import org.obi.services.listener.machines.MachinesListener;
 
 /**
  *
  * @author r.hendrick
  */
-public class ConnectionFrame extends javax.swing.JPanel implements ConnectionListener {
+public class ConnectionFrame extends javax.swing.JPanel implements MachinesListener {
 
     /**
      * Counter frame allow to count the frame
@@ -40,9 +40,9 @@ public class ConnectionFrame extends javax.swing.JPanel implements ConnectionLis
     private List<MachineConnection> machinesConnections = new ArrayList<>();
 
     // Mange envent lister 
-    private ArrayList<ConnectionListener> connectionListeners = new ArrayList<>();
+    private ArrayList<MachinesListener> connectionListeners = new ArrayList<>();
 
-    public void addListener(ConnectionListener listener) {
+    public void addListener(MachinesListener listener) {
         connectionListeners.add(listener);
     }
 

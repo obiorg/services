@@ -1,15 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.obi.services.entities.measures;
 
 import org.obi.services.entities.business.Companies;
 import org.obi.services.entities.business.Businesses;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.persistence.PersStandardLimits;
+import org.obi.services.sessions.business.BusinessesFacade;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -163,7 +165,64 @@ public class MeasLimitsGroups implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.MeasLimitsGroups[ id=" + id + " ]";
+        return group + " - " + designation + " [" + id + "]";
+    }
+
+    /**
+     * Allow to affect result object
+     *
+     * @param rs set of data
+     * @param easy indicate no class is required
+     * @throws SQLException
+     */
+    public void update(ResultSet rs, Boolean easy) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("business")) {
+                if (easy) {
+                    business = new Businesses(rs.getInt(c));
+                } else {
+                    BusinessesFacade cf = BusinessesFacade.getInstance();
+                    business = cf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("company")) {
+                if (easy) {
+                    company = new Companies(rs.getInt(c));
+                } else {
+                    CompaniesFacade cf = CompaniesFacade.getInstance();
+                    company = cf.findById(rs.getInt(c));
+                }
+            } /**
+             *
+             * PARAMETER
+             */
+            else if (c.matches("group")) {
+                this.group = rs.getString(c);
+            } else if (c.matches("designation")) {
+                this.designation = rs.getString(c);
+            } /**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
+                this.description = rs.getString(c);
+            } else {
+                Util.out(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+                System.out.println(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+            }
+
+        }
     }
 
 }

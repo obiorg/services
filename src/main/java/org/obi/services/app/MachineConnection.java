@@ -16,14 +16,14 @@ import org.obi.services.core.moka7.S7OrderCode;
 import org.obi.services.core.moka7.S7Szl;
 import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.tags.Tags;
-import org.obi.services.listener.ConnectionListener;
 import org.obi.services.util.Util;
+import org.obi.services.listener.machines.MachinesListener;
 
 /**
  *
  * @author r.hendrick
  */
-public class MachineConnection extends Thread implements ConnectionListener {
+public class MachineConnection extends Thread implements MachinesListener {
 
     //!< Default machine for connection
     private Machines machine;
@@ -63,14 +63,14 @@ public class MachineConnection extends Thread implements ConnectionListener {
      * Array list which contain all the connection listeners that should receive
      * event from client class
      */
-    private ArrayList<ConnectionListener> connectionListeners = new ArrayList<>();
+    private ArrayList<MachinesListener> connectionListeners = new ArrayList<>();
 
     /**
      * Allow to add connexion listener to the list of event listener
      *
      * @param connectionListener a class which will listen to service event
      */
-    public void addClientListener(ConnectionListener connectionListener) {
+    public void addClientListener(MachinesListener connectionListener) {
         connectionListeners.add(connectionListener);
     }
 
@@ -79,7 +79,7 @@ public class MachineConnection extends Thread implements ConnectionListener {
      *
      * @param connectionListener a class which will listen to service event
      */
-    public void removeClientListener(ConnectionListener connectionListener) {
+    public void removeClientListener(MachinesListener connectionListener) {
         connectionListeners.remove(connectionListener);
     }
 

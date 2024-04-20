@@ -10,13 +10,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.entities.machines.Machines;
+import org.obi.services.entities.persistence.Persistence;
 import org.obi.services.entities.tags.Tags;
-import org.obi.services.listener.TagsCollectorThreadListener;
-import org.obi.services.listener.TagsFacadeFetchThreadListener;
+import org.obi.services.sessions.persistence.PersistenceFacade;
 import org.obi.services.sessions.tags.TagsFacade;
 import org.obi.services.util.DateUtil;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
+import org.obi.services.listener.thread.SystemThreadListener;
+import org.obi.services.listener.thread.FetchThreadListener;
 
 /**
  * Tags Facade Thread :
@@ -27,16 +29,16 @@ import org.obi.services.util.Util;
  * In order to start the thread you should use normaly start
  * {@link TagsFacadeThread#start()} as all thread system.
  *
- * Note : main loop thread is depend on {@link  TagsFacadeThread#requestKill}
+ * Note : main loop thread is depend on {@link  FetchFacadeThread#requestKill}
  * which is by default not kill. This loop will run until method
- * {@link TagsCollectorThread#kill()} is called. When finaly killed the
- * following even will be emitted
+ * {@link FetchFacadeThread#kill()} is called. When finaly killed the following
+ * even will be emitted
  * {@link TagsFacadeThreadListener#onProcessingStopThread(java.lang.Thread)}
  *
  *
  * @author r.hendrick
  */
-public class TagsFacadeFetchThread extends Thread {
+public class FetchFacadeThread extends Thread {
 
     // Allow to stop process run
     private Boolean requestStop = false;
@@ -58,21 +60,30 @@ public class TagsFacadeFetchThread extends Thread {
     private List<Tags> tagsCollect = new ArrayList<>();
 
     /**
+     * Collection of persistence to process for update
+     */
+    private List<Persistence> persistenceActive = new ArrayList<>();
+    /**
+     * Collection of persistence to receive for updating
+     */
+    private List<Persistence> persistenceCollect = new ArrayList<>();
+
+    /**
      * Array list which contain all the TagsFacadeThreadListener listeners that
      * should receive event from client class
      */
-    private ArrayList<TagsCollectorThreadListener> tagsFacadeThreadListeners = new ArrayList<>();
+    private ArrayList<SystemThreadListener> systemThreadListeners = new ArrayList<>();
 
-    private ArrayList<TagsFacadeFetchThreadListener> tagsFacadeFetchThreadListeners = new ArrayList<>();
-    
+    private ArrayList<FetchThreadListener> fetchThreadListeners = new ArrayList<>();
+
     /**
      * Allow to add listener to the list of event listener
      *
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(TagsCollectorThreadListener _tagsFacadeThreadListeners) {
-        this.tagsFacadeThreadListeners.add(_tagsFacadeThreadListeners);
+    public void addClientListener(SystemThreadListener _systemThreadListeners) {
+        this.systemThreadListeners.add(_systemThreadListeners);
     }
 
     /**
@@ -81,19 +92,18 @@ public class TagsFacadeFetchThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void removeClientListener(TagsCollectorThreadListener _tagsFacadeThreadListeners) {
-        this.tagsFacadeThreadListeners.remove(_tagsFacadeThreadListeners);
+    public void removeClientListener(SystemThreadListener _systemThreadListeners) {
+        this.systemThreadListeners.remove(_systemThreadListeners);
     }
 
-        
     /**
      * Allow to add listener to the list of event listener
      *
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(TagsFacadeFetchThreadListener _tagsFacadeFetchThreadListener) {
-        this.tagsFacadeFetchThreadListeners.add(_tagsFacadeFetchThreadListener);
+    public void addClientListener(FetchThreadListener _fetchThreadListeners) {
+        this.fetchThreadListeners.add(_fetchThreadListeners);
     }
 
     /**
@@ -102,21 +112,14 @@ public class TagsFacadeFetchThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void removeClientListener(TagsFacadeFetchThreadListener _tagsFacadeFetchThreadListener) {
-        this.tagsFacadeFetchThreadListeners.remove(_tagsFacadeFetchThreadListener);
+    public void removeClientListener(FetchThreadListener _fetchThreadListeners) {
+        this.fetchThreadListeners.remove(_fetchThreadListeners);
     }
-//    private static TagsFacadeThread INSTANCE;
-//
-//    public static TagsFacadeThread getInstance() {
-//        if (INSTANCE == null) {
-//            INSTANCE = new TagsFacadeThread();
-//        }
-//        return INSTANCE;
-//    }
+
     /**
      * Creates new form
      */
-    public TagsFacadeFetchThread(Machines machine) {
+    public FetchFacadeThread(Machines machine) {
         this.machine = machine;
     }
 
@@ -162,6 +165,12 @@ public class TagsFacadeFetchThread extends Thread {
         Integer companyId = Integer.valueOf(Settings.read(Settings.CONFIG, Settings.COMPANY).toString());
 
         /**
+         * Instantiate facade that will deal with value that needs to be persist
+         * in database.
+         */
+        PersistenceFacade persistenceFacade = new PersistenceFacade();
+
+        /**
          * START MAIN THREAD LOOP will stop when requestKill is receive by
          * {@link TagsCollectorThread#kill()} or straight requestKill = true.
          */
@@ -175,9 +184,9 @@ public class TagsFacadeFetchThread extends Thread {
 
             // Inform main thread only once it reach this point after execution of subproces
             if (firstTimeInProcessing) {
-                for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                    tagsFacadeThreadListeners.get(i).onProcessingThread(this);
-                    tagsFacadeThreadListeners.get(i).onErrorCollection(this,
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onProcessingThread(this);
+                    systemThreadListeners.get(i).onErrorCollection(this,
                             DateUtil.localDTFFZoneId(gmtIndex)
                             + " : Start processing TagsFacadeThread...");
                     Util.out(Util.errLine() + methodName + DateUtil.localDTFFZoneId(gmtIndex)
@@ -196,41 +205,83 @@ public class TagsFacadeFetchThread extends Thread {
 
                 // Inform sub thread only once it reach this after exuction of subprocess 
                 if (running == false) {
-                    for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                        tagsFacadeThreadListeners.get(i).onProcessingSubThread(this);
+                    for (int i = 0; i < systemThreadListeners.size(); i++) {
+                        systemThreadListeners.get(i).onProcessingSubThread(this);
                     }
                     running = true;
                 }
 
                 /**
-                 * Check if connection for the façade exist or try to
+                 * Check if connection for the TAGSFACADE exist or try to
                  * instanciate
                  */
-                if (tagsFacade.isConnectionOn()) {
-                    for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                        tagsFacadeThreadListeners.get(i).onSubProcessActivityState(this, true);
-                        tagsFacadeThreadListeners.get(i).onErrorCollection(this,
-                                DateUtil.localDTFFZoneId(gmtIndex)
-                                + " : sql connection ok !");
-                    }
+                try {
+                    if (tagsFacade.isConnectionOn()) {
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : sql connection ok for " + tagsFacade.getClass().getSimpleName() + " !");
+                        }
 
-                    tagsCollect = tagsFacade.findActiveByCompanyAndMachine(companyId, machine.getId());
-                    if (!tagsCollect.equals(tagsActive)) {
-                        tagsActive.clear();
-                        tagsActive.addAll(tagsCollect);
-                        for (TagsFacadeFetchThreadListener tagsFacadeFetchThreadListener : tagsFacadeFetchThreadListeners) {
-                            tagsFacadeFetchThreadListener.onUpdateTags(tagsActive);
+                        tagsCollect = tagsFacade.findActiveByCompanyAndMachine(companyId, machine.getId());
+                        if (!tagsCollect.equals(tagsActive)) {
+                            tagsActive.clear();
+                            tagsActive.addAll(tagsCollect);
+                            for (FetchThreadListener fetchThreadListeners : fetchThreadListeners) {
+                                fetchThreadListeners.onNewTags(tagsActive);
+                            }
+                        }
+                    } else { // Error on connection sql
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : connection to sql " + tagsFacade.getClass().getSimpleName() + " produce error !");
+
                         }
                     }
+                } catch (SQLException ex) {
+                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                    Util.out(Util.errLine() + getClass().getSimpleName()
+                            + " : onFacadeFetchTags >> " + ex.getLocalizedMessage());
+                }
 
-                } else { // Error on connection sql
-                    for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                        tagsFacadeThreadListeners.get(i).onSubProcessActivityState(this, false);
-                        tagsFacadeThreadListeners.get(i).onErrorCollection(this,
-                                DateUtil.localDTFFZoneId(gmtIndex)
-                                + " : connection to sql produce error !");
+                /**
+                 * Check if connection for the persistenceFacade exist or try to
+                 * instanciate
+                 */
+                try {
+                    if (persistenceFacade.isConnectionOn()) {
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : sql connection ok for " + persistenceFacade.getClass().getSimpleName() + " !");
+                        }
 
+                        persistenceCollect = persistenceFacade.findByMachineActivated(machine);
+                        if (!persistenceCollect.equals(persistenceActive)) {
+                            persistenceActive.clear();
+                            persistenceActive.addAll(persistenceCollect);
+                            for (FetchThreadListener fetchThreadListeners : fetchThreadListeners) {
+                                fetchThreadListeners.onNewPersistences(persistenceActive);
+                            }
+                        }
+
+                    } else { // Error on connection sql
+                        for (int i = 0; i < systemThreadListeners.size(); i++) {
+                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                            systemThreadListeners.get(i).onErrorCollection(this,
+                                    DateUtil.localDTFFZoneId(gmtIndex)
+                                    + " : connection to sql " + persistenceFacade.getClass().getSimpleName() + " produce error !");
+
+                        }
                     }
+                } catch (SQLException ex) {
+                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                    Util.out(Util.errLine() + getClass().getSimpleName()
+                            + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
                 }
 
                 /**
@@ -240,8 +291,8 @@ public class TagsFacadeFetchThread extends Thread {
                 long defaultDelay = 1000;
                 long delay = Instant.now().toEpochMilli() - subProcessCycleStamp;
                 // Inform on execution delay
-                for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                    tagsFacadeThreadListeners.get(i).onProcessingSubCycleTime(this, delay);
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onProcessingSubCycleTime(this, delay);
                 }
                 // Sleep remaining time
                 if (delay < defaultDelay) {
@@ -266,8 +317,8 @@ public class TagsFacadeFetchThread extends Thread {
             long processDelay = 1000;
             long delay = Instant.now().toEpochMilli() - processCycleStamp;
             // Inform on execution delay
-            for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-                tagsFacadeThreadListeners.get(i).onProcessingCycleTime(this, delay);
+            for (int i = 0; i < systemThreadListeners.size(); i++) {
+                systemThreadListeners.get(i).onProcessingCycleTime(this, delay);
             }
             // Sleep remaining delay
             if (delay < processDelay) {
@@ -284,8 +335,10 @@ public class TagsFacadeFetchThread extends Thread {
         /**
          * Will kill tags collector controller : inform all client
          */
-        for (int i = 0; i < tagsFacadeThreadListeners.size(); i++) {
-            tagsFacadeThreadListeners.get(i).onProcessingStopThread(this);
+        for (int i = 0;
+                i < systemThreadListeners.size();
+                i++) {
+            systemThreadListeners.get(i).onProcessingStopThread(this);
         }
 
         Util.out(Util.errLine() + methodName + " Terminate tag collector Controller Thread");

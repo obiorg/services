@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package org.obi.services.listener;
+package org.obi.services.listener.machines;
 
 import org.obi.services.entities.machines.Machines;
 
@@ -10,7 +10,7 @@ import org.obi.services.entities.machines.Machines;
  *
  * @author r.hendrick
  */
-public interface MachinesControllerEvent {
+public interface MachinesEvent {
     
     /**
      * count Event

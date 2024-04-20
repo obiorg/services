@@ -6,8 +6,15 @@ package org.obi.services.entities.persistence;
 
 import org.obi.services.entities.business.Companies;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Date;
 import org.obi.services.entities.tags.Tags;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.sessions.persistence.PersMethodFacade;
+import org.obi.services.sessions.tags.TagsFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -138,7 +145,70 @@ public class Persistence implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.Persistence[ id=" + id + " ]";
+        return this.tag.getName() + " + " + this.method.getName() + " [" + id + "]";
     }
 
+    /**
+     * Allow to affect result object
+     *
+     * @param rs set of data
+     * @param easy indicate no class is required
+     * @throws SQLException
+     */
+    public void update(ResultSet rs, Boolean easy) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                if (easy) {
+                    company = new Companies(rs.getInt(c));
+                } else {
+                    CompaniesFacade cf = CompaniesFacade.getInstance();
+                    company = cf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("tag")) {
+                if (easy) {
+                    tag = new Tags(rs.getInt(c));
+                } else {
+                    TagsFacade ttf = TagsFacade.getInstance();
+                    tag = ttf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("method")) {
+                if (easy) {
+                    method = new PersMethod(rs.getInt(c));
+                } else {
+                    PersMethodFacade ttf = PersMethodFacade.getInstance();
+                    method = ttf.findById(rs.getInt(c));
+                }
+            } /**
+             *
+             * PARAMETER
+             */
+            else if (c.matches("active")) {
+                this.activate = rs.getBoolean(c);
+            } /**
+             *
+             * informations
+             */
+            else if (c.matches("comment")) {
+                this.comment = rs.getString(c);
+            } else {
+                Util.out(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+                System.out.println(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+            }
+
+        }
+    }
+
+    
 }

@@ -32,11 +32,9 @@ public class MeasUnitsFacade {
 
     public MeasUnitsFacade() {
     }
-    
 
     Connection conn = null;
 
-    
     protected Connection getConnectionMannager() {
         if (conn == null) {
             conn = DatabaseFrame.toConnection(DatabaseModel.databaseModel());
@@ -49,6 +47,18 @@ public class MeasUnitsFacade {
             Logger.getLogger(TagsFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
+    }
+
+    /**
+     * Allow to initialize conenction or use it if not exist
+     *
+     * @return
+     */
+    public Boolean isConnectionOn() throws SQLException {
+        if (conn == null) {
+            getConnectionMannager();
+        }
+        return conn.isValid(10);
     }
 
     /**

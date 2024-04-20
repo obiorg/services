@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.obi.services.entities.measures;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
+import org.obi.services.entities.business.Companies;
+import org.obi.services.entities.persistence.PersMethod;
 import org.obi.services.entities.persistence.PersStandardLimits;
+import org.obi.services.entities.tags.Tags;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.sessions.persistence.PersMethodFacade;
+import org.obi.services.sessions.tags.TagsFacade;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -134,7 +140,48 @@ public class MeasComparators implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.MeasComparators[ id=" + id + " ]";
+        return symbol + " " + name + " [id=" + id + "]";
+    }
+
+    /**
+     * Allow to affect result object
+     *
+     * @param rs set of data
+     * @param easy indicate no class is required
+     * @throws SQLException
+     */
+    public void update(ResultSet rs, Boolean easy) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } /**
+             *
+             * PARAMETER
+             */
+            else if (c.matches("symbol")) {
+                this.symbol = rs.getString(c);
+            } else if (c.matches("name")) {
+                this.name = rs.getString(c);
+            } /**
+             *
+             * informations
+             */
+            else {
+                Util.out(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+                System.out.println(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+            }
+
+        }
     }
 
 }

@@ -49,6 +49,18 @@ public class TagsListsFacade {
     }
 
     /**
+     * Allow to initialize conenction or use it if not exist
+     *
+     * @return
+     */
+    public Boolean isConnectionOn() throws SQLException {
+        if (conn == null) {
+            getConnectionMannager();
+        }
+        return conn.isValid(10);
+    }
+
+    /**
      * General method to process a find process from an established query
      *
      * @param findQuery existing query in string format

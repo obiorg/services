@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
-import org.obi.services.listener.DatabaseFrameListener;
+import org.obi.services.listener.bdd.DatabaseFrameListener;
 import org.obi.services.model.DatabaseModel;
 
 

@@ -6,9 +6,18 @@ package org.obi.services.entities.persistence;
 
 import org.obi.services.entities.business.Companies;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import org.obi.services.entities.tags.Tags;
+import org.obi.services.sessions.business.CompaniesFacade;
+import org.obi.services.sessions.tags.TagsFacade;
+import org.obi.services.util.DateUtil;
+import org.obi.services.util.Util;
 
 /**
  *
@@ -46,12 +55,12 @@ public class PersStandard implements Serializable {
     private Integer vInt;
     private Boolean vBool;
     private String vStr;
-    private Date vDateTime;
-    private Date vStamp;
-    private Date stampStart;
-    private Date stampEnd;
-    private Float tbf;
-    private Float ttr;
+    private LocalDateTime vDateTime;
+    private LocalDateTime vStamp;
+    private LocalDateTime stampStart;
+    private LocalDateTime stampEnd;
+    private Double tbf;
+    private Double ttr;
     private Boolean error;
     private String errorMsg;
     private Companies company;
@@ -129,51 +138,51 @@ public class PersStandard implements Serializable {
         this.vStr = vStr;
     }
 
-    public Date getVDateTime() {
+    public LocalDateTime getVDateTime() {
         return vDateTime;
     }
 
-    public void setVDateTime(Date vDateTime) {
+    public void setVDateTime(LocalDateTime vDateTime) {
         this.vDateTime = vDateTime;
     }
 
-    public Date getVStamp() {
+    public LocalDateTime getVStamp() {
         return vStamp;
     }
 
-    public void setVStamp(Date vStamp) {
+    public void setVStamp(LocalDateTime vStamp) {
         this.vStamp = vStamp;
     }
 
-    public Date getStampStart() {
+    public LocalDateTime getStampStart() {
         return stampStart;
     }
 
-    public void setStampStart(Date stampStart) {
+    public void setStampStart(LocalDateTime stampStart) {
         this.stampStart = stampStart;
     }
 
-    public Date getStampEnd() {
+    public LocalDateTime getStampEnd() {
         return stampEnd;
     }
 
-    public void setStampEnd(Date stampEnd) {
+    public void setStampEnd(LocalDateTime stampEnd) {
         this.stampEnd = stampEnd;
     }
 
-    public Float getTbf() {
+    public Double getTbf() {
         return tbf;
     }
 
-    public void setTbf(Float tbf) {
+    public void setTbf(Double tbf) {
         this.tbf = tbf;
     }
 
-    public Float getTtr() {
+    public Double getTtr() {
         return ttr;
     }
 
-    public void setTtr(Float ttr) {
+    public void setTtr(Double ttr) {
         this.ttr = ttr;
     }
 
@@ -239,7 +248,120 @@ public class PersStandard implements Serializable {
 
     @Override
     public String toString() {
-        return "org.obi.services.entities.PersStandard[ id=" + id + " ]";
+        return tag.getName() + " [" + vFloat + "; "
+                + vInt + "; "
+                + vBool + "; "
+                + vStr + "; "
+                + vDateTime + "; "
+                + vStamp + "; "
+                + " [" + id + "]";
+    }
+
+    /**
+     * Allow to affect result object
+     *
+     * @param rs set of data
+     * @param easy indicate no class is required
+     * @throws SQLException
+     */
+    public void update(ResultSet rs, Boolean easy) throws SQLException {
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            String c = rsMetaData.getColumnName(i);
+
+            if (c.matches("id")) {
+                this.id = rs.getInt(c);
+            } else if (c.matches("deleted")) {
+                this.deleted = rs.getBoolean(c);
+            } else if (c.matches("created")) {
+                this.created = rs.getDate(c);
+            } else if (c.matches("changed")) {
+                this.changed = rs.getDate(c);
+            } else if (c.matches("company")) {
+                if (easy) {
+                    company = new Companies(rs.getInt(c));
+                } else {
+                    CompaniesFacade cf = CompaniesFacade.getInstance();
+                    company = cf.findById(rs.getInt(c));
+                }
+            } else if (c.matches("tag")) {
+                if (easy) {
+                    tag = new Tags(rs.getInt(c));
+                } else {
+                    TagsFacade ttf = TagsFacade.getInstance();
+                    tag = ttf.findById(rs.getInt(c));
+                }
+            } /**
+             *
+             * VALUE
+             */
+            else if (c.matches("vFloat")) {
+                this.vFloat = rs.getDouble(c);
+            } else if (c.matches("vInt")) {
+                this.vInt = rs.getInt(c);
+            } else if (c.matches("vBool")) {
+                this.vBool = rs.getBoolean(c);
+            } else if (c.matches("vStr")) {
+                this.vStr = rs.getString(c);
+            } else if (c.matches("vDateTime")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp == null) {
+                    timestamp = Timestamp.valueOf(LocalDateTime.now());
+                }
+                LocalDateTime dt = timestamp.toLocalDateTime();
+                if (dt != null) {
+                    this.vDateTime = dt;
+                } else {
+                    this.vDateTime = null;
+                }
+            } else if (c.matches("vStamp")) {
+                Timestamp timestamp = rs.getTimestamp(c);
+                if (timestamp == null) {
+                    timestamp = Timestamp.valueOf(LocalDateTime.now());
+                }
+                LocalDateTime dt = timestamp.toLocalDateTime();
+                if (dt != null) {
+                    this.vStamp = dt;
+                } else {
+                    this.vStamp = null;
+                }
+            } /**
+             *
+             * Bit event
+             */
+            else if (c.matches("stampStart")) {
+                LocalDateTime dt = DateUtil.toLocalDateTime(rs.getTimestamp(c));
+                if (dt != null) {
+                    this.stampStart = dt;
+                } else {
+                    this.stampStart = null;
+                }
+            } else if (c.matches("stampEnd")) {
+                LocalDateTime dt = DateUtil.toLocalDateTime(rs.getTimestamp(c));
+                if (dt != null) {
+                    this.stampEnd = dt;
+                } else {
+                    this.stampEnd = null;
+                }
+            } else if (c.matches("tbf")) {
+                this.tbf = rs.getDouble(c);
+            } else if (c.matches("ttr")) {
+                this.ttr = rs.getDouble(c);
+            } else if (c.matches("error")) {
+                this.error = rs.getBoolean(c);
+            } else if (c.matches("errorMsg")) {
+                this.errorMsg = rs.getString(c);
+            } /**
+             *
+             * informations
+             */
+            else {
+                Util.out(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+                System.out.println(getClass().getSimpleName() + " >> update >> unknown column name " + c);
+            }
+
+        }
     }
 
 }
