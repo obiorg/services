@@ -285,8 +285,14 @@ public class TagsFacadeThread extends Thread {
                                 persistenceUpdating.clear();
                                 persistenceUpdating.addAll(persistencePendingForUpdate);
                             }
-                            persStandardFacade.pushValue(persistenceUpdating, tagsPersistence);
-
+                            Boolean r = persStandardFacade.pushValue(persistenceUpdating, tagsPersistence);
+                            if (r) {
+                                Util.out(Util.errLine() + getClass().getSimpleName()
+                                        + " : persistence operate with success ! ");
+                            }else{
+                                Util.out(Util.errLine() + getClass().getSimpleName()
+                                        + " : persistence operate with bad count ! ");
+                            }
                         } catch (SQLException ex) {
                             Util.out(Util.errLine() + getClass().getSimpleName()
                                     + " >> on persStandard pushValue >> " + ex.getLocalizedMessage());

@@ -194,7 +194,7 @@ public class Persistence implements Serializable {
              *
              * PARAMETER
              */
-            else if (c.matches("active")) {
+            else if (c.matches("activate")) {
                 this.activate = rs.getBoolean(c);
             } /**
              *

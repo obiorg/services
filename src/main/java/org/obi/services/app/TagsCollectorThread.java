@@ -169,10 +169,10 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
         /**
          * Create Sub process to write in database
          */
-        FetchFacadeThread tagsFacadeFetchThread = new FetchFacadeThread(machine); //TagsFacadeThread.getInstance();
-        tagsFacadeFetchThread.doRelease();
-        if (!tagsFacadeFetchThread.isAlive()) {
-            tagsFacadeFetchThread.start();
+        FetchFacadeThread fetchFacadeThread = new FetchFacadeThread(machine); //TagsFacadeThread.getInstance();
+        fetchFacadeThread.doRelease();
+        if (!fetchFacadeThread.isAlive()) {
+            fetchFacadeThread.start();
         }
 
         /**
@@ -426,6 +426,12 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
         if (!tagsFacadeThread.isAlive()) {
             tagsFacadeThread.doStop();
             tagsFacadeThread.kill();
+        }
+        
+        // Release TagsFacadeThread
+        if (!fetchFacadeThread.isAlive()) {
+            fetchFacadeThread.doStop();
+            fetchFacadeThread.kill();
         }
 
         /**
