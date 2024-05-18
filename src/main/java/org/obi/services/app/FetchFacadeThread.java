@@ -82,8 +82,8 @@ public class FetchFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(SystemThreadListener _systemThreadListeners) {
-        this.systemThreadListeners.add(_systemThreadListeners);
+    public void addClientListener(SystemThreadListener systemThreadListener) {
+        this.systemThreadListeners.add(systemThreadListener);
     }
 
     /**
@@ -92,8 +92,8 @@ public class FetchFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void removeClientListener(SystemThreadListener _systemThreadListeners) {
-        this.systemThreadListeners.remove(_systemThreadListeners);
+    public void removeClientListener(SystemThreadListener systemThreadListener) {
+        this.systemThreadListeners.remove(systemThreadListener);
     }
 
     /**
@@ -102,8 +102,9 @@ public class FetchFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(FetchThreadListener _fetchThreadListeners) {
-        this.fetchThreadListeners.add(_fetchThreadListeners);
+    public void addClientListener(FetchThreadListener fetchThreadListener) {
+        this.fetchThreadListeners.add(fetchThreadListener);
+        Util.out(Util.errLine() + " " + getClass().getSimpleName() + " addClientListener on machine : " + machine.getName() + " >> client now at = " + fetchThreadListeners.size());
     }
 
     /**
@@ -114,6 +115,7 @@ public class FetchFacadeThread extends Thread {
      */
     public void removeClientListener(FetchThreadListener _fetchThreadListeners) {
         this.fetchThreadListeners.remove(_fetchThreadListeners);
+        Util.out(Util.errLine() + " " + getClass().getSimpleName() + " removeClientListener on machine : " + machine.getName() + " >> client now at = " + fetchThreadListeners.size());
     }
 
     /**
@@ -188,9 +190,9 @@ public class FetchFacadeThread extends Thread {
                     systemThreadListeners.get(i).onProcessingThread(this);
                     systemThreadListeners.get(i).onErrorCollection(this,
                             DateUtil.localDTFFZoneId(gmtIndex)
-                            + " : Start processing TagsFacadeThread...");
+                            + " : Start processing FetchFacadeThread...");
                     Util.out(Util.errLine() + methodName + DateUtil.localDTFFZoneId(gmtIndex)
-                            + " : Start processing TagsFacadeThread...");
+                            + " : Start processing FetchFacadeThread...");
                 }
                 firstTimeInProcessing = false;
             }
@@ -261,9 +263,14 @@ public class FetchFacadeThread extends Thread {
                         }
 
                         persistenceCollect = persistenceFacade.findByMachineActivated(machine);
+                        Util.out(Util.errLine() + getClass() + " >> Parent("
+                                + currentThread().getThreadGroup().getParent().getName()  + ")"
+                                + "|- " + getName() + " >> persistence found : " + persistenceCollect.size());
+                                
                         if (!persistenceCollect.equals(persistenceActive)) {
                             persistenceActive.clear();
                             persistenceActive.addAll(persistenceCollect);
+                            Util.out(Util.errLine() + getName() + " run >> renew pesistence active : " + persistenceActive.size());
                             for (FetchThreadListener fetchThreadListeners : fetchThreadListeners) {
                                 fetchThreadListeners.onNewPersistences(persistenceActive);
                             }

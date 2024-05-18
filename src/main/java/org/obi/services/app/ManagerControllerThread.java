@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Docking.ManagerControllerFrame;
 import org.obi.services.entities.machines.Machines;
-import org.obi.services.entities.tags.Tags;
 import org.obi.services.sessions.machines.MachinesFacade;
 import org.obi.services.util.Ico;
 import org.obi.services.util.Settings;

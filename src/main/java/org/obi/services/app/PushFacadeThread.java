@@ -27,9 +27,9 @@ import org.obi.services.sessions.persistence.PersistenceFacade;
  * database in order to reduce the time occupation.
  * <p>
  * In order to start the thread you should use normaly start
- * {@link TagsFacadeThread#start()} as all thread system.
+ * {@link PushFacadeThread#start()} as all thread system.
  *
- * Note : main loop thread is depend on {@link  TagsFacadeThread#requestKill}
+ * Note : main loop thread is depend on {@link  PushFacadeThread#requestKill}
  * which is by default not kill. This loop will run until method
  * {@link TagsCollectorThread#kill()} is called. When finaly killed the
  * following even will be emitted
@@ -38,7 +38,7 @@ import org.obi.services.sessions.persistence.PersistenceFacade;
  *
  * @author r.hendrick
  */
-public class TagsFacadeThread extends Thread {
+public class PushFacadeThread extends Thread {
 
     // Allow to stop process run
     private Boolean requestStop = false;
@@ -46,18 +46,22 @@ public class TagsFacadeThread extends Thread {
     private boolean running = false;
 
     /**
-     * Collection of tags to process for update
+     * Collection of tags to process for update This will collect value from
+     * tagsPendingForUpdate then update than clear value after update.
      */
-    private List<Tags> tagsUpdating = new ArrayList<>();
+    private List<Tags> tagsToUpdate = new ArrayList<>();
+
     /**
-     * Collection of tags to receive for updating
+     * Collection of tags received while updating is processing. Will be delete
+     * after being collect by tagsUpdating
      */
     private List<Tags> tagsPendingForUpdate = new ArrayList<>();
 
     /**
-     * Tags thtat will be analyse for persistence
+     * Tags persistence will save value in database. Value will be collect from
+     * @link{TagsFacadeThread#tagsToUpdate} after updating. Then in next different process will try to persist it.
      */
-    private List<Tags> tagsPersistence = new ArrayList<>();
+    private List<Tags> tagsToPersit = new ArrayList<>();
 
     /**
      * Allow to add tags to list stack to be update in the system
@@ -69,13 +73,24 @@ public class TagsFacadeThread extends Thread {
     }
 
     /**
+     * Allow to add only one tags at a time to list stack to be update in
+     * database
+     *
+     * @param tagToUpdate a tag with correct value to fill the database
+     */
+    public void addNewTag(Tags tagToUpdate) {
+        tagsPendingForUpdate.add(tagToUpdate);
+    }
+
+    /**
      * Collection of tags to process for update
      */
-    private List<Persistence> persistenceUpdating = new ArrayList<>();
+    private List<Persistence> persistenceActive = new ArrayList<>();
     /**
-     * Collection of tags to receive for updating
+     * Collection of persistence config for tag saving received. Waiting to be
+     * perist. Will update before processeing persistence
      */
-    private List<Persistence> persistencePendingForUpdate = new ArrayList<>();
+    private List<Persistence> persistencePendingToActivate = new ArrayList<>();
 
     /**
      * Allow to add tags to list stack to be update in the system
@@ -83,7 +98,8 @@ public class TagsFacadeThread extends Thread {
      * @param tagsToUpdate
      */
     public void addNewPersistence(List<Persistence> persistenceToUpdate) {
-        persistencePendingForUpdate.addAll(persistenceToUpdate);
+        persistencePendingToActivate.clear();
+        persistencePendingToActivate.addAll(persistenceToUpdate);
     }
 
     /**
@@ -98,8 +114,8 @@ public class TagsFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(SystemThreadListener _tagsFacadeThreadListeners) {
-        this.systemThreadListeners.add(_tagsFacadeThreadListeners);
+    public void addClientListener(SystemThreadListener systemThreadListener) {
+        this.systemThreadListeners.add(systemThreadListener);
     }
 
     /**
@@ -108,22 +124,22 @@ public class TagsFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void removeClientListener(SystemThreadListener _tagsFacadeThreadListeners) {
-        this.systemThreadListeners.remove(_tagsFacadeThreadListeners);
+    public void removeClientListener(SystemThreadListener systemThreadListener) {
+        this.systemThreadListeners.remove(systemThreadListener);
     }
 
-//    private static TagsFacadeThread INSTANCE;
+//    private static PushFacadeThread INSTANCE;
 //
-//    public static TagsFacadeThread getInstance() {
+//    public static PushFacadeThread getInstance() {
 //        if (INSTANCE == null) {
-//            INSTANCE = new TagsFacadeThread();
+//            INSTANCE = new PushFacadeThread();
 //        }
 //        return INSTANCE;
 //    }
     /**
      * Creates new form
      */
-    public TagsFacadeThread() {
+    public PushFacadeThread() {
 
     }
 
@@ -199,6 +215,10 @@ public class TagsFacadeThread extends Thread {
             // Check available tags pending for updating
             Boolean wait = false;
 
+            /**
+             * If new value are pending to being update they will be put in
+             * active update tags before clearing the pending list
+             */
             if (tagsPendingForUpdate.isEmpty()) {
                 wait = true;
                 // Inform liteners about number off collection count and error
@@ -209,12 +229,13 @@ public class TagsFacadeThread extends Thread {
                             + " : No tags to update, will run in \"wait\" mode !");
                 }
             } else {
-                tagsUpdating.addAll(tagsPendingForUpdate);
-                tagsPendingForUpdate.clear();
+                // add new pending to the list
+                tagsToUpdate.addAll(tagsPendingForUpdate);
+                tagsPendingForUpdate.clear(); // clear pending list
             }
 
             // SUB PROCESS LOOP
-            while (!requestStop & !requestKill & !wait & !tagsUpdating.isEmpty()) {
+            while (!requestStop & !requestKill & !wait & !tagsToUpdate.isEmpty()) {
                 /**
                  * subProcessCycleStamp allow to reduce processing analysis over
                  * connection mistakes and database access
@@ -230,89 +251,19 @@ public class TagsFacadeThread extends Thread {
                 }
 
                 /**
-                 * Check if connection for the façade exist or try to
-                 * instanciate
+                 * ************************************************************
+                 * Check if connection for the tagsFacade still exit. update
+                 * value of the tags beeing changed.
                  */
-                try {
-                    if (tagsFacade.isConnectionOn()) {
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : sql connection ok !");
-                        }
-
-                        try {
-                            tagsFacade.updateValue(tagsUpdating);
-                            tagsPersistence.addAll(tagsUpdating);
-                            tagsUpdating.clear();
-                        } catch (SQLException ex) {
-                            Util.out(Util.errLine() + getClass().getSimpleName()
-                                    + " >> on updateValue >> " + ex.getLocalizedMessage());
-                            Logger.getLogger(TagsFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                    } else { // Error on connection sql
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : connection to sql produce error !");
-
-                        }
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
-                    Util.out(Util.errLine() + getClass().getSimpleName()
-                            + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
-                }
+                persistTagsUpdate(tagsFacade, gmtIndex);
 
                 /**
-                 * Check if connection for the persistenceFacade still existor
-                 * instanciate it
+                 * ************************************************************
+                 * Check if connection for the persistenceFacade still exit.
+                 * Persitence rule will be update if change was detected before
+                 * to proceed
                  */
-                try {
-                    if (persStandardFacade.isConnectionOn()) {
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : sql connection ok for " + persStandardFacade.getClass().getSimpleName() + " !");
-                        }
-
-                        try {
-                            if (!persistenceUpdating.equals(persistencePendingForUpdate)) {
-                                persistenceUpdating.clear();
-                                persistenceUpdating.addAll(persistencePendingForUpdate);
-                            }
-                            Boolean r = persStandardFacade.pushValue(persistenceUpdating, tagsPersistence);
-                            if (r) {
-                                Util.out(Util.errLine() + getClass().getSimpleName()
-                                        + " : persistence operate with success ! ");
-                            }else{
-                                Util.out(Util.errLine() + getClass().getSimpleName()
-                                        + " : persistence operate with bad count ! ");
-                            }
-                        } catch (SQLException ex) {
-                            Util.out(Util.errLine() + getClass().getSimpleName()
-                                    + " >> on persStandard pushValue >> " + ex.getLocalizedMessage());
-                            Logger.getLogger(TagsFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                    } else { // Error on connection sql
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : connection to sql " + persStandardFacade.getClass().getSimpleName() + " produce error !");
-
-                        }
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
-                    Util.out(Util.errLine() + getClass().getSimpleName()
-                            + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
-                }
+                persistStandard(persStandardFacade, gmtIndex);
 
                 /**
                  * Manage reading time of data tags in the machine not less than
@@ -370,6 +321,131 @@ public class TagsFacadeThread extends Thread {
         }
 
         Util.out(Util.errLine() + methodName + " Terminate tag collector Controller Thread");
+    }
+
+    /**
+     * Check if connection for the tagsFacade still exit. update value of the
+     * tags beeing changed.
+     *
+     * @param tagsFacade facade to processed over database
+     * @param gmtIndex gmt to being used
+     */
+    private void persistTagsUpdate(TagsFacade tagsFacade, Integer gmtIndex) {
+        try {
+            // Initialize check communication with database
+            if (tagsFacade.isConnectionOn()) {
+                // System thread indicate infos on actual status
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : sql connection ok !");
+                }
+
+                /**
+                 * Update instant data in table tags. Then put value in the
+                 * persistence list before clearing actual value
+                 *
+                 */
+                try {
+                    tagsFacade.updateValue(tagsToUpdate);
+                    tagsToPersit.addAll(tagsToUpdate);      // indicate new tags can be persit
+                    tagsToUpdate.clear();                   // Empty the list of tags to update
+                } catch (SQLException ex) {
+                    Util.out(Util.errLine() + getClass().getSimpleName()
+                            + " >> on updateValue >> " + ex.getLocalizedMessage());
+                    Logger.getLogger(PushFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else { // Error on connection sql
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : connection to sql produce error !");
+
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+            Util.out(Util.errLine() + getClass().getSimpleName()
+                    + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
+        }
+
+    }
+
+    /**
+     * Persistence Standard : id the method to save data in the way of siemens
+     * or zenon. Meaning, tag is as row and value are following.
+     * <p>
+     * Check if connection for the persistenceFacade still exit. Persitence rule
+     * will be update if change was detected before to proceed
+     *
+     * @param persStandardFacade facade to processed over database
+     * @param gmtIndex gmt to beeing used
+     */
+    private void persistStandard(PersStandardFacade persStandardFacade, Integer gmtIndex) {
+
+        String methodName = "pers_standard";
+
+        /**
+         * ************************************************************
+         * Check if connection for the persistenceFacade still exit. Persitence
+         * rule will be update if change was detected before to proceed
+         */
+        try {
+            // Check persistence connection to database
+            if (persStandardFacade.isConnectionOn()) {
+                // Indicate successful connection to user
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : sql connection ok for " + persStandardFacade.getClass().getSimpleName() + " !");
+                }
+
+//                        try {
+                // check if active persistence list and pending as changed
+                if (!persistenceActive.equals(persistencePendingToActivate)) {
+                    persistenceActive.clear();
+                    persistenceActive.addAll(persistencePendingToActivate);
+                    Util.out(Util.errLine() + getName() + ":" + getClass().getSimpleName() + " - " +  methodName +  " >> update persistence rule detected ! ");
+                }
+
+                /**
+                 * With tagsToPersit which corresponding to updated tags now
+                 * check if it need to be persist and do so. After what list is
+                 * cleared
+                 */
+                Boolean r = persStandardFacade.pushValue(persistenceActive, tagsToPersit);
+                tagsToPersit.clear();
+//                            if (r) {
+//                                Util.out(Util.errLine() + getClass().getSimpleName()
+//                                        + " : persistence operate with success ! ");
+//                            }else{
+//                                Util.out(Util.errLine() + getClass().getSimpleName()
+//                                        + " : persistence operate with bad count ! ");
+//                            }
+//                        } catch (SQLException ex) {
+//                            Util.out(Util.errLine() + getClass().getSimpleName()
+//                                    + " >> Eror on persStandard pushValue >> " + ex.getLocalizedMessage());
+//                            Logger.getLogger(PushFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+
+            } else { // Error on connection sql
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : connection to sql " + persStandardFacade.getClass().getSimpleName() + " produce error !");
+
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+            Util.out(Util.errLine() + getClass().getSimpleName()
+                    + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
+        }
     }
 
 }

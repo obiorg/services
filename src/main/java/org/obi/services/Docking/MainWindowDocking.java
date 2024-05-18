@@ -1183,7 +1183,7 @@ public class MainWindowDocking implements SystemThreadListener {
          * Managing main frame
          */
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setTitle(bundle.getString("AppVersion")); // NOI18N
+        frame.setTitle(bundle.getString("AppName") + " " + bundle.getString("AppVersion")); // NOI18N
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setIconImage(Ico.i16("/img/obi/obi-signet-dark.png", this).getImage());
         frame.setName("MainWindowFrame"); // NOI18N

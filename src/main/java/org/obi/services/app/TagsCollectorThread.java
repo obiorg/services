@@ -46,7 +46,7 @@ import org.obi.services.listener.machines.MachinesListener;
  *
  * @author r.hendrick
  */
-public class TagsCollectorThread extends Thread implements MachinesListener, FetchThreadListener {
+public class TagsCollectorThread extends Thread implements MachinesListener, FetchThreadListener, SystemThreadListener {
 
     // Allow to display message on processing
     private TrayIcon trayIcon;
@@ -64,6 +64,12 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
      * Defined available tags that needs to be collected
      */
     List<Tags> tags = new ArrayList<>();
+
+    /**
+     * Allow to check if new persistence was delivered in order to udpate loop
+     * sequence element.
+     */
+    Boolean isPersistenceRenew = true;
 
     /**
      * Specify available persistence to be archive
@@ -148,9 +154,9 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
 
         // Start parent thread
         super.run();//
-        Util.out(Util.errLine() + methodName + "Thead machine : " + machine.getName() + " started with review of connection each 5s");
+        Util.out(Util.errLine() + methodName + "Thead(" + getName() +") of machine(" + machine.getName() + ") started with review of connection each 5s on thread");
 
-        // Prepare working element
+        // Prepare working elements
         TagsFacade tagsFacade = new TagsFacade();//TagsFacade.getInstance();
         MachineConnection mc = new MachineConnection(machine);
         boolean firstTimeInProcessing = true;   //< Inidcate run loop go back at first in main processing loop
@@ -160,20 +166,24 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
         /**
          * Create Sub process to write in database
          */
-        TagsFacadeThread tagsFacadeThread = new TagsFacadeThread(); //TagsFacadeThread.getInstance();
+        PushFacadeThread tagsFacadeThread = new PushFacadeThread(); //TagsFacadeThread.getInstance();
         tagsFacadeThread.doRelease();
+        tagsFacadeThread.addClientListener(this);
         if (!tagsFacadeThread.isAlive()) {
             tagsFacadeThread.start();
         }
+        Util.out(Util.errLine() + methodName + "Thead(" + getName() +") of machine(" + machine.getName() + ") as tagsFacadeThread (" + tagsFacadeThread.getName() + ")");
 
         /**
          * Create Sub process to write in database
          */
         FetchFacadeThread fetchFacadeThread = new FetchFacadeThread(machine); //TagsFacadeThread.getInstance();
         fetchFacadeThread.doRelease();
+        fetchFacadeThread.addClientListener((FetchThreadListener)this);
         if (!fetchFacadeThread.isAlive()) {
             fetchFacadeThread.start();
         }
+        Util.out(Util.errLine() + methodName + "Thead(" + getName() +") of machine(" + machine.getName() + ") as fetchFacadeThread (" + fetchFacadeThread.getName() + ")");
 
         /**
          * START MAIN THREAD LOOP will stop when requestKill is receive by
@@ -282,16 +292,24 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
 //                        }
 //                        processTagsCycle = Instant.now().toEpochMilli();
 //                    }
+
+
                     // Inform liteners about number off collection count
                     for (int i = 0; i < systemThreadListeners.size(); i++) {
                         systemThreadListeners.get(i).onCollectionCount(this, Integer.valueOf(tags.size()));
                     }
 
                     /**
-                     * Only process if ther is some tags
+                     * Only process if there is some tags
                      */
                     if (!tags.isEmpty()) {
 
+                        // Check if persistence require a renew sequence
+                        if (isPersistenceRenew) {
+                            tagsFacadeThread.addNewPersistence(peristences);
+                        }
+
+                        // Now process each tags
                         for (Tags tag : tags) {
 //                            Tags tag = tags.get(i);
                             // Collect only if cyle time is reached since last change
@@ -323,6 +341,7 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
                                         systemThreadListeners.get(i).onDuration(this, 3, Instant.now().toEpochMilli() - t_doConnectEpoch);
                                     }
                                     //tagsFacade.updateOnValue(tag);
+                                    tagsFacadeThread.addNewTag(tag); // in order to post-pose processing.
                                 } else {
                                     // Inform liteners about number off collection count and error
                                     for (int j = 0; j < systemThreadListeners.size(); j++) {
@@ -331,9 +350,6 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
                                 }
                             }
                         }
-
-                        // Now puh data
-                        tagsFacadeThread.addNewTags(tags);
                     } else {
                         Util.out(Util.errLine() + methodName + " empty list tag found for machine = " + machine);
                         requestStop = true;
@@ -422,25 +438,40 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
             }
         }
 
-        // Release TagsFacadeThread
-        if (!tagsFacadeThread.isAlive()) {
+        // Release PushFacadeThread
+        while(tagsFacadeThread.isAlive()){
             tagsFacadeThread.doStop();
             tagsFacadeThread.kill();
+            Util.out(Util.errLine() + methodName + " >> on Machine " + machine + " : ... wait tagsFacadeThread to finish !");
+            try {
+                sleep(500);
+            } catch (InterruptedException ex) {
+                Util.out(Util.errLine() + methodName + " >> on Machine " + machine + " : Error will sleeping in order to kill thread tagsFacadeThread !");
+            }
         }
+        Util.out(Util.errLine() + methodName + " >> on Machine " + machine + " : tagsFacadeThread killed !");
         
-        // Release TagsFacadeThread
-        if (!fetchFacadeThread.isAlive()) {
+        // Release fetchFacadeThread
+        while(fetchFacadeThread.isAlive()){
             fetchFacadeThread.doStop();
             fetchFacadeThread.kill();
+            Util.out(Util.errLine() + methodName + " >> on Machine " + machine + " : ... wait fetchFacadeThread to finish !");
+            try {
+                sleep(500);
+            } catch (InterruptedException ex) {
+                Util.out(Util.errLine() + methodName + " >> on Machine " + machine + " : Error will sleeping in order to kill thread fetchFacadeThread !");
+            }
         }
+        Util.out(Util.errLine() + methodName + " >> on Machine " + machine + " : tagsFacadeThread killed !");
 
+        
         /**
          * Will kill tags collector controller : inform all client
          */
         for (int i = 0; i < systemThreadListeners.size(); i++) {
             systemThreadListeners.get(i).onProcessingStopThread(this);
         }
-        Util.out(Util.errLine() + methodName + " Terminate tag collector Controller Thread");
+        Util.out(Util.errLine() + methodName + " on Machine " + machine + " : Terminate tag collector Controller Thread");
     }
 
     public Machines getMachine() {
@@ -531,6 +562,56 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
         for (int i = 0; i < systemThreadListeners.size(); i++) {
             systemThreadListeners.get(i).onDuration(this, 4, Instant.now().toEpochMilli() - t_doConnectEpoch);
         }
+    }
+
+    @Override
+    public void onProcessingThread(Thread thread) {
+        
+    }
+
+    @Override
+    public void onProcessingSubThread(Thread thread) {
+        
+    }
+
+    @Override
+    public void onProcessingSubStopThread(Thread thread) {
+        
+    }
+
+    @Override
+    public void onProcessingStopThread(Thread thread) {
+        
+    }
+
+    @Override
+    public void onProcessingSubCycleTime(Thread thread, Long ms) {
+        
+    }
+
+    @Override
+    public void onProcessingCycleTime(Thread thread, Long ms) {
+        
+    }
+
+    @Override
+    public void onErrorCollection(Thread thread, String message) {
+        
+    }
+
+    @Override
+    public void onSubProcessActivityState(Thread thread, Boolean activity) {
+        
+    }
+
+    @Override
+    public void onCollectionCount(Thread thread, int count) {
+        
+    }
+
+    @Override
+    public void onDuration(Thread thread, int i, long toEpochMilli) {
+        
     }
 
 }

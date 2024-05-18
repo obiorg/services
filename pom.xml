@@ -13,7 +13,7 @@
     <artifactId>obi-services</artifactId>
     <name>obi-services</name>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.3</version>
     <description>
         Application obi-services
         Allow to get tag value defined. 
@@ -132,6 +132,8 @@
     
     <build>
         <plugins>
+            
+   
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -155,7 +157,7 @@
                 </executions>
             </plugin>
             <!-- Build an executable JAR -->
-<!--            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -167,6 +169,10 @@
                     </archive>
                 </configuration>
             </plugin>-->
+            
+            
+            
+            
             <!-- USED FOR DOCUMENTATION JAVADOC -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -178,6 +184,16 @@
                 </configuration>
             </plugin>
         </plugins>
+        
+        
+        <!-- ENABLE RESOURCES FILTRING TO CONVERT PARAMETERS -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>   
+        
     </build>
     
     

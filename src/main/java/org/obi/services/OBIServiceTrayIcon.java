@@ -171,7 +171,7 @@ public class OBIServiceTrayIcon {
         //===== 0.2. End Menu Close 
 
         //===== 0.3. Menu Application
-        MenuItem obiAppMenuItem = new MenuItem("obi-service");
+        MenuItem obiAppMenuItem = new MenuItem("obi-services");
         obiAppMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mw.setVisible(true);
