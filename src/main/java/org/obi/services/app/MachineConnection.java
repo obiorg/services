@@ -190,7 +190,7 @@ public class MachineConnection extends Thread implements MachinesListener {
     public Boolean doConnect() {
         begin("doConnect...");
 
-        if (client.Connected) {
+        if (client.Connect()==0) {
             return true;
         } else { // try to connect
             connected = false;
@@ -491,7 +491,7 @@ public class MachineConnection extends Thread implements MachinesListener {
     public Object readValue(Tags tag) {
 
         // Check if machine is connected
-        if (!connected) {
+        if (!client.Connected) {
             Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
                     + " : readValue >> Connection not established ! Please doConnect first !");
             return null;

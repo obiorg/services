@@ -140,16 +140,38 @@ public class Persistence implements Serializable {
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
+        
+        
+        if (object == this) {
+            return true;
+        }
+
+        if (other.id != this.id) {
+            return false;
+        }
+        if (other.deleted != this.deleted) {
+            return false;
+        }
+        if (!other.created.equals(this.created)) {
+            return false;
+        }
+        if (!other.changed.equals(this.changed)) {
+            return false;
+        }
+        if (!other.company.equals(this.company)) {
+            return false;
+        }
+
         return true;
     }
 
     @Override
     public String toString() {
-        return this.tag.getName() + " + " + this.method.getName() + " [" + id + "]";
+        return this.tag.getName() + "("+ tag.getId() +") " + this.method.getName() + " [" + id + "]";
     }
 
     /**
-     * Allow to affect result object
+     * Allow to affect result objectect
      *
      * @param rs set of data
      * @param easy indicate no class is required
@@ -210,5 +232,4 @@ public class Persistence implements Serializable {
         }
     }
 
-    
 }

@@ -100,6 +100,17 @@ public class PushFacadeThread extends Thread {
     public void addNewPersistence(List<Persistence> persistenceToUpdate) {
         persistencePendingToActivate.clear();
         persistencePendingToActivate.addAll(persistenceToUpdate);
+//        Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> addNewPersistence >> persistencePendingToActivate size = " + persistencePendingToActivate.size());
+//        for (Persistence p : persistencePendingToActivate) {
+//            System.out.print("P(" + p.getId() + ",>>" + p.getTag().getId() + ")/");
+//        }
+//        System.out.println("");
+//        Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> addNewPersistence >> persistenceActive size = " + persistenceActive.size());
+//        for (Persistence p : persistenceActive) {
+//            System.out.print("P(" + p.getId() + ",>>" + p.getTag().getId() + ")/");
+//        }
+//        System.out.println("");
+
     }
 
     /**
@@ -369,7 +380,7 @@ public class PushFacadeThread extends Thread {
         } catch (SQLException ex) {
             Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
             Util.out(Util.errLine() + getClass().getSimpleName()
-                    + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
+                    + " : onFacadePushPersistence >> " + ex.getLocalizedMessage());
         }
 
     }
@@ -388,6 +399,10 @@ public class PushFacadeThread extends Thread {
 
         String methodName = "pers_standard";
 
+        if (tagsToPersit.isEmpty()) {
+            Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") persistStandard >> Error no tags to be perssit tagsToPersist size = " + tagsToPersit.size());
+            return;
+        }
         /**
          * ************************************************************
          * Check if connection for the persistenceFacade still exit. Persitence
@@ -406,17 +421,45 @@ public class PushFacadeThread extends Thread {
 
 //                        try {
                 // check if active persistence list and pending as changed
-                if (!persistenceActive.equals(persistencePendingToActivate)) {
-                    persistenceActive.clear();
-                    persistenceActive.addAll(persistencePendingToActivate);
-                    Util.out(Util.errLine() + getName() + ":" + getClass().getSimpleName() + " - " +  methodName +  " >> update persistence rule detected ! ");
-                }
+                //if (!persistenceActive.equals(persistencePendingToActivate)) {
+                persistenceActive.clear();
+                persistenceActive.addAll(persistencePendingToActivate);
+//                Util.out(Util.errLine() + getName() + ":" + getClass().getSimpleName() + " - " + methodName + " >> update persistence rule detected ! ");
+//                    for (Persistence p : persistenceActive) {
+//                        Util.out("P(" + p.getId() + ", " + p.getTag().getId() + ")/");
+//                    }
+//                    Util.out("");
+//                } else {
+//                    Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> persistStandard >> Persistence activae already equal to persistencePendingToActivate");
+//                    Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> persistStandard >> persistencePendingToActivate size = " + persistencePendingToActivate.size());
+//                    for (Persistence p : persistencePendingToActivate) {
+//                        System.out.print("P(" + p.getId() + ",>>" + p.getTag().getId() + ")/");
+//                    }
+//                    System.out.println("");
+//                    Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> persistStandard >> persistenceActive size = " + persistenceActive.size());
+//                    for (Persistence p : persistenceActive) {
+//                        System.out.print("P(" + p.getId() + ",>>" + p.getTag().getId() + ")/");
+//                    }
+//                    System.out.println("");
+//                }
 
                 /**
                  * With tagsToPersit which corresponding to updated tags now
                  * check if it need to be persist and do so. After what list is
                  * cleared
                  */
+                if (!tagsToPersit.isEmpty()) {
+//                    if (tagsToPersit.get(0).getMachine().getId() == 1) {
+//                        Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") persistStandard >> find tagsToPersist for table 2 with size = " + tagsToPersit.size());
+//                        for(Tags t : tagsToPersit){
+//                            Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ")  persistStandard >> tags: " + t);
+//                        }
+//                        Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") persistStandard >> while persistence equal size = " + persistenceActive.size());
+//                        for(Persistence p : persistenceActive){
+//                            Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ")  persistStandard >> tags: " + p);
+//                        }
+//                    }
+                }
                 Boolean r = persStandardFacade.pushValue(persistenceActive, tagsToPersit);
                 tagsToPersit.clear();
 //                            if (r) {
@@ -438,7 +481,7 @@ public class PushFacadeThread extends Thread {
                     systemThreadListeners.get(i).onErrorCollection(this,
                             DateUtil.localDTFFZoneId(gmtIndex)
                             + " : connection to sql " + persStandardFacade.getClass().getSimpleName() + " produce error !");
-
+                    Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> error on connection get from statement SQL");
                 }
             }
         } catch (SQLException ex) {

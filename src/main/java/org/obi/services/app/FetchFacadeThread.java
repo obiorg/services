@@ -102,7 +102,7 @@ public class FetchFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void addClientListener(FetchThreadListener fetchThreadListener) {
+    public void addClientFetchListener(FetchThreadListener fetchThreadListener) {
         this.fetchThreadListeners.add(fetchThreadListener);
         Util.out(Util.errLine() + " " + getClass().getSimpleName() + " addClientListener on machine : " + machine.getName() + " >> client now at = " + fetchThreadListeners.size());
     }
@@ -113,7 +113,7 @@ public class FetchFacadeThread extends Thread {
      * @param _tagsCollectorThreadListeners a class which will listen to service
      * event
      */
-    public void removeClientListener(FetchThreadListener _fetchThreadListeners) {
+    public void removeClientFetchListener(FetchThreadListener _fetchThreadListeners) {
         this.fetchThreadListeners.remove(_fetchThreadListeners);
         Util.out(Util.errLine() + " " + getClass().getSimpleName() + " removeClientListener on machine : " + machine.getName() + " >> client now at = " + fetchThreadListeners.size());
     }
@@ -213,83 +213,11 @@ public class FetchFacadeThread extends Thread {
                     running = true;
                 }
 
-                /**
-                 * Check if connection for the TAGSFACADE exist or try to
-                 * instanciate
-                 */
-                try {
-                    if (tagsFacade.isConnectionOn()) {
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : sql connection ok for " + tagsFacade.getClass().getSimpleName() + " !");
-                        }
+                // Collect tags
+                fetchTags(tagsFacade, companyId, gmtIndex);
 
-                        tagsCollect = tagsFacade.findActiveByCompanyAndMachine(companyId, machine.getId());
-                        if (!tagsCollect.equals(tagsActive)) {
-                            tagsActive.clear();
-                            tagsActive.addAll(tagsCollect);
-                            for (FetchThreadListener fetchThreadListeners : fetchThreadListeners) {
-                                fetchThreadListeners.onNewTags(tagsActive);
-                            }
-                        }
-                    } else { // Error on connection sql
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : connection to sql " + tagsFacade.getClass().getSimpleName() + " produce error !");
-
-                        }
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
-                    Util.out(Util.errLine() + getClass().getSimpleName()
-                            + " : onFacadeFetchTags >> " + ex.getLocalizedMessage());
-                }
-
-                /**
-                 * Check if connection for the persistenceFacade exist or try to
-                 * instanciate
-                 */
-                try {
-                    if (persistenceFacade.isConnectionOn()) {
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, true);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : sql connection ok for " + persistenceFacade.getClass().getSimpleName() + " !");
-                        }
-
-                        persistenceCollect = persistenceFacade.findByMachineActivated(machine);
-                        Util.out(Util.errLine() + getClass() + " >> Parent("
-                                + currentThread().getThreadGroup().getParent().getName()  + ")"
-                                + "|- " + getName() + " >> persistence found : " + persistenceCollect.size());
-                                
-                        if (!persistenceCollect.equals(persistenceActive)) {
-                            persistenceActive.clear();
-                            persistenceActive.addAll(persistenceCollect);
-                            Util.out(Util.errLine() + getName() + " run >> renew pesistence active : " + persistenceActive.size());
-                            for (FetchThreadListener fetchThreadListeners : fetchThreadListeners) {
-                                fetchThreadListeners.onNewPersistences(persistenceActive);
-                            }
-                        }
-
-                    } else { // Error on connection sql
-                        for (int i = 0; i < systemThreadListeners.size(); i++) {
-                            systemThreadListeners.get(i).onSubProcessActivityState(this, false);
-                            systemThreadListeners.get(i).onErrorCollection(this,
-                                    DateUtil.localDTFFZoneId(gmtIndex)
-                                    + " : connection to sql " + persistenceFacade.getClass().getSimpleName() + " produce error !");
-
-                        }
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
-                    Util.out(Util.errLine() + getClass().getSimpleName()
-                            + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
-                }
+                // Collect persistence
+                fetchPersistence(persistenceFacade, gmtIndex);
 
                 /**
                  * Manage reading time of data tags in the machine not less than
@@ -349,6 +277,114 @@ public class FetchFacadeThread extends Thread {
         }
 
         Util.out(Util.errLine() + methodName + " Terminate tag collector Controller Thread");
+    }
+
+    /**
+     * Fetch Tags
+     *
+     * @param tagsFacade
+     * @param gmtIndex
+     */
+    private void fetchTags(TagsFacade tagsFacade, Integer companyId, Integer gmtIndex) {
+        /**
+         * Check if connection for the TAGSFACADE exist or try to instanciate
+         */
+        try {
+            if (tagsFacade.isConnectionOn()) {
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : sql connection ok for " + tagsFacade.getClass().getSimpleName() + " !");
+                }
+
+                tagsCollect = tagsFacade.findActiveByCompanyAndMachine(companyId, machine.getId());
+                if (!tagsCollect.equals(tagsActive)) {
+                    tagsActive.clear();
+                    tagsActive.addAll(tagsCollect);
+                    for (FetchThreadListener fetchThreadListeners : fetchThreadListeners) {
+                        fetchThreadListeners.onNewTags(tagsActive);
+                    }
+                }
+            } else { // Error on connection sql
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : connection to sql " + tagsFacade.getClass().getSimpleName() + " produce error !");
+
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+            Util.out(Util.errLine() + getClass().getSimpleName()
+                    + " : onFacadeFetchTags >> " + ex.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * Check for new persistence content.
+     *
+     * @param persistenceFacade facade jdbc to access database
+     * @param gmtIndex time to be use
+     */
+    private void fetchPersistence(PersistenceFacade persistenceFacade, Integer gmtIndex) {
+        /**
+         * Check if connection for the persistenceFacade exist or try to
+         * instanciate
+         */
+        try {
+            if (persistenceFacade.isConnectionOn()) {
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, true);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : sql connection ok for " + persistenceFacade.getClass().getSimpleName() + " !");
+                }
+
+                persistenceCollect = persistenceFacade.findByMachineActivated(machine);
+//                        Util.out(Util.errLine() + getClass() + " >> Parent("
+//                                + currentThread().getThreadGroup().getParent().getName()  + ")"
+//                                + "|- " + getName() + " >> persistence found : " + persistenceCollect.size());
+
+//                if (!persistenceCollect.equals(persistenceActive)) {
+                persistenceActive.clear();
+                persistenceActive.addAll(persistenceCollect);
+
+                if (!tagsActive.isEmpty()) {
+                    if (tagsActive.get(0).getMachine().getId() == 1) {
+                        if (!persistenceActive.isEmpty()) {
+//                            Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> fetchPersistence >> find for machineId : " + tagsActive.get(0).getMachine().getId() + " >> record : " + persistenceActive.size());
+//                            for (Persistence p : persistenceActive) {
+//                                Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ")  fetchPersistence >> tags: " + p);
+//                            }
+                        } else {
+                            Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> fetchPersistence >> No persistenceActive for machineId :" + tagsActive.get(0).getMachine().getId());
+                        }
+                    }
+                }
+
+                //Util.out(Util.errLine() + getClass().getSimpleName() + "T(" + getName() + ") >> renew pesistence active : " + persistenceActive.size());
+                for (FetchThreadListener fetchThreadListeners : fetchThreadListeners) {
+                    fetchThreadListeners.onNewPersistences(persistenceActive);
+                }
+//                }
+
+            } else { // Error on connection sql
+                for (int i = 0; i < systemThreadListeners.size(); i++) {
+                    systemThreadListeners.get(i).onSubProcessActivityState(this, false);
+                    systemThreadListeners.get(i).onErrorCollection(this,
+                            DateUtil.localDTFFZoneId(gmtIndex)
+                            + " : connection to sql " + persistenceFacade.getClass().getSimpleName() + " produce error !");
+
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FetchFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
+            Util.out(Util.errLine() + getClass().getSimpleName()
+                    + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
+        }
+
     }
 
 }

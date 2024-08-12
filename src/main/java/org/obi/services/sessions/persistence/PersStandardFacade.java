@@ -85,7 +85,7 @@ public class PersStandardFacade {
                 lst.add(m);
             }
         } catch (SQLException ex) {
-            Util.out("PersStandardFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
+            Util.out(Util.errLine() + getClass().getName() + " >> find >> PersStandardFacade >> find on getConnectionManager() : " + ex.getLocalizedMessage());
             Logger
                     .getLogger(AbstractFacade.class
                             .getName()).log(Level.SEVERE, null, ex);
@@ -96,7 +96,7 @@ public class PersStandardFacade {
                     stmt.close();
                 };
             } catch (SQLException ex) {
-                Util.out("PersStandardFacade >> find on close statement : " + ex.getLocalizedMessage());
+                Util.out(Util.errLine() + getClass().getName() + " >> find >> PersStandardFacade >> find on close statement : " + ex.getLocalizedMessage());
                 Logger
                         .getLogger(PersStandardFacade.class
                                 .getName()).log(Level.SEVERE, null, ex);
@@ -182,126 +182,125 @@ public class PersStandardFacade {
             // Disable autocommit
             conn.setAutoCommit(false);
         } catch (SQLException ex) {
+            Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> On SetAutoCommit False >> " + ex.getMessage());
             Logger.getLogger(PersStandardFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        /**
+         * Connect PreparedStatement
+         */
         PreparedStatement ps = null;
         try {
             ps = getConnectionMannager().prepareStatement(query);
         } catch (SQLException ex) {
+            Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> On SetAutoCommit False >> " + ex.getMessage());
             Logger.getLogger(PersStandardFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
 
+        /**
+         * For each received tags to persist will check if persistence is
+         * enable. If so will check in the persistence table if settings for
+         * persistence technique and activation was allowed. If so process to
+         * add to batch insert otherwise go to next tags.
+         */
         int requestCnt = 0;
+        // Check each tags. 
         for (Tags tag : tagsPersistence) {
+            // Check if active persistence is enable on the tags
             if (tag.getPersistenceEnable()) {
                 // Check if enable for persistence
                 Boolean isInPersistenceList = false;
-                for (Persistence p : persistenceUpdating) {
+                for (int i = 0; i < persistenceUpdating.size(); i++) {
+                    Persistence p = persistenceUpdating.get(i);
                     isInPersistenceList = (p.getTag().getId() == tag.getId());
-//                    Util.out("for id " + tag.getId() + " >> check " + p.toString() );
-//                    if(tag.getId()==36){
-//                        Util.out("isPersistence id " + p.getTag().getId() + " ==  tagId " + tag.getId() );
+                    if(isInPersistenceList) i = persistenceUpdating.size();
+//                    if (p.getId() == 6 || p.getId() == 8 || p.getId() == 9) {
+//                        Util.out(Util.errLine() + getClass().getSimpleName() + " >> pushValue >> isPersistence id " + p.getTag().getId() + " ==  tagId " + tag.getId() + " >>> " + isInPersistenceList);
 //                    }
                 }
-
-//                Util.out("record [" + requestCnt + "] "
-//                        + tag.getCompany().getId() + ", "
-//                        + tag.getId() + ", "
-//                        + tag.getVFloat() + ", "
-//                        + tag.getVInt() + ", "
-//                        + tag.getVBool() + ", "
-//                        + (tag.getVStr() == null ? "NULL" : tag.getVStr()) + ", '"
-//                        + Timestamp.valueOf(tag.getVDateTime()) + "', '"
-//                        + Timestamp.valueOf(tag.getVStamp()) + "', '"
-//                        + Timestamp.valueOf(tag.getVStamp()) + "', '"
-//                        + Timestamp.valueOf(tag.getVStamp()) + "', "
-//                        + 0.0 + ", "
-//                        + 0.0 + ", "
-//                        + (tag.getError() == null ? false : tag.getError()) + ", "
-//                        + (tag.getErrorMsg() == null ? "NULL" : (tag.getErrorMsg().isEmpty() ? "NULL" : tag.getErrorMsg())) + ") > IsInPersistenceList ? " + isInPersistenceList
-//                );
 
                 // Process if enable for persistence
                 if (isInPersistenceList) {
                     try {
                         ps.setInt(1, tag.getCompany().getId());
                     } catch (SQLException ex) {
-                        Util.out("Comapay id error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> Comapay id error !" + ex.getMessage());
                     }
                     try {
                         ps.setInt(2, tag.getId());
                     } catch (SQLException ex) {
-                        Util.out("tag Id error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> tag Id error !" + ex.getMessage());
                     }
                     try {
                         ps.setDouble(3, tag.getVFloat());
                     } catch (SQLException ex) {
-                        Util.out("vFloat error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> vFloat error !" + ex.getMessage());
                     }
                     try {
                         ps.setInt(4, tag.getVInt());
                     } catch (SQLException ex) {
-                        Util.out("vInt error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> vInt error !" + ex.getMessage());
                     }
                     try {
                         ps.setBoolean(5, tag.getVBool());
                     } catch (SQLException ex) {
-                        Util.out("vBool error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> vBool error !" + ex.getMessage());
                     }
                     try {
                         ps.setString(6, (tag.getVStr() == null ? "NULL" : tag.getVStr()));
                     } catch (SQLException ex) {
-                        Util.out("vStr error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> vStr error !" + ex.getMessage());
                     }
                     try {
                         ps.setTimestamp(7, Timestamp.valueOf(tag.getVDateTime()));
                     } catch (SQLException ex) {
-                        Util.out("vDateTime error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> vDateTime error !" + ex.getMessage());
                     }
                     try {
                         ps.setTimestamp(8, Timestamp.valueOf(tag.getVStamp()));
                     } catch (SQLException ex) {
-                        Util.out("8_ VStamp error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> 8_ VStamp error !" + ex.getMessage());
                     }
                     try {
                         ps.setTimestamp(9, Timestamp.valueOf(tag.getVStamp()));
                     } catch (SQLException ex) {
-                        Util.out("9_ VStamp error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> 9_ VStamp error !" + ex.getMessage());
                     }
                     try {
                         ps.setTimestamp(10, Timestamp.valueOf(tag.getVStamp()));
                     } catch (SQLException ex) {
-                        Util.out("10_ VStamp error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> 10_ VStamp error !" + ex.getMessage());
                     }
                     try {
                         ps.setDouble(11, 0.0);
                     } catch (SQLException ex) {
-                        Util.out("11_ Double error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> 11_ Double error !" + ex.getMessage());
                     }
                     try {
                         ps.setDouble(12, 0.0);
                     } catch (SQLException ex) {
-                        Util.out("12_ Double error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> 12_ Double error !" + ex.getMessage());
                     }
                     try {
                         ps.setBoolean(13, tag.getError() == null ? false : tag.getError());
                     } catch (SQLException ex) {
-                        Util.out("13_ bit Error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> 13_ bit Error !" + ex.getMessage());
                     }
                     try {
                         ps.setString(14, (tag.getErrorMsg() == null ? "NULL" : (tag.getErrorMsg().isEmpty() ? "NULL" : tag.getErrorMsg())));
                     } catch (SQLException ex) {
-                        Util.out("14_ Message error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> 14_ Message error !" + ex.getMessage());
                     }
 
                     try {
                         ps.addBatch();
-//                        Util.out("Add Batch record :" + requestCnt);
+//                        if (tag.getId() == 33 || tag.getId() == 34 || tag.getId() == 35) {
+//                            Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> tagId " + tag.getId() + " >>> add to Batch for persistence ! ");
+//                        }
                     } catch (SQLException ex) {
-                        Util.out("add Batch Error !" + ex.getMessage());
+                        Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> add Batch Error !" + ex.getMessage());
                     }
-
                 }
             }
             requestCnt++;
@@ -310,9 +309,8 @@ public class PersStandardFacade {
         // Get result
         try {
             int[] count = ps.executeBatch();
-//            Util.out("On executeBatch add : " + count.length + " >> " + count);
         } catch (SQLException ex) {
-            Util.out("Erreur on executeBatch " + ex.getMessage());
+            Util.out(Util.errLine() + getClass().getName() + " >> pushValue >> Erreur on executeBatch " + ex.getMessage());
         }
 
         try {

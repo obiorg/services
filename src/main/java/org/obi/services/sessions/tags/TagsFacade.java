@@ -327,14 +327,16 @@ public final class TagsFacade {
 
         PreparedStatement ps = getConnectionMannager().prepareStatement(queryUpdate);
         for (Tags tag : tagsUpdating) {
-            ps.setDouble(1, tag.getVFloat());
-            ps.setInt(2, tag.getVInt());
-            ps.setBoolean(3, tag.getVBool());
-            ps.setString(4, tag.getVStr());
-            ps.setTimestamp(5, Timestamp.valueOf(tag.getVDateTime()));
-            ps.setTimestamp(6, Timestamp.valueOf(tag.getVStamp()));
-            ps.setInt(7, tag.getId());
-            ps.addBatch();
+            if (tag != null) {
+                ps.setDouble(1, tag.getVFloat());
+                ps.setInt(2, tag.getVInt());
+                ps.setBoolean(3, tag.getVBool());
+                ps.setString(4, tag.getVStr());
+                ps.setTimestamp(5, Timestamp.valueOf(tag.getVDateTime()));
+                ps.setTimestamp(6, Timestamp.valueOf(tag.getVStamp()));
+                ps.setInt(7, tag.getId());
+                ps.addBatch();
+            }
         }
         int[] result = ps.executeBatch();
         return result.length >= 0;

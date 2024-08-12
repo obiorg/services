@@ -390,10 +390,37 @@ public class Companies implements Serializable {
         if (!(object instanceof Companies)) {
             return false;
         }
+        
         Companies other = (Companies) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
+
+        if (object == this) {
+            return true;
+        }
+
+
+        if (other.id != this.id) {
+            return false;
+        }
+        if (other.deleted != this.deleted) {
+            return false;
+        }
+        if (!other.created.equals(this.created)) {
+            return false;
+        }
+        if (!other.changed.equals(this.changed)) {
+            return false;
+        }
+        if (!other.company.matches(company)) {
+            return false;
+        }
+        if (!other.designation.matches(designation)) {
+            return false;
+        }
+        
+        
         return true;
     }
 
