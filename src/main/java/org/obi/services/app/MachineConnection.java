@@ -190,7 +190,7 @@ public class MachineConnection extends Thread implements MachinesListener {
     public Boolean doConnect() {
         begin("doConnect...");
 
-        if (client.Connect()==0) {
+        if (client.ConnectTo(machine.getAddress(), machine.getRack(), machine.getSlot())==0) {
             return true;
         } else { // try to connect
             connected = false;
