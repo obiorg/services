@@ -6,9 +6,12 @@ package org.obi.services.Form.output;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -17,6 +20,8 @@ import javax.swing.JTextArea;
 public class CapturePane extends JPanel implements Consumer {
 
     private JTextArea output;
+    private Integer lineMax = 1000;
+    private Boolean pause = false;
 
     public CapturePane() {
         setLayout(new BorderLayout());
@@ -27,8 +32,19 @@ public class CapturePane extends JPanel implements Consumer {
     @Override
     public void appendText(final String text) {
         if (EventQueue.isDispatchThread()) {
-            output.append(text);
-            output.setCaretPosition(output.getText().length());
+            if (!pause) {
+                output.append(text);
+                output.setCaretPosition(output.getText().length());
+                // Limit the number of line displayed
+                if (output.getLineCount() >= lineMax) {
+                    try {
+                        int end = output.getLineEndOffset(output.getLineCount() - lineMax);
+                        output.replaceRange("", 0, end);
+                    } catch (BadLocationException ex) {
+                        Logger.getLogger(CapturePane.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         } else {
 
             EventQueue.invokeLater(new Runnable() {
@@ -40,4 +56,13 @@ public class CapturePane extends JPanel implements Consumer {
 
         }
     }
+
+    public Integer getLineMax() {
+        return lineMax;
+    }
+
+    public void setLineMax(Integer lineMax) {
+        this.lineMax = lineMax;
+    }
+
 }
