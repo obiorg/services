@@ -349,7 +349,8 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
                                     }
                                     if (t != null) {
                                         pushFacadeThread.addNewTag(tag); // in order to post-pose processing.
-                                    }
+                                    }else
+                                        break;
                                 } else {
                                     // Inform liteners about number off collection count and error
                                     for (int j = 0; j < systemThreadListeners.size(); j++) {

@@ -522,7 +522,9 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + " : readValue >> Boolean tag id : "
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
-                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                            + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
+                    
+                    client.Disconnect();
                     return null;
                 }
 
@@ -549,7 +551,9 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + " : readValue >> Double Integer tag id : "
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
-                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                            + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
+                    
+                    client.Disconnect();
                     return null;
                 }
 
@@ -574,7 +578,9 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + " : readValue >> Integer tag id : "
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
-                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                            + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
+                    
+                    client.Disconnect();
                     return null;
                 }
 
@@ -602,7 +608,8 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + " : readValue >> Real tag id : "
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
-                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                            + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
+                    client.Disconnect();
                     return null;
                 }
 
@@ -631,7 +638,9 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + " : readValue >> Unsigned double Integer tag id : "
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
-                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                            + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
+                    
+                    client.Disconnect();
                     return null;
                 }
 
@@ -658,7 +667,9 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + " : readValue >> Unsigned Integer tag id : "
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
-                            + " address " + tag.getByte1() + " bit " + tag.getBit());
+                            + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
+                    
+                    client.Disconnect();
                     return null;
                 }
 
