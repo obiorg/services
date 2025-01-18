@@ -47,6 +47,11 @@ public class OBIServiceTrayIcon {
      * @param args that can be past at start : not used !
      */
     public static void main(String[] args) {
+
+        for (int i = 0; i < args.length; i++) {
+            Util.out("Arg " + i + " = " + args[i]);
+        }
+
         // Manage look and feel
         //
         doLookAndFeel();

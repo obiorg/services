@@ -564,8 +564,8 @@ public class MachineConnection extends Thread implements MachinesListener {
                 obj = dv;
                 break;
             case 4: // Integer
-                Buffer = new byte[2];
-                word = 1;
+                Buffer = new byte[4];
+                word = 2;
 
                 // Process reading
                 Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
