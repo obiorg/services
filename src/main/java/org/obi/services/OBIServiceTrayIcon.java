@@ -5,12 +5,15 @@ import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import org.obi.services.Docking.MainWindowDocking;
 import org.obi.services.Docking.SettingsApplicationFrame;
+import org.obi.services.Form.AppStd;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.listener.bdd.DatabaseInfoActionListener;
 import org.obi.services.util.Settings;
@@ -48,8 +51,21 @@ public class OBIServiceTrayIcon {
      */
     public static void main(String[] args) {
 
+        
+        Map<String, String> appMap = new HashMap<>();
         for (int i = 0; i < args.length; i++) {
             Util.out("Arg " + i + " = " + args[i]);
+            if(args[i].matches("-m")){
+                if(i+1 < args.length){
+                    // Setup auto mode
+                    if(args[i+1].contains("a")){
+                        appMap.put("mode", "auto");
+                    }
+                }
+            }
+        }
+        if(appMap.containsKey("mode") && appMap.get("mode").matches("auto")){
+            AppStd.startModeAuto = true;
         }
 
         // Manage look and feel
@@ -121,7 +137,7 @@ public class OBIServiceTrayIcon {
 
         // MainWindow Setup
         //
-        MainWindowDocking mw = new MainWindowDocking(trayIcon, managerCtrlThread);
+        MainWindowDocking mw = new MainWindowDocking(trayIcon, managerCtrlThread, AppStd.startModeAuto);
 
         //
         // 0 - Create a popup menu components

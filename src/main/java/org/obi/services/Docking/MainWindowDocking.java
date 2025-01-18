@@ -228,7 +228,7 @@ public class MainWindowDocking implements SystemThreadListener {
      */
     private JFrame frame = new JFrame("OBI Service");
 
-    public MainWindowDocking(TrayIcon trayIcon, ManagerControllerThread _managerCtrlThread) {
+    public MainWindowDocking(TrayIcon trayIcon, ManagerControllerThread _managerCtrlThread, Boolean startMode) {
 
         createRootWindow();
         setDefaultLayout();
@@ -239,7 +239,12 @@ public class MainWindowDocking implements SystemThreadListener {
         this.managerCtrlThread.addClientListener(this);
         this.managerCtrlThread.addClientListener(managerControllerFrame);
         this.managerCtrlThread.addMachinesEvent(managerControllerFrame);
-        Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : Constructor >> Started ...");
+        Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : Application >> Started ...");
+
+        if (startMode) {
+            Util.out(Util.errLine() + MainWindowDocking.class.getSimpleName() + " : Application >> Auto start service processeing ...");
+            startTagCollectorMenuItemActionPerformed(null);
+        }
     }
 
     /**
