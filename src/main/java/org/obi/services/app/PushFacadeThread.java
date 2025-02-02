@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.obi.services.entities.machines.Machines;
 import org.obi.services.entities.persistence.Persistence;
 import org.obi.services.entities.tags.Tags;
 import org.obi.services.sessions.tags.TagsFacade;
@@ -18,7 +17,6 @@ import org.obi.services.util.Settings;
 import org.obi.services.util.Util;
 import org.obi.services.listener.thread.SystemThreadListener;
 import org.obi.services.sessions.persistence.PersStandardFacade;
-import org.obi.services.sessions.persistence.PersistenceFacade;
 
 /**
  * Tags Facade Thread :
@@ -44,6 +42,9 @@ public class PushFacadeThread extends Thread {
     private Boolean requestStop = false;
     private boolean requestKill = false;
     private boolean running = false;
+
+    private boolean NO_TAG_TO_UPDATE = false;
+    private boolean NO_TAG_TO_PERSIST = false;
 
     /**
      * Collection of tags to process for update This will collect value from
@@ -98,7 +99,7 @@ public class PushFacadeThread extends Thread {
      * @param tagsToUpdate
      */
     public void addNewPersistence(List<Persistence> persistenceToUpdate) {
-        persistencePendingToActivate.clear();
+//        persistencePendingToActivate.clear();
         persistencePendingToActivate.addAll(persistenceToUpdate);
 //        Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") >> addNewPersistence >> persistencePendingToActivate size = " + persistencePendingToActivate.size());
 //        for (Persistence p : persistencePendingToActivate) {
@@ -150,8 +151,8 @@ public class PushFacadeThread extends Thread {
     /**
      * Creates new form
      */
-    public PushFacadeThread() {
-
+    public PushFacadeThread(String name) {
+        super(name);
     }
 
     /**
@@ -359,9 +360,18 @@ public class PushFacadeThread extends Thread {
                  *
                  */
                 try {
-                    tagsFacade.updateValue(tagsToUpdate);
-                    tagsToPersit.addAll(tagsToUpdate);      // indicate new tags can be persit
-                    tagsToUpdate.clear();                   // Empty the list of tags to update
+                    if (!tagsToUpdate.isEmpty()) {
+                        tagsFacade.updateValue(tagsToUpdate);
+                        tagsToPersit.addAll(tagsToUpdate);      // indicate new tags can be persit
+                        tagsToUpdate.clear();                   // Empty the list of tags to update
+                        NO_TAG_TO_UPDATE = false;
+                    } else {
+                        if (!NO_TAG_TO_UPDATE) {
+                            Util.out(Util.errLine() + getClass().getSimpleName()
+                                    + " >> on updateValue >> NO TAG TO UPDATE !");
+                            NO_TAG_TO_UPDATE = true;
+                        }
+                    }
                 } catch (SQLException ex) {
                     Util.out(Util.errLine() + getClass().getSimpleName()
                             + " >> on updateValue >> " + ex.getLocalizedMessage());
@@ -400,8 +410,16 @@ public class PushFacadeThread extends Thread {
         String methodName = "pers_standard";
 
         if (tagsToPersit.isEmpty()) {
-            Util.out(Util.errLine() + getClass().getSimpleName() + " T(" + getName() + ") persistStandard >> Error no tags to be perssit tagsToPersist size = " + tagsToPersit.size());
+            if (!NO_TAG_TO_PERSIST) {
+                Util.out(Util.errLine()
+                        + getClass().getSimpleName()
+                        + " T(" + getName()
+                        + ") persistStandard >> Error no tags to be perssit tagsToPersist size = " + tagsToPersit.size());
+                NO_TAG_TO_PERSIST = true;
+            }
             return;
+        } else {
+            NO_TAG_TO_PERSIST = false;
         }
         /**
          * ************************************************************
@@ -421,10 +439,10 @@ public class PushFacadeThread extends Thread {
 
 //                        try {
                 // check if active persistence list and pending as changed
-                //if (!persistenceActive.equals(persistencePendingToActivate)) {
-                persistenceActive.clear();
+//                if (!persistenceActive.equals(persistencePendingToActivate)) {
+//                    persistenceActive.clear();
                 persistenceActive.addAll(persistencePendingToActivate);
-//                Util.out(Util.errLine() + getName() + ":" + getClass().getSimpleName() + " - " + methodName + " >> update persistence rule detected ! ");
+//                    Util.out(Util.errLine() + getName() + ":" + getClass().getSimpleName() + " - " + methodName + " >> update persistence rule detected ! ");
 //                    for (Persistence p : persistenceActive) {
 //                        Util.out("P(" + p.getId() + ", " + p.getTag().getId() + ")/");
 //                    }

@@ -51,20 +51,22 @@ public class OBIServiceTrayIcon {
      */
     public static void main(String[] args) {
 
-        
+        // getting the group of the threads/
+        Thread.currentThread().setName("OBIServiceTrayIcon");
+
         Map<String, String> appMap = new HashMap<>();
         for (int i = 0; i < args.length; i++) {
             Util.out("Arg " + i + " = " + args[i]);
-            if(args[i].matches("-m")){
-                if(i+1 < args.length){
+            if (args[i].matches("-m")) {
+                if (i + 1 < args.length) {
                     // Setup auto mode
-                    if(args[i+1].contains("a")){
+                    if (args[i + 1].contains("a")) {
                         appMap.put("mode", "auto");
                     }
                 }
             }
         }
-        if(appMap.containsKey("mode") && appMap.get("mode").matches("auto")){
+        if (appMap.containsKey("mode") && appMap.get("mode").matches("auto")) {
             AppStd.startModeAuto = true;
         }
 
@@ -133,7 +135,7 @@ public class OBIServiceTrayIcon {
 
         // Create on main thread that will be use in all child
         //
-        ManagerControllerThread managerCtrlThread = new ManagerControllerThread(trayIcon);
+        ManagerControllerThread managerCtrlThread = new ManagerControllerThread("ManagerControllerThread", trayIcon);
 
         // MainWindow Setup
         //

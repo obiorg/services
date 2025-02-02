@@ -5,23 +5,23 @@
 package org.obi.services.Docking;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.obi.services.app.ManagerControllerThread;
 import org.obi.services.app.TagsCollectorThread;
 import org.obi.services.entities.machines.Machines;
-import org.obi.services.entities.tags.Tags;
 import org.obi.services.util.Util;
 import org.obi.services.listener.thread.SystemThreadListener;
 import org.obi.services.listener.machines.MachinesEvent;
+import org.obi.services.listener.thread.ManagerFrameEvent;
 
 /**
  *
  * @author r.hendrick
  */
-public class ManagerControllerFrame extends javax.swing.JPanel implements SystemThreadListener, MachinesEvent {
+public class ManagerControllerFrame extends javax.swing.JPanel 
+        implements SystemThreadListener, MachinesEvent, ManagerFrameEvent {
 
     private DefaultTableModel modelMachines;
 //    private DefaultTableModel modelTagsOfMachines;
@@ -35,6 +35,7 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
 //        modelTagsOfMachines = (DefaultTableModel) tableTagsCollector.getModel();
         Util.out(Util.errLine() + ManagerControllerFrame.class.getSimpleName()
                 + " : constructor >> create successfully !");
+        updateThreads();
     }
 
     /**
@@ -62,6 +63,11 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
         labSubProcessCycleTime = new javax.swing.JLabel();
         labFieldProcessCycleTimeUnit = new javax.swing.JLabel();
         labFieldSubProcessCycleTimeUnit = new javax.swing.JLabel();
+        labFieldThreadCounterTotalVM = new javax.swing.JLabel();
+        labThreadCounterTotalVM = new javax.swing.JLabel();
+        labFieldThreadCounterExecuting = new javax.swing.JLabel();
+        labThreadCounterExecuting = new javax.swing.JLabel();
+        btnThreadUpdate = new javax.swing.JButton();
         scrollTableMachines = new javax.swing.JScrollPane();
         tableMachines = new javax.swing.JTable();
 
@@ -135,6 +141,33 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
         labFieldSubProcessCycleTimeUnit.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labFieldSubProcessCycleTimeUnit.setText("ms");
 
+        labFieldThreadCounterTotalVM.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labFieldThreadCounterTotalVM.setText("Total Thread VM");
+
+        labThreadCounterTotalVM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labThreadCounterTotalVM.setText("####");
+        labThreadCounterTotalVM.setMaximumSize(new java.awt.Dimension(16, 16));
+        labThreadCounterTotalVM.setMinimumSize(new java.awt.Dimension(32, 32));
+        labThreadCounterTotalVM.setOpaque(true);
+        labThreadCounterTotalVM.setPreferredSize(new java.awt.Dimension(16, 16));
+
+        labFieldThreadCounterExecuting.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labFieldThreadCounterExecuting.setText("Total executed thread");
+
+        labThreadCounterExecuting.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labThreadCounterExecuting.setText("####");
+        labThreadCounterExecuting.setMaximumSize(new java.awt.Dimension(16, 16));
+        labThreadCounterExecuting.setMinimumSize(new java.awt.Dimension(32, 32));
+        labThreadCounterExecuting.setOpaque(true);
+        labThreadCounterExecuting.setPreferredSize(new java.awt.Dimension(16, 16));
+
+        btnThreadUpdate.setText("update");
+        btnThreadUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThreadUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout managerPanelLayout = new javax.swing.GroupLayout(managerPanel);
         managerPanel.setLayout(managerPanelLayout);
         managerPanelLayout.setHorizontalGroup(
@@ -168,10 +201,22 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(labProcessCycleTime, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(managerPanelLayout.createSequentialGroup()
+                        .addComponent(labFieldProcessCycleTimeUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnThreadUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labFieldThreadCounterTotalVM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(managerPanelLayout.createSequentialGroup()
+                        .addComponent(labFieldSubProcessCycleTimeUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labFieldThreadCounterExecuting, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labFieldProcessCycleTimeUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labFieldSubProcessCycleTimeUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 237, Short.MAX_VALUE))
+                    .addComponent(labThreadCounterExecuting, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labThreadCounterTotalVM, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 78, Short.MAX_VALUE))
         );
         managerPanelLayout.setVerticalGroup(
             managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,15 +228,22 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
                     .addGroup(managerPanelLayout.createSequentialGroup()
                         .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(managerPanelLayout.createSequentialGroup()
-                                .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labFieldProcessCycleTime)
-                                    .addComponent(labProcessCycleTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labFieldProcessCycleTimeUnit))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(labFieldProcessCycleTime)
+                                        .addComponent(labProcessCycleTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labFieldProcessCycleTimeUnit))
+                                    .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnThreadUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labFieldThreadCounterTotalVM)
+                                        .addComponent(labThreadCounterTotalVM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(9, 9, 9)
                                 .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(labFieldSubProcessCycleTime)
                                     .addComponent(labSubProcessCycleTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labFieldSubProcessCycleTimeUnit)))
+                                    .addComponent(labFieldSubProcessCycleTimeUnit)
+                                    .addComponent(labFieldThreadCounterExecuting)
+                                    .addComponent(labThreadCounterExecuting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(managerPanelLayout.createSequentialGroup()
                                 .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(labFieldMainProcessingState)
@@ -203,7 +255,7 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
                             .addGroup(managerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(labFieldAvailableMachines)
                                 .addComponent(labAvailableMachinesCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -266,7 +318,7 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(managerControlerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
+            .addComponent(managerControlerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,8 +328,18 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void updateThreads(){
+        countThreadsVM();
+        countThreadsExecuting();
+    }
+    private void btnThreadUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThreadUpdateActionPerformed
+        // TODO add your handling code here:
+        updateThreads();
+    }//GEN-LAST:event_btnThreadUpdateActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnThreadUpdate;
     private javax.swing.JLabel labAvailableMachinesCount;
     private javax.swing.JLabel labFieldAvailableMachines;
     private javax.swing.JLabel labFieldMainProcessingState;
@@ -286,10 +348,14 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
     private javax.swing.JLabel labFieldSubProcessCycleTime;
     private javax.swing.JLabel labFieldSubProcessCycleTimeUnit;
     private javax.swing.JLabel labFieldSubProcessingState;
+    private javax.swing.JLabel labFieldThreadCounterExecuting;
+    private javax.swing.JLabel labFieldThreadCounterTotalVM;
     private javax.swing.JLabel labInMainProcessingState;
     private javax.swing.JLabel labProcessCycleTime;
     private javax.swing.JLabel labSubProcessCycleTime;
     private javax.swing.JLabel labSubProcessingState;
+    private javax.swing.JLabel labThreadCounterExecuting;
+    private javax.swing.JLabel labThreadCounterTotalVM;
     private javax.swing.JPanel managerControlerPanel;
     private javax.swing.JPanel managerPanel;
     private javax.swing.JScrollPane scrollTableMachines;
@@ -619,6 +685,33 @@ public class ManagerControllerFrame extends javax.swing.JPanel implements System
         }
     }
 
-    
+    @Override
+    public void countThreadsVM() {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int nbThreads = Thread.getAllStackTraces().keySet().size();
+        labThreadCounterTotalVM.setText(String.valueOf(nbThreads));
+    }
+
+    @Override
+    public void countThreadsExecuting() {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int nbRunning = 0;
+        for (Thread t : Thread.getAllStackTraces().keySet()) {
+            if (t.getState() == Thread.State.RUNNABLE) {
+                nbRunning++;
+            }
+        }
+        labThreadCounterExecuting.setText(String.valueOf(nbRunning));
+    }
+
+    @Override
+    public void addThread(Thread thread) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void removeThread(Thread thread) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

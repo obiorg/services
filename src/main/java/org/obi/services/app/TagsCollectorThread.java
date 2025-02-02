@@ -101,14 +101,20 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
 
     /**
      * Creates new form
+     *
+     * @param machine defined machine
      */
     public TagsCollectorThread(Machines machine) {
+        super("TagsCollector_" + machine.getName());
+        pushFacadeThread = new PushFacadeThread("PushFaceThread_" + machine.getName());
         trayIcon = new TrayIcon(Ico.i16(APP_ICO, this).getImage());
         this.machine = machine;
 
     }
 
     public TagsCollectorThread(Machines machine, TrayIcon trayIcon) {
+        super(machine.getName());
+        pushFacadeThread = new PushFacadeThread("PushFaceThread_" + machine.getName());
         this.trayIcon = trayIcon;
         this.machine = machine;
     }
@@ -137,7 +143,7 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
         return running;
     }
 
-    PushFacadeThread pushFacadeThread = new PushFacadeThread(); //TagsFacadeThread.getInstance();
+    PushFacadeThread pushFacadeThread ; //TagsFacadeThread.getInstance();
 
     /**
      * Main loop of the thread data collector
@@ -239,10 +245,10 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
                     running = true;
                 }
 
-                // stop PushFacadeThread
+                // release PushFacadeThread
                 pushFacadeThread.doRelease();
 
-                // stop fetchFacadeThread
+                // release fetchFacadeThread
                 fetchFacadeThread.doRelease();
 
                 /**
@@ -280,7 +286,7 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
 
                 //2- create S7 connection to PLC
                 Long processTagsCycle = 0l; // 
-                while (mc.getConnected()& !requestStop & !requestKill) {
+                while (mc.getConnected() & !requestStop & !requestKill) {
                     /**
                      * subProcessCycleStamp allow to reduce processing analysis
                      * over reading machine access this time in while connected
@@ -341,16 +347,22 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
                                 tag.setErrorMsg("");
 
                                 if (tag.getType() != null) {
-
                                     Long t_doConnectEpoch = Instant.now().toEpochMilli();
                                     Object t = mc.readValue(tag);
                                     for (int i = 0; i < systemThreadListeners.size(); i++) {
                                         systemThreadListeners.get(i).onDuration(this, 3, Instant.now().toEpochMilli() - t_doConnectEpoch);
                                     }
+//                                    if (tag.getId() >= 124) {
+//                                        Util.out(Util.errLine() + methodName + " Tag with push " + tag.toStringFull());
+//                                    }
                                     if (t != null) {
+//                                        if (tag.getId() >= 124) {
+//                                            Util.out(Util.errLine() + methodName + " Now add tag to push " + tag.toStringFull());
+//                                        }
                                         pushFacadeThread.addNewTag(tag); // in order to post-pose processing.
-                                    }else
+                                    } else {
                                         break;
+                                    }
                                 } else {
                                     // Inform liteners about number off collection count and error
                                     for (int j = 0; j < systemThreadListeners.size(); j++) {

@@ -706,6 +706,19 @@ public class Tags implements Serializable {
 //        return "org.obi.services.entities.Tags[ id=" + id + " ]";
         return "" + this.name + " - " + this.getMachine().getName() + " [ id=" + id + " ]";
     }
+    
+
+    
+    public String toStringFull() {
+//        return "org.obi.services.entities.Tags[ id=" + id + " ]";
+        return "" + this.name + " - " + this.getMachine().getName() + " [ id=" + id + " ] "
+                + " " + this.table + " "
+                + " " + this.machine + " "
+                + " " + this.type + " "
+                + " " + this.memory + " "
+                + " " + this.vFloat + " "
+                + " " + this.vInt + " ";
+    }
 
     /**
      * Allow to affect result object

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.obi.services.Form.DatabaseFrame;
@@ -207,14 +208,19 @@ public class PersStandardFacade {
         int requestCnt = 0;
         // Check each tags. 
         for (Tags tag : tagsPersistence) {
+
+            //Util.out("PersStandardFacade >> persValue : " + tag.toStringFull());
+
             // Check if active persistence is enable on the tags
             if (tag.getPersistenceEnable()) {
                 // Check if enable for persistence
                 Boolean isInPersistenceList = false;
                 for (int i = 0; i < persistenceUpdating.size(); i++) {
                     Persistence p = persistenceUpdating.get(i);
-                    isInPersistenceList = (p.getTag().getId() == tag.getId());
-                    if(isInPersistenceList) i = persistenceUpdating.size();
+                    isInPersistenceList = (Objects.equals(p.getTag().getId(), tag.getId()));
+                    if (isInPersistenceList) {
+                        i = persistenceUpdating.size();
+                    }
 //                    if (p.getId() == 6 || p.getId() == 8 || p.getId() == 9) {
 //                        Util.out(Util.errLine() + getClass().getSimpleName() + " >> pushValue >> isPersistence id " + p.getTag().getId() + " ==  tagId " + tag.getId() + " >>> " + isInPersistenceList);
 //                    }

@@ -4,6 +4,7 @@
  */
 package org.obi.services.app;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -87,7 +88,7 @@ public class MachineConnection extends Thread implements MachinesListener {
      * Default constructor machine connection
      */
     public MachineConnection() {
-
+        super("MachineConnectionThread_asempty_" + Instant.now().toString());
     }
 
     /**
@@ -99,6 +100,7 @@ public class MachineConnection extends Thread implements MachinesListener {
      * @param slot slot of the machine reference (usually 2)
      */
     public MachineConnection(String address, Integer rack, Integer slot) {
+        super("MachineConnectionThread_" + address);
         machine.setAddress(address);
         machine.setRack(rack);
         machine.setSlot(slot);
@@ -502,6 +504,25 @@ public class MachineConnection extends Thread implements MachinesListener {
         int Result = -1; // result reading with default error
         Integer word = 0;
         Object obj = null;  // return object
+        
+        int s7Area = S7.S7AreaDB;
+        switch(tag.getMemory().getId()){
+            case 1 -> // Memento
+                s7Area = S7.S7AreaMK;
+            case 2 -> // Data bloc
+                s7Area = S7.S7AreaDB;
+            case 3 -> // Digital Output
+                s7Area = S7.S7AreaPA;
+            case 4 -> // Digital Input
+                s7Area = S7.S7AreaPE;
+            case 5 -> // Counter
+                s7Area = S7.S7AreaCT;
+            case 6 -> // Timer
+                s7Area = S7.S7AreaTM;
+            default -> {
+            }
+        }
+        
 
         /**
          * Select type of data to be read before processing
@@ -512,7 +533,7 @@ public class MachineConnection extends Thread implements MachinesListener {
                 word = 1;
 
                 // Process reading
-                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
                         word, Buffer);
 
@@ -541,7 +562,7 @@ public class MachineConnection extends Thread implements MachinesListener {
                 word = 2;
 
                 // Process reading
-                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
                         word, Buffer);
 
@@ -568,7 +589,7 @@ public class MachineConnection extends Thread implements MachinesListener {
                 word = 2;
 
                 // Process reading
-                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
                         word, Buffer);
 
@@ -598,7 +619,7 @@ public class MachineConnection extends Thread implements MachinesListener {
                 word = 4;
 
                 // Process reading
-                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
                         word, Buffer); // nombre de mot
 
@@ -628,7 +649,7 @@ public class MachineConnection extends Thread implements MachinesListener {
                 word = 2;
 
                 // Process reading
-                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
                         word, Buffer); // nombre de mot
 
@@ -657,7 +678,7 @@ public class MachineConnection extends Thread implements MachinesListener {
                 word = 1;
 
                 // Process reading
-                Result = client.ReadArea(S7.S7AreaDB, tag.getDb(),
+                Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
                         word, Buffer); // nombre de mot
 

@@ -43,8 +43,8 @@ public class ManagerControllerThread extends Thread implements SystemThreadListe
     List<TagsCollectorThread> tagsCollectorManaged = new ArrayList<>();
 
     /**
-     * Array list which contain all the SystemThreadListener listeners
- that should receive event from client class
+     * Array list which contain all the SystemThreadListener listeners that
+     * should receive event from client class
      */
     private ArrayList<SystemThreadListener> tagsCollectorThreadListeners = new ArrayList<>();
 
@@ -99,13 +99,16 @@ public class ManagerControllerThread extends Thread implements SystemThreadListe
      *
      *
      *
+     * @param threadName
      */
-    public ManagerControllerThread() {
+    public ManagerControllerThread(String threadName) {
+        super(threadName);
         trayIcon = new TrayIcon(Ico.i16(APP_ICO, this).getImage());
 
     }
 
-    public ManagerControllerThread(TrayIcon trayIcon) {
+    public ManagerControllerThread(String threadName, TrayIcon trayIcon) {
+        super(threadName);
         this.trayIcon = trayIcon;
     }
 
@@ -158,7 +161,7 @@ public class ManagerControllerThread extends Thread implements SystemThreadListe
         MachinesFacade machinesFacade = MachinesFacade.getInstance();
 
         // Start parent thread
-        super.run();
+//        super.start();
         Util.out(Util.errLine() + methodName + " state of machine connection are review each 5s");
 
         // Thread tools
@@ -225,6 +228,16 @@ public class ManagerControllerThread extends Thread implements SystemThreadListe
                             // 1.2. Request to kill this thread collector 
                             // @see void onProcessingStopThread(Machines m)
                             tagsCollector.kill();
+
+                            // Wait system to be finished
+                            long ltime = Instant.now().toEpochMilli(); // manage message
+                            while (tagsCollector.isAlive()) {
+                                if (ltime >= 5000) {
+                                    Util.out(Util.errLine() + ManagerControllerThread.class.getSimpleName()
+                                            + " : run >> wait machine to be killed " + tagsCollector.getMachine());
+                                    ltime = Instant.now().toEpochMilli(); // update time
+                                }
+                            }
                         }
                     }
 
@@ -421,6 +434,5 @@ public class ManagerControllerThread extends Thread implements SystemThreadListe
     @Override
     public void onDuration(Thread thread, int i, long toEpochMilli) {
     }
-
 
 }

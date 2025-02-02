@@ -122,6 +122,7 @@ public class FetchFacadeThread extends Thread {
      * Creates new form
      */
     public FetchFacadeThread(Machines machine) {
+        super("FetchFacadeThread_" + machine.getName());
         this.machine = machine;
     }
 

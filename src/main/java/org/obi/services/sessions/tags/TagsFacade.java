@@ -1,5 +1,6 @@
 package org.obi.services.sessions.tags;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -314,7 +315,7 @@ public final class TagsFacade {
      *
      * @param tagsUpdating list of tags to update
      */
-    public boolean updateValue(List<Tags> tagsUpdating) throws SQLException {
+    public boolean updateValue(List<Tags> tagsUpdating) throws SQLException, IllegalArgumentException {
         // Will request prepare statement and push all at once
         String queryUpdate = "UPDATE dbo.tags SET"
                 + " [vFloat] = ? "
@@ -328,6 +329,7 @@ public final class TagsFacade {
         PreparedStatement ps = getConnectionMannager().prepareStatement(queryUpdate);
         for (Tags tag : tagsUpdating) {
             if (tag != null) {
+//                Util.out("TagsFacadeThread >> updateValue : " + tag.toStringFull());
                 ps.setDouble(1, tag.getVFloat());
                 ps.setInt(2, tag.getVInt());
                 ps.setBoolean(3, tag.getVBool());

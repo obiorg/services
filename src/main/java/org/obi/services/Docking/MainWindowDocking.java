@@ -124,8 +124,9 @@ public class MainWindowDocking implements SystemThreadListener {
      *
      * [4] : Manager controller
      *
+     * [5] : Thread Frame
      */
-    private final View[] views = new View[5];
+    private final View[] views = new View[6];
 
     /**
      * Contains all the static views
@@ -166,6 +167,11 @@ public class MainWindowDocking implements SystemThreadListener {
      * The application Manager controller Frame for connectivity in production
      */
     private ManagerControllerFrame managerControllerFrame = new ManagerControllerFrame();
+
+    /**
+     * The application Thread Frame for thread analyse
+     */
+    private ThreadFrame threadFrame = new ThreadFrame();
 
     /**
      * Tray Icon System to be use in this class
@@ -331,6 +337,13 @@ public class MainWindowDocking implements SystemThreadListener {
         mainTabWindow.add(views[4]);
         views[4].setEnabled(false);
         views[4].close();
+
+        // [5] : Thread Frame
+        views[5] = new View("Thread", Ico.i16("/img/std/thread.png", this), threadFrame);
+        viewMap.addView(5, views[5]);
+        mainTabWindow.add(views[5]);
+        views[5].setEnabled(false);
+        views[5].close();
 
         // The mixed view map makes it easy to mix static and dynamic views inside the same root window
         MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
@@ -627,6 +640,20 @@ public class MainWindowDocking implements SystemThreadListener {
     }
 
     /**
+     * Convenien method to display window Thread Frame
+     *
+     * @param evt display thread frame
+     */
+    private void threadWindowDisplayActionPerformed(ActionEvent evt) {
+        if (views[5].getRootWindow() != null) {
+            views[5].restoreFocus();
+            managerControllerMenuItem.setEnabled(false);
+        } else {
+            DockingUtil.addWindow(views[5], rootWindow);
+        }
+    }
+
+    /**
      * Theme action menu : metal
      *
      *
@@ -848,12 +875,14 @@ public class MainWindowDocking implements SystemThreadListener {
     private JMenuItem startTagCollectorMenuItem;
     private JMenuItem stopTagCollectorMenuItem;
     private JMenuItem managerControllerMenuItem;
+    private JMenuItem threadMenuItem;
     private JButton tbBtnHide;
     private JButton tbBtnExit;
     private JButton tbBtnToolsS7Connexion;
     private JButton tbBtnToolsManagerController;
     private JButton tbBtnToolsTagsControllerStart;
     private JButton tbBtnToolsTagsControllerStop;
+    private JButton tbBtnToolsThreadFrame;
     private JMenu themeMenu;
     private JPopupMenu.Separator themeSeparator;
     private JMenu toolsMenu;
@@ -997,6 +1026,24 @@ public class MainWindowDocking implements SystemThreadListener {
             }
         });
         managerControllerMenuItem.setEnabled(true);
+        
+        
+        //> TOOLS MENU - threadMenuItem
+        threadMenuItem = new JMenuItem();
+        threadMenuItem.setIcon(Ico.i16("/img/std/thread.png", this));
+        threadMenuItem.setMnemonic('t');
+        threadMenuItem.setText(bundle.getString("MenuItemThread")); // NOI18N
+        threadMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (views[5].getRootWindow() != null) {
+                    views[5].restoreFocus();
+                    threadMenuItem.setEnabled(false);
+                } else {
+                    DockingUtil.addWindow(views[5], rootWindow);
+                }
+            }
+        });
+        managerControllerMenuItem.setEnabled(true);
 
         /// TOOLS MENU - SETUP
         toolsMenu = new JMenu();
@@ -1010,6 +1057,8 @@ public class MainWindowDocking implements SystemThreadListener {
         toolsMenu.add(stopTagCollectorMenuItem);
         toolsMenu.add(new JPopupMenu.Separator());
         toolsMenu.add(managerControllerMenuItem);
+        toolsMenu.add(new JPopupMenu.Separator());
+        toolsMenu.add(threadMenuItem);
 
         //> EDIT MENU - configMenuItem
         final View view = views[1];
@@ -1169,6 +1218,20 @@ public class MainWindowDocking implements SystemThreadListener {
         });
         tbBtnToolsTagsControllerStop.setEnabled(false);
 
+        // Toolbar - Tools - Button tbBtnToolsThreadFrame
+        tbBtnToolsThreadFrame = new JButton();
+        tbBtnToolsThreadFrame.setIcon(Ico.i48("/img/std/thread.png", this));
+        tbBtnToolsThreadFrame.setText(bundle.getString("MenuItemThread"));
+        tbBtnToolsThreadFrame.setFocusable(false);
+        tbBtnToolsThreadFrame.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tbBtnToolsThreadFrame.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tbBtnToolsThreadFrame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                threadWindowDisplayActionPerformed(evt);
+            }
+        });
+        tbBtnToolsManagerController.setEnabled(true);
+
         // Manage toolbar Tools start/Stop
         toolsToolBar = new JToolBar();
         toolsToolBar.setRollover(true);
@@ -1177,6 +1240,8 @@ public class MainWindowDocking implements SystemThreadListener {
         toolsToolBar.add(new JToolBar.Separator());
         toolsToolBar.add(tbBtnToolsTagsControllerStart);
         toolsToolBar.add(tbBtnToolsTagsControllerStop);
+        toolsToolBar.add(new JToolBar.Separator());
+        toolsToolBar.add(tbBtnToolsThreadFrame);
         toolsToolBar.setAlignmentX(0);
 
         JPanel toolBarPanel = new JPanel();
