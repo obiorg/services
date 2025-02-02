@@ -143,7 +143,7 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
         return running;
     }
 
-    PushFacadeThread pushFacadeThread ; //TagsFacadeThread.getInstance();
+    PushFacadeThread pushFacadeThread; //TagsFacadeThread.getInstance();
 
     /**
      * Main loop of the thread data collector
@@ -348,17 +348,21 @@ public class TagsCollectorThread extends Thread implements MachinesListener, Fet
 
                                 if (tag.getType() != null) {
                                     Long t_doConnectEpoch = Instant.now().toEpochMilli();
+                                    //
+                                    // READING ON CPU
+                                    //
                                     Object t = mc.readValue(tag);
+                                    //
+                                    //
+                                    //
+
                                     for (int i = 0; i < systemThreadListeners.size(); i++) {
                                         systemThreadListeners.get(i).onDuration(this, 3, Instant.now().toEpochMilli() - t_doConnectEpoch);
                                     }
-//                                    if (tag.getId() >= 124) {
-//                                        Util.out(Util.errLine() + methodName + " Tag with push " + tag.toStringFull());
-//                                    }
-                                    if (t != null) {
-//                                        if (tag.getId() >= 124) {
-//                                            Util.out(Util.errLine() + methodName + " Now add tag to push " + tag.toStringFull());
-//                                        }
+
+                                    if (t != null
+                                            && tag.getVFloat() != null && tag.getVInt() != null
+                                            && !Double.isNaN(tag.getVFloat())) {
                                         pushFacadeThread.addNewTag(tag); // in order to post-pose processing.
                                     } else {
                                         break;

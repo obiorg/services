@@ -192,7 +192,7 @@ public class MachineConnection extends Thread implements MachinesListener {
     public Boolean doConnect() {
         begin("doConnect...");
 
-        if (client.ConnectTo(machine.getAddress(), machine.getRack(), machine.getSlot())==0) {
+        if (client.ConnectTo(machine.getAddress(), machine.getRack(), machine.getSlot()) == 0) {
             return true;
         } else { // try to connect
             connected = false;
@@ -395,6 +395,36 @@ public class MachineConnection extends Thread implements MachinesListener {
     }
 
     /**
+     * Detect corresponding area depend on idArea fixed
+     *
+     *
+     * @param idArea is area defined as 1 : Memento, 2 : DB, 3 : DO, 4 : DI, 5 :
+     * Counter, 6 : Timer
+     * @return id of concern area as SNAP 7
+     */
+    public int memoryArea(Integer idArea) {
+        int s7Area;
+        switch (idArea) {
+            case 1 -> // Memento
+                s7Area = S7.S7AreaMK;
+            case 2 -> // Data bloc
+                s7Area = S7.S7AreaDB;
+            case 3 -> // Digital Output
+                s7Area = S7.S7AreaPA;
+            case 4 -> // Digital Input
+                s7Area = S7.S7AreaPE;
+            case 5 -> // Counter
+                s7Area = S7.S7AreaCT;
+            case 6 -> // Timer
+                s7Area = S7.S7AreaTM;
+            default -> {
+                s7Area = S7.S7AreaDB;
+            }
+        }
+        return s7Area;
+    }
+
+    /**
      * Read value specified by tag parameter
      * <p>
      * <span color=red>/ ! \ Actualy only data bloc area is processing by this
@@ -500,42 +530,27 @@ public class MachineConnection extends Thread implements MachinesListener {
         }
 
         // Prepare system
-        byte[] Buffer; // buffer for data storage
+        byte[] _buffer; // buffer for data storage
         int Result = -1; // result reading with default error
         Integer word = 0;
         Object obj = null;  // return object
-        
-        int s7Area = S7.S7AreaDB;
-        switch(tag.getMemory().getId()){
-            case 1 -> // Memento
-                s7Area = S7.S7AreaMK;
-            case 2 -> // Data bloc
-                s7Area = S7.S7AreaDB;
-            case 3 -> // Digital Output
-                s7Area = S7.S7AreaPA;
-            case 4 -> // Digital Input
-                s7Area = S7.S7AreaPE;
-            case 5 -> // Counter
-                s7Area = S7.S7AreaCT;
-            case 6 -> // Timer
-                s7Area = S7.S7AreaTM;
-            default -> {
-            }
-        }
-        
+
+        int s7Area = memoryArea(tag.getMemory().getId());
 
         /**
          * Select type of data to be read before processing
          */
         switch (tag.getType().getId()) {
-            case 1: // Boolean Siemens
-                Buffer = new byte[1];
+            // Boolean
+            case 1 -> {
+                // Boolean Siemens
+                _buffer = new byte[1];
                 word = 1;
 
                 // Process reading
                 Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
-                        word, Buffer);
+                        word, _buffer);
 
                 // Process reading
                 if (Result != 0) {
@@ -544,27 +559,29 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
                             + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
-                    
+
                     client.Disconnect();
                     return null;
                 }
 
                 // Reading succed process conversion and storage
-                boolean bv = S7.GetBitAt(Buffer, 0, tag.getBit());
+                boolean bv = S7.GetBitAt(_buffer, 0, tag.getBit());
                 tag.setVBool(bv);
                 obj = bv;
-                break;
-            case 2: // Date Time
-
-                break;
-            case 3: // Double Int
-                Buffer = new byte[4];
+            }
+            // Empty
+            case 2 -> {
+            }
+            // Double Integer
+            case 3 -> {
+                // Double Int
+                _buffer = new byte[4];
                 word = 2;
 
                 // Process reading
                 Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
-                        word, Buffer);
+                        word, _buffer);
 
                 // Process reading
                 if (Result != 0) {
@@ -573,25 +590,27 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
                             + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
-                    
+
                     client.Disconnect();
                     return null;
                 }
 
                 // Reading succed process conversion and storage
-                Integer dv = S7.GetDIntAt(Buffer, 0);
+                Integer dv = S7.GetDIntAt(_buffer, 0);
                 tag.setVInt(dv);
                 tag.setVFloat(dv.doubleValue());
                 obj = dv;
-                break;
-            case 4: // Integer
-                Buffer = new byte[4];
+            }
+            // Integer
+            case 4 -> {
+                // Integer
+                _buffer = new byte[4];
                 word = 2;
 
                 // Process reading
                 Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
-                        word, Buffer);
+                        word, _buffer);
 
                 // Process reading
                 if (Result != 0) {
@@ -600,28 +619,44 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
                             + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
-                    
+
                     client.Disconnect();
                     return null;
                 }
 
                 // Reading succed process conversion and storage
-                Integer v = S7.GetShortAt(Buffer, 0);
+                Integer v = S7.GetShortAt(_buffer, 0);
                 tag.setVInt(v);
                 tag.setVFloat(v.doubleValue());
                 obj = v;
-                break;
-            case 5: // Long Real
-
-                break;
-            case 6: // Real
-                Buffer = new byte[8]; // Number of byte
+            }
+            // Empty
+            case 5 -> {
+            }
+            // Real
+            case 6 -> {
+                // BITS                                    S7WLBit 1
+                // WORD (unsigned 16 bit integer)          S7WLByte 1
+                // INT (signed 16 bit integer)             S7WLWord 2
+                // DWORD (unsigned 32 bit integer)         S7WLDWord 4
+                // DINT (signed 32 bit integer)            S7WLDWord 4
+                // REAL (32 bit floating point number)     S7WLReal 4
+                // S7 Strings
+                // S7 Array of char
+                //                                          S7WLCounter 2
+                //                                          S7WLTimer 2
+                //
+                //  Buffer size (byte) = Word size * Amount
+                //
+                _buffer = new byte[8]; // Number of byte
                 word = 4;
 
                 // Process reading
-                Result = client.ReadArea(s7Area, tag.getDb(),
+                Result = client.ReadArea(s7Area,
+                        tag.getDb(),
                         tag.getByte1(),
-                        word, Buffer); // nombre de mot
+                        word,
+                        _buffer); // nombre de mot
 
                 // Process reading
                 if (Result != 0) {
@@ -631,27 +666,30 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + " bad request on reading DB " + tag.getDb()
                             + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
                     client.Disconnect();
+                    client.Connected = false;
                     return null;
                 }
 
                 // Reading succed process conversion and storage
-                Float f = S7.GetFloatAt(Buffer, 0);
-                tag.setVInt(f.intValue());
-                tag.setVFloat(f.doubleValue());
+                Float f = S7.GetFloatAt(_buffer, 0);
+                if (f != null) {
+                    tag.setVInt(f.intValue());
+                    tag.setVFloat(f.doubleValue());
+                }
                 obj = f;
-
-                break;
-            case 7: // Small Int
-
-                break;
-            case 8: // Unsigned Double Integer
-                Buffer = new byte[4]; // Number of byte
+            }
+            case 7 -> {
+            }
+            // Unsigned Double Integer
+            case 8 -> {
+                // Unsigned Double Integer
+                _buffer = new byte[4]; // Number of byte
                 word = 2;
 
                 // Process reading
                 Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
-                        word, Buffer); // nombre de mot
+                        word, _buffer); // nombre de mot
 
                 // Process reading
                 if (Result != 0) {
@@ -660,7 +698,7 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
                             + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
-                    
+
                     client.Disconnect();
                     return null;
                 }
@@ -668,19 +706,21 @@ public class MachineConnection extends Thread implements MachinesListener {
                 // Reading succed process conversion and storage
                 Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
                         + " : Usigned Double Integer never tested convertion to DWord may give overload limit of integer !");
-                long udi = S7.GetWordAt(Buffer, 0);
+                long udi = S7.GetWordAt(_buffer, 0);
                 tag.setVInt((int) udi);
                 tag.setVFloat((double) udi);
                 obj = udi;
-                break;
-            case 9: // Unsigned Integer
-                Buffer = new byte[2]; // Number of byte
+            }
+            // Unsigned Integer
+            case 9 -> {
+                // Unsigned Integer
+                _buffer = new byte[2]; // Number of byte
                 word = 1;
 
                 // Process reading
                 Result = client.ReadArea(s7Area, tag.getDb(),
                         tag.getByte1(),
-                        word, Buffer); // nombre de mot
+                        word, _buffer); // nombre de mot
 
                 // Process reading
                 if (Result != 0) {
@@ -689,28 +729,35 @@ public class MachineConnection extends Thread implements MachinesListener {
                             + tag.getId() + " >> value = " + tag.getName()
                             + " bad request on reading DB " + tag.getDb()
                             + " address " + tag.getByte1() + " bit " + tag.getBit() + " >> Error : " + S7Client.ErrorText(Result));
-                    
+
                     client.Disconnect();
                     return null;
                 }
 
                 // Reading succed process conversion and storage
-                int ui = S7.GetWordAt(Buffer, 0);
+                int ui = S7.GetWordAt(_buffer, 0);
                 tag.setVInt(ui);
                 tag.setVFloat((double) ui);
                 obj = ui;
-                break;
-            case 10: // Unsigned Small Integer => DBW
-
-                break;
-            case 11: // Wide string
-
-                break;
-            default:
+            }
+            // Empty
+            case 10 -> {
+            }
+            // Empty
+            case 11 -> {
+            }
+            // Default
+            default -> {
                 Util.out(Util.errLine() + MachineConnection.class.getSimpleName()
                         + " : readValue(tag) >> undefine type id : " + tag.getType().getId());
                 return null;
+            }
         }
+        // Date Time
+        // Long Real
+        // Small Int
+        // Unsigned Small Integer => DBW
+        // Wide string
 
         return obj;
     }
@@ -888,57 +935,57 @@ public class MachineConnection extends Thread implements MachinesListener {
 
     @Override
     public void onNewError(int errorCode, String err) {
-        
+
     }
 
     @Override
     public void onConnectionSucced(Machines machine, Integer errorCode, String err) {
-        
+
     }
 
     @Override
     public void onConnectionError(Machines machine, Integer errorCode, String err) {
-        
+
     }
 
     @Override
     public void onPDUUpdate(Integer PDUNegotiationByte) {
-        
+
     }
 
     @Override
     public void onDateTimeResponse(Date plcDateTime) {
-        
+
     }
 
     @Override
     public void isProcessing() {
-        
+
     }
 
     @Override
     public void onOrderCodeResponse(S7OrderCode orderCode) {
-        
+
     }
 
     @Override
     public void onPLCStatusResponse(IntByRef status) {
-        
+
     }
 
     @Override
     public void onPLCInfoResponse(S7CpuInfo CpuInfo) {
-        
+
     }
 
     @Override
     public void onCpInfoResponse(S7CpInfo CpInfo) {
-        
+
     }
 
     @Override
     public void onReadSzlResponse(S7Szl SZL) {
-        
+
     }
 
 }

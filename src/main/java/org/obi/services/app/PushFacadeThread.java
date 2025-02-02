@@ -42,7 +42,7 @@ public class PushFacadeThread extends Thread {
     private Boolean requestStop = false;
     private boolean requestKill = false;
     private boolean running = false;
-
+    
     private boolean NO_TAG_TO_UPDATE = false;
     private boolean NO_TAG_TO_PERSIST = false;
 
@@ -161,11 +161,11 @@ public class PushFacadeThread extends Thread {
     public void doStop() {
         requestStop = true;
     }
-
+    
     public void doRelease() {
         requestStop = false;
     }
-
+    
     public void kill() {
         requestKill = true;
     }
@@ -297,7 +297,7 @@ public class PushFacadeThread extends Thread {
                         Logger.getLogger(ManagerControllerThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-
+                
             }
 
             // sub process stop running
@@ -331,7 +331,7 @@ public class PushFacadeThread extends Thread {
         for (int i = 0; i < systemThreadListeners.size(); i++) {
             systemThreadListeners.get(i).onProcessingStopThread(this);
         }
-
+        
         Util.out(Util.errLine() + methodName + " Terminate tag collector Controller Thread");
     }
 
@@ -374,17 +374,23 @@ public class PushFacadeThread extends Thread {
                     }
                 } catch (SQLException ex) {
                     Util.out(Util.errLine() + getClass().getSimpleName()
-                            + " >> on updateValue >> " + ex.getLocalizedMessage());
+                            + " >> on updateValue >> " + ex.getLocalizedMessage()
+                            + "n >> With following data >> ");
+                    for (Tags t : tagsToUpdate) {
+                        Util.out(t.toStringFull());
+                    }
+                    tagsToUpdate.clear();
+                    tagsToPersit.clear();
                     Logger.getLogger(PushFacadeThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                
             } else { // Error on connection sql
                 for (int i = 0; i < systemThreadListeners.size(); i++) {
                     systemThreadListeners.get(i).onSubProcessActivityState(this, false);
                     systemThreadListeners.get(i).onErrorCollection(this,
                             DateUtil.localDTFFZoneId(gmtIndex)
                             + " : connection to sql produce error !");
-
+                    
                 }
             }
         } catch (SQLException ex) {
@@ -392,7 +398,7 @@ public class PushFacadeThread extends Thread {
             Util.out(Util.errLine() + getClass().getSimpleName()
                     + " : onFacadePushPersistence >> " + ex.getLocalizedMessage());
         }
-
+        
     }
 
     /**
@@ -406,9 +412,9 @@ public class PushFacadeThread extends Thread {
      * @param gmtIndex gmt to beeing used
      */
     private void persistStandard(PersStandardFacade persStandardFacade, Integer gmtIndex) {
-
+        
         String methodName = "pers_standard";
-
+        
         if (tagsToPersit.isEmpty()) {
             if (!NO_TAG_TO_PERSIST) {
                 Util.out(Util.errLine()
@@ -419,7 +425,13 @@ public class PushFacadeThread extends Thread {
             }
             return;
         } else {
-            NO_TAG_TO_PERSIST = false;
+            if (NO_TAG_TO_PERSIST) {
+                Util.out(Util.errLine()
+                        + getClass().getSimpleName()
+                        + " T(" + getName()
+                        + ") persistStandard >> Error no tags to be perssit tagsToPersist size = " + tagsToPersit.size() + " CANCELED");
+                NO_TAG_TO_PERSIST = false;
+            }
         }
         /**
          * ************************************************************
@@ -508,5 +520,5 @@ public class PushFacadeThread extends Thread {
                     + " : onFacadeFetchPersistence >> " + ex.getLocalizedMessage());
         }
     }
-
+    
 }
